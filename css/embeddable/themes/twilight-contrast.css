@@ -1,0 +1,95 @@
+/**
+ * Twilight theme
+ *
+ * Adapted from Michael Sheets' TextMate theme of the same name
+ *
+ * @author Michael Sheets
+ * @author Jesse Farmer <jesse@20bits.com>
+ * @version 1.0.1
+ */
+pre {
+    background: #141414;
+    word-wrap: break-word;
+    margin: 0px;
+    padding: 0px;
+    padding: 10px;
+    color: #F8F8F8;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+pre, code {
+    font-family: 'Monaco', courier, monospace;
+}
+
+pre .comment {
+    color: #5F5A60;
+}
+
+pre .constant.numeric {
+    color: #184ce2;
+}
+
+pre .constant {
+    color: #5c88b4;
+}
+
+pre .constant.symbol, pre .constant.language {
+    color: #D87D50;
+}
+
+pre .storage {
+    color: #F9EE98;
+}
+
+pre .string {
+    color: #00b22f;
+}
+
+pre .string.regexp {
+    color: #e9971f;
+}
+
+pre .keyword, pre .selector, pre .storage {
+    color: #e96900;
+}
+
+pre .inherited-class {
+    color: #9B5C2E;
+}
+
+pre .entity {
+    color: #00b22f;
+}
+
+pre .support {
+    color: #2973b7;
+}
+
+pre .support.magic {
+    color: #dabf6b;
+}
+
+pre .support.attribute {
+    color: #e96900;
+}
+
+pre .variable {
+    color: #5771a6;
+}
+
+pre .function, pre .entity.class {
+    color: #0092db;
+}
+
+pre .support.class-name, pre .support.type {
+    color: #ac60ac;
+}
+
+pre .support.tag-name {
+
+}
+
+pre .support.css-property {
+    color: #2973b7;
+}

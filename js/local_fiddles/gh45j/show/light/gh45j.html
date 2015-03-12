@@ -1,0 +1,2453 @@
+<!-- start chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/gh45j/show/light/ -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    
+  
+    
+      
+    
+  
+  <style type='text/css'>
+    #com-chilipeppr-widget-xyz-body {
+    padding:2px;
+}
+#com-chilipeppr-widget-xyz-body .col {
+    padding:0;
+}
+#com-chilipeppr-widget-xyz-ftr .hilite {
+    background-color: #dff0d8;
+}
+#com-chilipeppr-widget-xyz-ftr .hiliteblue {
+    background-color: #d9edf7;
+}
+.col {
+    float:left;
+}
+.rotate90 {
+    display:block;
+    -webkit-transform: rotate(-90deg); 
+    -webkit-font-smoothing: none;
+     -moz-transform: rotate(-90deg); 
+      -ms-transform: rotate(-90deg); 
+       -o-transform: rotate(-90deg); 
+          transform: rotate(-90deg);
+}
+.btnincrements .btn {
+    font-size:9px;
+    padding:1px 3px;
+}
+.com-chilipeppr-xyz-pos {
+    padding:0 0 0 0px;
+    margin:0;
+}
+.com-chilipeppr-xyz-label {
+    padding:0;
+    margin:0;
+}
+.com-chilipeppr-xyz-label-well h2 {
+    text-align: center;
+}
+#com-chilipeppr-widget-xyz-body .com-chilipeppr-xyz-label-well {
+    background-color: white;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-bottom: 0px;
+    margin-right: 2px;
+}
+#com-chilipeppr-widget-xyz-body .com-chilipeppr-xyz-well {
+    overflow: hidden;
+    /* position: relative; */
+    margin-bottom: 0px;
+    padding: 3px 16px;
+}
+#com-chilipeppr-widget-xyz-body .com-chilipeppr-xyz-pos-well {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+#com-chilipeppr-widget-xyz-body .com-chilipeppr-xyz-menu {
+    /* z-index: 2; */
+    position: absolute;
+    left: 3px;
+    top: 3px;
+}
+.com-chilipeppr-xyz-menu > .btn {
+    border:0;
+}
+.com-chilipeppr-xyz-dim {
+    position: absolute;
+    top:0px;
+    right:14px;
+    font-size:13px;
+}
+#com-chilipeppr-widget-xyz-ftr {
+    overflow-x: visible;
+    overflow-y: visible;
+}
+#com-chilipeppr-widget-xyz-ftr:focus {
+    background-color: #428bca;
+}
+#com-chilipeppr-widget-xyz-ftr.panel-primary {
+    background-color: #428bca;
+}
+.xyz-dimmed {
+    color:#e9e9e9;
+}
+.xyz-active {
+    color: black;
+}
+
+.flatbottom {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 0px solid red;
+}
+.flattop {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.flatleft {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.flatright {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+.btn-nobg {
+    background:none;
+    border:none;
+}
+.btn-nobg:hover {
+    background:none;
+    border:none;
+}
+#com-chilipeppr-widget-xyz .btnIconWarning {
+    color: #f0ad4e;
+}
+#com-chilipeppr-widget-xyz .dbltall {
+    height:68px;
+}
+#com-chilipeppr-widget-xyz .moveby {
+    position:absolute;
+    top:0;
+    left:0;
+    border:0px red solid;
+}
+#com-chilipeppr-widget-xyz .jogincrements-small {
+    display:none;
+}
+/* View Small Mode */
+#com-chilipeppr-widget-xyz.size-small .com-chilipeppr-xyz-label,
+#com-chilipeppr-widget-xyz.size-small .com-chilipeppr-xyz-pos {
+    font-size:16px;
+}
+#com-chilipeppr-widget-xyz.size-small #com-chilipeppr-widget-xyz-ftr, #com-chilipeppr-widget-xyz.size-small #com-chilipeppr-widget-xyz-ftr .btn {
+    font-size:9px;
+}
+#com-chilipeppr-widget-xyz.size-small .dbltall {
+    height:51px;
+}
+#com-chilipeppr-widget-xyz.size-small .jogincrements-normal {
+    display:none;
+}
+#com-chilipeppr-widget-xyz.size-small .jogincrements-small {
+    display:initial;
+}
+#com-chilipeppr-widget-xyz.size-small .moveby {
+    left:8px;
+}
+#com-chilipeppr-widget-xyz .touchpad-overlay {
+    padding:0;
+    margin:0;
+    /* position:absolute; */
+    top: 1px;
+    left: 1px;
+    bottom: 1px;
+    height: 200px;
+    right: 1px;
+    background-color: #f5f5f5;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    /* z-index:2; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#com-chilipeppr-widget-xyz .btnShowTouchJog {
+    font-size:10px;
+    height:67px;
+}
+#com-chilipeppr-widget-xyz.size-small .btnShowTouchJog {
+    font-size:10px;
+    height:50px;
+}
+  </style>
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+
+// Test this element. This code is auto-removed by the chilipeppr.load()
+cprequire_test(["inline:com-chilipeppr-widget-xyz"], function (xyz) {
+    console.log("test running of " + xyz.id);
+    //sp.init("192.168.1.7");
+    //xyz.initAs3dPrinting();
+    xyz.init();
+    
+    // load the WCS widget to left
+    //$('body').css('margin-left', '80px');
+    var wrapDiv = $('<div class="testdiv" style="margin-left:80px;position:relative;">');
+    $('#com-chilipeppr-widget-xyz').wrap(wrapDiv);
+    
+
+    // test out planner resume/pause
+    var testPauseResume = function() {
+        setTimeout(function() {chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerpause', "");}, 5000);
+        setTimeout(function() {chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerresume', "");}, 10000);
+        setTimeout(function() {chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerpause', "");}, 15000);
+        setTimeout(function() {chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerresume', "");}, 20000);
+    }
+    
+    var testAxesValUpdates = function() {
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/axes", 
+                               {x: 0.005, y: 10.46, z: 0.304, a: 0, type: "machine"});
+        }, 1000);
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/axes", 
+                               {x: 192, y: 0.028, z: 0.01, a: 0, type: "work"} );
+        }, 2000);
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/axes", 
+                               {x: -3288.73, y: -0, z: 1.12, a: null, type: "machine"} );
+        }, 3000);
+        
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/axes", 
+                               {x: 940.5744, y: null, z: 1.12, a: null, type: "machine"});
+        }, 4000);
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/axes", 
+                               {x: 0.574, y: 32.424, z: -3.424, a: null, type: "machine"});
+        }, 5000);
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/axes", 
+                               {x: null, y: 132.424, z: -3.424, a: null, type: "machine"});
+        }, 5000);
+    }
+    
+    // test units change
+    var testUnitsChange = function() {
+        
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/units", "inch");
+        }, 1000);
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/units", "mm");
+        }, 5000);
+    }
+    
+    //testPauseResume();
+    //testAxesValUpdates();
+    testUnitsChange();
+    
+    /*
+    setTimeout(function() {
+        
+        console.log("setting up alternate keystrokes");
+        $('#com-chilipeppr-widget-xyz-ftr').keydown(function(evt) {
+            var e = $.Event('keydown');
+            
+            if (evt.which == 50) {
+                // the #2 key
+                // mimic down arrow being pressed
+                e.which= 40;
+            } else if (evt.which == 56) {
+                // the #8 key
+                // mimic up arrow being pressed
+                e.which= 38; // enter
+            }
+            
+            console.log("artificial event:", e);
+            if (e.which > 0) {
+                evt.preventDefault();
+                // fire off fake event as if key was pressed down
+                $('#com-chilipeppr-widget-xyz-ftr').trigger(e);
+                return false;
+            }
+        });
+        
+    }, 5000);
+    */
+
+} /*end_test*/ );
+
+cpdefine("inline:com-chilipeppr-widget-xyz", ["chilipeppr_ready", "jquerycookie"], function () {
+    return {
+        id: "com-chilipeppr-widget-xyz",
+        url: "http://fiddle.jshell.net/chilipeppr/gh45j/show/light/",
+        fiddleurl: "http://jsfiddle.net/chilipeppr/gh45j/",
+        name: "Widget / XYZ Axes",
+        desc: "This widget shows your XYZ position. It can also show your A position. You have jog controls and axis zeroing and homing.",
+        publish: {},
+        subscribe: {},
+        foreignPublish: {
+            '/com-chilipeppr-widget-serialport/send' : "We publish to the serial port Gcode jog commands"            
+        },
+        foreignSubscribe: {
+            "/com-chilipeppr-interface-cnccontroller/axes" : "We want XYZA axis updates.",
+            "/com-chilipeppr-interface-cnccontroller/units" : "Deprecated. Not listening to this anymore. We want to know if the units changed for inch/mm.",
+            "/com-chilipeppr-interface-cnccontroller/plannerpause" : "We need to know when to pause sending jog cmds.",
+            "/com-chilipeppr-interface-cnccontroller/plannerresume" : "We need to know when to resume jog cmds.",
+            '/com-chilipeppr-widget-3dviewer/unitsChanged' : "Listenting to see if the 3D Viewer is telling us that the user Gcode is in a specific coordinate and then just assuming we will only be sent axes coordinate updates in that unit. Not using /com-chilipeppr-interface-cnccontroller/units anymore."
+        },
+        init: function () {
+
+            // Do UI setup
+            this.initBody();
+            this.btnSetup();
+            this.menuSetup();
+            this.jogSetup();
+            this.forkSetup();
+            this.toolbarSetup();
+
+            // Subscribe to the signal published from the specific controller implementing the generic interface
+            // for CNC controllers that normalizes the XYZ Axis updates so we don't have to worry about
+            // the specific implementation
+            chilipeppr.subscribe("/com-chilipeppr-interface-cnccontroller/axes", this, this.updateAxesFromStatus);
+
+            // Update units if we get a notification published to us
+            chilipeppr.subscribe("/com-chilipeppr-interface-cnccontroller/units", this, this.updateUnitsFromStatus);
+            chilipeppr.subscribe('/com-chilipeppr-widget-3dviewer/unitsChanged', this, this.updateUnitsFromStatus);
+            // in case we didn't get loaded fast enough, thus we never got the /unitsChanged event from the 3d viewer, we better double check here and fire off a request just to cover all our bases
+            chilipeppr.subscribe('/com-chilipeppr-widget-3dviewer/recvUnits', this, this.updateUnitsFromStatus);
+            chilipeppr.publish('/com-chilipeppr-widget-3dviewer/requestUnits', "");
+
+            // Subscribe to the generic interface signals of plannerresume/plannerpause so we know when to slow
+            // down on our sending of gcode commands when jogging. 
+            // If a different controller is implemented, they can send on these signals
+            // and abstract away the specific hardware details from us so this widget is reusable
+            chilipeppr.subscribe("/com-chilipeppr-interface-cnccontroller/plannerpause", this, this.onPlannerPause);
+            chilipeppr.subscribe("/com-chilipeppr-interface-cnccontroller/plannerresume", this, this.onPlannerResume);
+
+            // setup onconnect pubsub event
+            /*
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/ws/onconnect", this, function (msg) {
+                console.log("got onconnect so will query for status");
+            });
+            */
+
+            // setup recv pubsub event
+            // this is when we receive data in a per line format from the serial port
+            /*
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvline", this, function (msg) {
+                this.onRecvCmd(msg);
+            });
+            */
+            
+
+            // setup DOM elements for the Axes in the UI
+            this.setupAxes();
+            
+            // setup controller specific init items
+            //this.initControllerSpecific();
+
+            // setup cookie based UI settings
+            this.setupUiFromCookie();
+            this.setupTouchArea();
+            this.setupShowHideTouchBtn();
+            this.setupShowHideWcsBtn();
+            var that = this;
+            console.log(this.name + " done loading.");
+        },
+        initAs3dPrinting: function() {
+            // by default we'll show the A/B/C axes
+            $('#com-chilipeppr-widget-xyz-a').removeClass("hidden");
+            $('#com-chilipeppr-widget-xyz-b').removeClass("hidden");
+            // change labels
+            $('#com-chilipeppr-widget-xyz-a .com-chilipeppr-xyz-label').text("E0");
+            $('#com-chilipeppr-widget-xyz-b .com-chilipeppr-xyz-label').text("E1");
+            // change units
+            $('#com-chilipeppr-widget-xyz-a .com-chilipeppr-xyz-dim').text("mm");
+            $('#com-chilipeppr-widget-xyz-b .com-chilipeppr-xyz-dim').text("mm");
+            
+        },
+        setupShowHideWcsBtn: function() {
+            
+            var btnEl = $("#com-chilipeppr-widget-xyz .btnToggleShowWcs");
+            btnEl.click(this.toggleWcs.bind(this));
+            btnEl.popover();
+            chilipeppr.load("#com-chilipeppr-widgetholder-wcs", "http://fiddle.jshell.net/chilipeppr/xz76L1yd/show/light/", function() {
+                cprequire(["inline:com-chilipeppr-widget-wcs"], function (wcs) {
+                    console.log("test running of " + wcs.id);
+                    wcs.init();
+                });
+            });
+        },
+        toggleWcs: function(evt) {
+            $("#com-chilipeppr-widget-xyz .btnToggleShowWcs").popover('hide');
+            var wcsEl = $('#com-chilipeppr-widgetholder-wcs');
+            if (wcsEl.hasClass("hidden")) {
+                wcsEl.removeClass("hidden");
+                $('#com-chilipeppr-widget-xyz .btnToggleShowWcs').addClass("active");
+            } else {
+                wcsEl.addClass("hidden");
+                $('#com-chilipeppr-widget-xyz .btnToggleShowWcs').removeClass("active");
+
+            }
+        },
+        setupShowHideTouchBtn: function() {
+            $("#com-chilipeppr-widget-xyz .btnToggleShowTouchJog").popover();
+            //$( window ).resize(this.showHideTouchBtn.bind(this));
+            this.showHideTouchBtn();
+            $(window).resize(this.showHideTouchBtn.bind(this));
+        },
+        showHideTouchBtn: function() {
+            //console.log("should we show or hide the touch btn");
+            var btnEl = $("#com-chilipeppr-widget-xyz .btnShowTouchJog");
+            var btnParentWidth = btnEl.parent().parent().width();
+            var widgetWidth = $("#com-chilipeppr-widget-xyz").width();
+            console.log("btnParentWidth:", btnParentWidth, "widgetWidth:", widgetWidth);
+            //console.log("btnEl:", btnEl, "parent:", btnEl.parent(), "btnEl.parent().width()", btnEl.parent().width(), "btnEl.parent().parent().width()", btnEl.parent().parent().width());
+            //console.log("btnEl.parent().parent().width()", btnEl.parent().parent().width(), "btnEl.parent().parent().width()", btnEl.parent().parent().parent().parent().width());
+            if (btnParentWidth > widgetWidth) {
+                console.log("it appears the btn is being clipped");
+                btnEl.css('visibility','hidden');
+                //apply class1
+            } else {
+                //apply class2
+                btnEl.css('visibility','visible');
+                console.log("it appears the btn is NOT being clipped");
+            }
+        },
+        canvas: null,
+        el: null,
+        ctx: null,
+        setupTouchArea: function() {
+            this.canvas = $('#com-chilipeppr-widget-xyz .touchpad-overlay canvas');
+            var tpad = $('#com-chilipeppr-widget-xyz .touchpad-overlay');
+            
+            console.log("tpad:", tpad);
+            
+            /*
+            this.canvas.width(tpad.width());
+            this.canvas.height(tpad.height());
+            this.canvas.prop({
+                    width: tpad.width(),
+                    height: tpad.height()
+                });
+                */
+            this.el = $('#com-chilipeppr-widget-xyz .touchpad-overlay canvas')[0];
+            this.canvasResize();
+            //this.ctx = $('#com-chilipeppr-widget-xyz .touchpad-overlay canvas')[0].getContext("2d");
+            var that = this;
+            
+            tpad.bind("touchstart", function(e){ 
+                //console.log("about to dish touchstart evt:", e);
+                that.handleStart(e); 
+            });
+            tpad.bind("touchend", this.handleEnd.bind(this));
+            tpad.bind("touchcancel", this.handleCancel.bind(this));
+            tpad.bind("touchleave", this.handleEnd.bind(this));
+            tpad.bind("touchmove", this.handleMove.bind(this));
+            
+            /*
+            tpad.bind('touchstart', function(e){
+                console.log("got touch/mouse evt:", e);
+                that.drawCircle(ctx, e); 
+            });
+            tpad.bind('touchend', function(e){
+                console.log("got touch/mouse evt:", e);
+                that.drawCircle(ctx, e);
+            });
+            */
+
+            // setup toggle buttons
+            $('#com-chilipeppr-widget-xyz .btnToggleShowTouchJog').click(this.toggleTouchJog.bind(this));
+            
+            $( window ).resize(this.canvasResize.bind(this));
+            //this.toggleTouchJog();
+            
+            // scrolling
+            tpad.bind('mousewheel DOMMouseScroll', this.onScroll.bind(this));
+            
+            // mouse movements
+            tpad.bind("mousedown", this.onMouseDown.bind(this));
+            tpad.bind("mousemove", this.onMouseMove.bind(this));
+            tpad.bind("mouseup", this.onMouseUp.bind(this));
+            
+            this.log("touch area setup");
+        },
+        toggleTouchJog: function() {
+            $('#com-chilipeppr-widget-xyz .btnToggleShowTouchJog').popover('hide');
+            var tpad = $('#com-chilipeppr-widget-xyz .touchpad-overlay');
+            if (tpad.hasClass("hidden")) {
+                tpad.removeClass("hidden");
+                this.canvasResize();
+                $('#com-chilipeppr-widget-xyz .btnToggleShowTouchJog').addClass("active");
+            } else {
+                tpad.addClass("hidden");
+                $('#com-chilipeppr-widget-xyz .btnToggleShowTouchJog').removeClass("active");
+
+            }
+        },
+        canvasResize: function() {
+            console.log("touchpad resizing");
+            var tpad = $('#com-chilipeppr-widget-xyz .touchpad-overlay');
+            
+            this.canvas.width(tpad.width());
+            this.canvas.height(tpad.height());
+            this.canvas.prop({
+                    width: tpad.width(),
+                    height: tpad.height()
+                });
+            //this.el = $('#com-chilipeppr-widget-xyz .touchpad-overlay canvas')[0];
+            this.ctx = $('#com-chilipeppr-widget-xyz .touchpad-overlay canvas')[0].getContext("2d");
+            this.drawText();
+        },
+        drawText: function() {
+            var x = this.el.width / 2;
+            var y = this.el.height / 2;
+            
+            this.ctx.font = '14pt "Helvetica Neue",Helvetica,Arial,sans-serif';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillStyle = 'silver';
+            this.ctx.fillText('Touch/Mouse/Scroll', x, y - 8);
+            this.ctx.fillText('Jog Area', x, y + 8);
+        },
+        isMouseDown: false,
+        mouseLastOffset: {x:0,y:0},
+        onMouseDown: function(evt) {
+            console.log("onMouseDown:", evt); 
+            this.isMouseDown = true;
+            //inside my mouse events handler:
+            var target  = evt.target || evt.srcElement,
+                rect    = target.getBoundingClientRect(),
+                offsetX = evt.clientX - rect.left,
+                offsetY = evt.clientY - rect.top;
+            anOffsetX = offsetX;
+            anOffsetY = offsetY;
+            console.log("mouse anOffsetX:", anOffsetX, "anOffsetY:", anOffsetY);
+
+            this.mouseLastOffset.x = anOffsetX; //evt.offsetX;
+            this.mouseLastOffset.y = anOffsetY; //evt.offsetY;
+            console.log("mouseLastOffset:", this.mouseLastOffset);
+            this.canvas.css( 'cursor', 'default' );
+            var ctx = this.ctx;
+            ctx.beginPath();
+            ctx.arc(this.mouseLastOffset.x, this.mouseLastOffset.y, 10, 0, 2 * Math.PI, true); // a circle at the start
+            ctx.fillStyle = 'rgba(0,0,255,0.1)';
+            ctx.strokeStyle = 'rgba(0,0,0,0)';
+            ctx.lineWidth = 0;
+            ctx.fill();
+            ctx.stroke();
+        },
+        onMouseMove: function(evt) {
+            if (!this.isMouseDown) {
+                return;
+            }
+            console.log("onMouseMove:", evt); 
+            var target  = evt.target || evt.srcElement,
+                rect    = target.getBoundingClientRect(),
+                offsetX = evt.clientX - rect.left,
+                offsetY = evt.clientY - rect.top;
+            anOffsetX = offsetX;
+            anOffsetY = offsetY;
+            console.log("mouse anOffsetX:", anOffsetX, "anOffsetY:", anOffsetY);
+
+            var deltax = anOffsetX - this.mouseLastOffset.x;
+            var deltay = (anOffsetY - this.mouseLastOffset.y) * -1;
+            console.log("deltax:", deltax, "deltay", deltay);
+            var newpos = {x:anOffsetX, y:anOffsetY};
+            //this.sendMove(0, this.mouseLastOffset, {x:deltax, y:deltay});
+            this.sendMove(0, this.mouseLastOffset, newpos);
+            
+            var ctx = this.ctx;
+            ctx.moveTo(this.mouseLastOffset.x, this.mouseLastOffset.y);
+            ctx.lineTo(newpos.x, newpos.y);
+            ctx.lineWidth = 8;
+            ctx.strokeStyle = 'rgba(0,0,255,0.1)';
+            ctx.stroke();
+            
+            this.mouseLastOffset = newpos;
+        },
+        onMouseUp: function(evt) {
+            console.log("onMouseUp:", evt); 
+            this.isMouseDown = false;
+            
+            var target  = evt.target || evt.srcElement,
+                rect    = target.getBoundingClientRect(),
+                offsetX = evt.clientX - rect.left,
+                offsetY = evt.clientY - rect.top;
+            anOffsetX = offsetX;
+            anOffsetY = offsetY;
+            console.log("mouse anOffsetX:", anOffsetX, "anOffsetY:", anOffsetY);
+
+            var ctx = this.ctx;
+            ctx.lineWidth = 14;
+            ctx.fillStyle = 'rgba(0,0,255,0.2)';
+            ctx.beginPath();
+            ctx.moveTo(this.mouseLastOffset.x, this.mouseLastOffset.y);
+            ctx.lineTo(anOffsetX, anOffsetY);
+            ctx.fillRect(anOffsetX - 9, anOffsetY - 9, 18, 18); // and a square at the end
+            
+            this.sendDone();
+            this.fadeCanvas();
+        },
+        scrollPrev: {x:0,y:0},
+        scrollFadeTimer: null,
+        scrollLastPosDir: "up",
+        onScroll: function(evt) {
+            console.log("onScroll:", evt.originalEvent) //, evt.originalEvent.wheelDelta);
+            evt.preventDefault();
+            
+            // fix for firefox. detect DOMMouseScroll
+            if ("type" in evt && evt.type.match(/^D/)) {
+                console.log("detected firefox.");
+                evt.originalEvent.wheelDelta = evt.originalEvent.detail * -10;
+                evt.originalEvent.wheelDeltaX = 0;
+                evt.originalEvent.wheelDeltaY = 0;
+                if (evt.originalEvent.axis == 2) {
+                    // left/right scroll
+                    evt.originalEvent.wheelDeltaY = evt.originalEvent.wheelDelta;
+                } else {
+                    evt.originalEvent.wheelDeltaX = evt.originalEvent.wheelDelta;
+                }
+            }
+            // see if user changed positions. if so, cancel all moves.
+            //if (evt.originalEvent.wheelDelta /120 > 0) {
+            if (evt.originalEvent.wheelDelta > 0) {    
+                console.log('scrolling up !');
+                if (this.scrollLastPosDir != "up") {
+                    this.sendDone();
+                    this.scrollLastPosDir = "up";
+                }
+            } else {
+                console.log('scrolling down !');
+                if (this.scrollLastPosDir != "dn") {
+                    this.sendDone();
+                    this.scrollLastPosDir = "dn";
+                }
+            }
+
+            var newpos = {x:evt.originalEvent.wheelDeltaX, y:evt.originalEvent.wheelDeltaY};
+            // divide by 10 to slow down to sort of match touch/mouse
+            //newpos.x = newpos.x / 10;
+            //newpos.y = newpos.y / 10;
+            this.sendMove(0, {x:0,y:0}, {x:newpos.x/10, y:newpos.y/10});
+            
+            var x = this.el.width / 2;
+            var y = this.el.height / 2;
+            
+            var ctx = this.ctx;
+            ctx.beginPath();
+            var moveTo = {x: this.scrollPrev.x + x, y: this.scrollPrev.y + y};
+            var moveTo = {x: x, y: y};
+            console.log("moveTo:", moveTo);
+            ctx.moveTo(moveTo.x, moveTo.y);
+            var lineTo = {x: moveTo.x + newpos.x, y: moveTo.y + newpos.y};
+            // logarithmically adjust
+            //var xSign = -1 ? lineTo.x < 0 : 1;
+            //lineTo.x = Math.log(Math.abs(lineTo.x)) * xSign;
+            if (newpos.y != 0) {
+            var ySign = newpos.y < 0 ? -1 : 1;
+            lineTo.y = (Math.log(Math.abs(newpos.y)) * ySign * 25) + y;
+            }
+            if (newpos.x != 0) {
+            var xSign = newpos.x < 0 ? -1 : 1;
+            lineTo.x = (Math.log(Math.abs(newpos.x)) * xSign * 25) + x;
+            }
+            
+            console.log("lineTo:", lineTo);
+            ctx.lineTo(lineTo.x, lineTo.y);
+            ctx.lineWidth = 32;
+            ctx.strokeStyle = 'rgba(0,0,0,0.025)';
+            ctx.stroke();
+            
+            this.scrollPrev.x += newpos.x;
+            this.scrollPrev.y += newpos.y;
+
+            var that = this;
+            if (this.scrollFadeTimer) {
+                clearTimeout(this.scrollFadeTimer);
+                that.scrollPrev.x = 0;
+                that.scrollPrev.y = 0;
+            }
+            this.scrollFadeTimer = setTimeout(function() {
+                that.scrollPrev.x = 0;
+                that.scrollPrev.y = 0;
+                that.ctx.clearRect ( 0 , 0 , that.el.width, that.el.height );
+                that.drawText();
+            }, 100);
+            //this.fadeCanvas();
+        },
+        ongoingTouches: [], // new Array;
+        start: {x:0, y:0},
+        inZMode: false,
+        handleStart: function(evt) {
+            
+            console.log("touchstart. evt:", evt);
+            var el = this.el; //= document.getElementsByTagName("canvas")[0];
+            var ctx = this.ctx; // el.getContext("2d");
+            var touches = evt.originalEvent.changedTouches;
+            
+            var offset = this.findPos(el);  
+            
+            
+            for (var i = 0; i < touches.length; i++) {
+                if (touches[i].clientX-offset.x > 0 && touches[i].clientX-offset.x < parseFloat(el.width) && touches[i].clientY-offset.y >0 && touches[i].clientY-offset.y < parseFloat(el.height)){
+                    evt.preventDefault();
+                    this.log("touchstart:" + i + "...");
+                    this.ongoingTouches.push(this.copyTouch(touches[i]));
+                    var color = this.colorForTouch(touches[i]);
+                    ctx.beginPath();
+                    ctx.arc(touches[i].clientX-offset.x, touches[i].clientY-offset.y, 14, 0, 2 * Math.PI, false); // a circle at the start
+                    ctx.fillStyle = color;
+                    ctx.fill();
+                    this.log("touchstart:" + i + ".");
+                }
+            }
+        },
+        //divider: 10,
+        sendCtr: 0,
+        sendMove: function(touchid, prevpos, newpos) {
+            
+            var deltax = newpos.x - prevpos.x;
+            var deltay = newpos.y - prevpos.y;
+            
+            if (deltax == 0 && deltay == 0) {
+                console.log("no move happened. returning.");
+                return;
+            }
+            
+            var gcode = "G91 G0 ";
+            if (deltax != 0) {
+                gcode += "X" + (deltax * this.accelBaseval).toFixed(3) + " ";
+            }                
+            if (deltay != 0) {
+                gcode += "Y" + (deltay * this.accelBaseval *-1).toFixed(3) + " ";
+            }
+            gcode += "\nG90\n";
+            //chilipeppr.publish("/com-chilipeppr-widget-serialport/send", gcode);          
+            var jsonSend = {D: gcode, Id:"jog" + this.sendCtr};
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", jsonSend);     
+            this.sendCtr++;
+            if (this.sendCtr > 999999) this.sendCtr = 0;
+            
+        },
+        sendDone: function() {
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/send", "!\n%\n");
+            setTimeout(function() {
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/send", "%\n");
+            }, 200);
+        },
+        sendMoveZ: function(touchid, prevpos, newpos) {
+            
+            //var deltax = newpos.x - prevpos.x;
+            var deltaz = newpos.y - prevpos.y;
+            
+            if (deltaz == 0) {
+                console.log("no z move happened. returning.");
+                return;
+            }
+            
+            var gcode = "G91 G0 ";
+            gcode += "Z" + (deltaz * this.accelBaseval) + " ";
+            gcode += "\nG90\n";
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/send", gcode);            
+            
+        },
+        handleMove: function(evt) {
+            
+            var el = this.el; //document.getElementsByTagName("canvas")[0];
+            var ctx = this.ctx; //el.getContext("2d");
+            var touches = evt.originalEvent.changedTouches;
+            var offset = this.findPos(el);
+            
+            for (var i = 0; i < touches.length; i++) {
+                if (touches[i].clientX-offset.x >0 && touches[i].clientX-offset.x < parseFloat(el.width) && touches[i].clientY-offset.y >0 && touches[i].clientY-offset.y < parseFloat(el.height)){
+                    evt.preventDefault();
+                    var color = this.colorForTouch(touches[i]);
+                    var idx = this.ongoingTouchIndexById(touches[i].identifier);
+                    
+                    if (idx >= 0) {
+                        //this.log("continuing touch " + idx);
+                        ctx.beginPath();
+                        //this.log("ctx.moveTo(" + this.ongoingTouches[idx].clientX + ", " + this.ongoingTouches[idx].clientY + ");");
+                        var prevpos = {x:this.ongoingTouches[idx].clientX-offset.x, y:this.ongoingTouches[idx].clientY-offset.y};
+                        ctx.moveTo(prevpos.x, prevpos.y);
+                        //ctx.moveTo(this.ongoingTouches[idx].clientX-offset.x, this.ongoingTouches[idx].clientY-offset.y);
+                        //this.log("ctx.lineTo(" + touches[i].clientX + ", " + touches[i].clientY + ");");
+                        var newpos = {x:touches[i].clientX-offset.x, y:touches[i].clientY-offset.y};
+                        ctx.lineTo(newpos.x, newpos.y);
+                        //ctx.lineTo(touches[i].clientX-offset.x, touches[i].clientY-offset.y);
+                        ctx.lineWidth = 12;
+                        ctx.strokeStyle = color;
+                        ctx.stroke();
+                        
+                        if (idx == 0) this.sendMove(idx, prevpos, newpos);
+                        //if (idx == 1) this.sendMoveZ(idx, prevpos, newpos);
+                        
+                        this.ongoingTouches.splice(idx, 1, this.copyTouch(touches[i])); // swap in the new touch record
+                        //this.log(".");
+                    } else {
+                        this.log("can't figure out which touch to continue");
+                    }
+                }
+            }
+        },
+        handleEnd: function(evt) {
+            
+            console.log("touchend/touchleave. evt:", evt);
+            var el = this.el; //document.getElementsByTagName("canvas")[0];
+            var ctx = this.ctx; //el.getContext("2d");
+            var touches = evt.originalEvent.changedTouches;
+            var offset = this.findPos(el);
+            
+            for (var i = 0; i < touches.length; i++) {
+                if (touches[i].clientX-offset.x >0 && touches[i].clientX-offset.x < parseFloat(el.width) && touches[i].clientY-offset.y >0 && touches[i].clientY-offset.y < parseFloat(el.height)){
+                    evt.preventDefault();
+                    var color = this.colorForTouch(touches[i]);
+                    var idx = this.ongoingTouchIndexById(touches[i].identifier);
+                    
+                    if (idx >= 0) {
+                        ctx.lineWidth = 14;
+                        ctx.fillStyle = color;
+                        ctx.beginPath();
+                        ctx.moveTo(this.ongoingTouches[idx].clientX-offset.x, this.ongoingTouches[idx].clientY-offset.y);
+                        ctx.lineTo(touches[i].clientX-offset.x, touches[i].clientY-offset.y);
+                        ctx.fillRect(touches[i].clientX - 14-offset.x, touches[i].clientY - 14-offset.y, 18, 18); // and a square at the end
+                        this.ongoingTouches.splice(i, 1); // remove it; we're done
+                        
+                    } else {
+                        this.log("can't figure out which touch to end");
+                    }
+                }
+            }
+            this.ongoingTouches = [];
+            this.sendDone();
+            this.fadeCanvas();
+        },
+        handleCancel: function(evt) {
+            evt.preventDefault();
+            this.log("touchcancel.");
+            var touches = evt.originalEvent.changedTouches;
+            
+            for (var i = 0; i < touches.length; i++) {
+                this.ongoingTouches.splice(i, 1); // remove it; we're done
+            }
+        },
+        colorForTouch: function(touch) {
+            var r = touch.identifier % 16;
+            var g = Math.floor(touch.identifier / 3) % 16;
+            var b = Math.floor(touch.identifier / 7) % 16;
+            r = r.toString(16); // make it a hex digit
+            g = g.toString(16); // make it a hex digit
+            b = b.toString(16); // make it a hex digit
+            var color = "#" + r + g + b;
+            if (touch.identifier == 0) color = 'rgba(0,0,0,0.35)'; //"#dddddd";
+            if (touch.identifier == 1) color = 'rgba(200,200,200,0.25)'; //"#dddddd";
+            if (touch.identifier == 2) color = 'rgba(255,0,0,0.25)';
+            //this.log("color for touch with identifier " + touch.identifier + " = " + color);
+            return color;
+        },
+        copyTouch: function(touch) {
+            return {identifier: touch.identifier, clientX: touch.clientX, clientY: touch.clientY};
+        },
+        ongoingTouchIndexById: function(idToFind) {
+            for (var i = 0; i < this.ongoingTouches.length; i++) {
+                var id = this.ongoingTouches[i].identifier;
+                
+                if (id == idToFind) {
+                    return i;
+                }
+            }
+            return -1; // not found
+        },
+        log: function(msg) {
+            console.log(msg);
+            //var p = document.getElementById('log');
+            //p.innerHTML = msg + "\n" + p.innerHTML;
+        },
+        findPos: function(obj) {
+            var curleft = 0,
+                curtop = 0;
+            
+            if (obj.offsetParent) {
+                do {
+                    curleft += obj.offsetLeft;
+                    curtop += obj.offsetTop;
+                } while (obj = obj.offsetParent);
+                
+                return { x: curleft-document.body.scrollLeft, y: curtop-document.body.scrollTop };
+            }
+        },
+        lastImage: null,
+        fadeCanvas: function() {
+            //console.log("fadeCanvas. this.el:", this.el);
+            this.lastImage = this.ctx.getImageData(0,0,this.el.width,this.el.height);
+            this.fadeCtr = 0;
+            this.fadeCanvasStep();
+        },
+        fadeCtr: 0,
+        fadeCanvasStep: function() {
+            
+            //console.log("fadeCanvasStep");
+            var pixelData = this.lastImage.data;
+            var len = pixelData.length;
+            for (var i=3; i<len; i += 4) {
+                pixelData[i] -= 50;
+            }
+            this.ctx.putImageData(this.lastImage,0,0);
+            //this.drawText();
+            this.fadeCtr++;
+            if (this.fadeCtr >= 255 / 50) {
+                this.drawText();
+                //console.log("done fading");
+                return;
+            }
+            setTimeout(this.fadeCanvasStep.bind(this), 50);
+        },
+        drawCircle: function(ctx, e) {
+            var x,y;
+            if (e.type.match(/touch/)) {
+                x = e.originalEvent.changedTouches[0].clientX;
+                y = e.originalEvent.changedTouches[0].clientY;
+            } else {
+                x = e.offsetX;
+                y = e.offsetY;
+            }
+            console.log("drawCircle. x:", x, "y:", y);
+            ctx.beginPath();
+            ctx.arc(x, y, 10, 0, Math.PI*2, true); 
+            ctx.closePath();
+            ctx.fill();
+        },
+        toolbarSetup: function() {
+            // config the css sizes to get more compact display
+            var config = localStorage.getItem("/" + this.id + "/size");
+            if (config == "small") this.bodyShowSmall();
+
+            var that = this;
+            $('#com-chilipeppr-widget-xyz .view-small').click(function() {
+                that.bodyShowSmall();
+                localStorage.setItem("/" + that.id + "/size", "small");
+            });
+            $('#com-chilipeppr-widget-xyz .view-large').click(function() {
+                that.bodyShowNormal();
+                localStorage.setItem("/" + that.id + "/size", "normal");
+            });
+        },
+        bodyShowSmall: function() {
+            $('#com-chilipeppr-widget-xyz').addClass("size-small");
+            $('#com-chilipeppr-widget-xyz .view-small').addClass("active");
+            $('#com-chilipeppr-widget-xyz .view-large').removeClass("active");
+        },
+        bodyShowNormal: function() {
+            $('#com-chilipeppr-widget-xyz').removeClass("size-small");
+            $('#com-chilipeppr-widget-xyz .view-small').removeClass("active");
+            $('#com-chilipeppr-widget-xyz .view-large').addClass("active");
+        },
+        options: null,
+        setupUiFromCookie: function() {
+            // read vals from cookies
+            var options = $.cookie('com-chilipeppr-widget-xyz-options');
+            
+            if (true && options) {
+                options = $.parseJSON(options);
+                console.log("just evaled options: ", options);
+            } else {
+                options = {showA: false, moveBy: 0.01};
+            }
+            this.options = options;
+            console.log("options:", options);
+            
+            // hilite the correct button
+            var cls = ".jogincr1";
+            if (options.moveBy == "0.1") cls = ".jogincrpt1";
+            if (options.moveBy == "0.01") cls = ".jogincrpt01";
+            if (options.moveBy == "0.001") cls = ".jogincrpt001";
+            this.changeBaseVal({data: {newval: options.moveBy, cls: cls}});
+
+        },
+        saveOptionsCookie: function() {
+            var options = {
+                showA: false,
+                moveBy: this.baseval
+            };
+            var optionsStr = JSON.stringify(options);
+            console.log("saving options:", options, "json.stringify:", optionsStr);
+            // store cookie
+            $.cookie('com-chilipeppr-widget-xyz-options', optionsStr, {
+                expires: 365 * 10,
+                path: '/'
+            });
+        },
+        pauseBtnIcon: null,
+        isPausedByPlanner: false,    // keeps track of whether we've been told to pause sending by the planner buffer
+        onPlannerPause: function() {
+            console.log("xyz-onPlannerPause. being asked to pause.");
+            if (this.pauseBtnIcon == null) 
+                this.pauseBtnIcon = $('#com-chilipeppr-widget-xyz div.plannerpause');
+            
+            if (!this.isPausedByPlanner) {
+                // we are not paused, so go ahead and pause
+                //this.onPauseByPlanner();
+                this.isPausedByPlanner = true;
+                // visuall indicate we were paused by planner, not by a human
+                this.pauseBtnIcon.addClass('btnIconWarning');
+            } else {
+                console.log("got planner pause, but we're already paused");
+            }
+        },
+        onPlannerResume: function() {
+            console.log("xyz-onPlannerResume. being asked to resume.");
+            if (this.pauseBtnIcon == null) 
+                this.pauseBtnIcon = $('#com-chilipeppr-widget-xyz div.plannerpause');
+            
+            if (this.isPausedByPlanner) {
+                // we are currently paused, so unpause 
+                //this.onPauseByPlanner();
+                this.isPausedByPlanner = false;
+                this.pauseBtnIcon.removeClass('btnIconWarning');
+            } else {
+                console.log("got planner resume, but we're already resumed which is weird.");
+            }
+        },
+        /*
+        onRecvCmd: function (recvline) {
+            // get a per line command from the serial port server via pubsub
+            //console.log("onRecvCmd. recvline:", recvline);
+            // we want to process the status reports
+            // sample: 
+            // {"sr":{"vel":0.02,"mpoy":10.474,"dist":1,"stat":5}}
+            // {"sr":{"vel":0.06,"mpox":0.001,"dist":0}}
+            
+            if (!(recvline.dataline)) {
+                console.log("got recvline but it's not a dataline, so returning.");
+                return;
+            }
+            var msg = recvline.dataline;
+            if (msg.match(/^{/)) {
+                // it is json
+                d = $.parseJSON(msg);
+                //console.log("d:", d);
+                if (d.sr) {
+                    //console.log("it is a status report");
+                    this.updateAxesFromStatus(d.sr);
+                } else if (d.r && d.r.sr) {
+                    //console.log("it is a status report from a direct request");
+                    this.updateAxesFromStatus(d.r.sr);
+                }
+            }
+
+        },
+        */
+        toggleInMm: function() {
+            var gCode;
+            
+            if (this.currentUnits == "mm")
+            {
+                gCode = "G20";
+            }
+            else
+            {
+                gCode = "G21";
+            }
+            console.log("toggleInMm. command:", gCode);
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/send", gCode+'\n');
+        },
+        currentUnits: null,
+        updateUnitsFromStatus: function(units) {
+            console.log("updateUnitsFromStatus. units:", units);
+            $('.com-chilipeppr-xyz-dim').text(units);
+            this.currentUnits = units;
+        },
+        axisx: null,
+        axisy: null,
+        axisz: null,
+        axisa: null,
+        axes: {},
+        setupAxes: function () {
+            this.axisx = {
+                intblack: $('#com-chilipeppr-widget-xyz-x .xyz-intblack'),
+                intgray: $('#com-chilipeppr-widget-xyz-x .xyz-intgray'),
+                negpos: $('#com-chilipeppr-widget-xyz-x .xyz-negpos'),
+                decimal: $('#com-chilipeppr-widget-xyz-x .xyz-decimal')
+            };
+            this.axisy = {
+                intblack: $('#com-chilipeppr-widget-xyz-y .xyz-intblack'),
+                intgray: $('#com-chilipeppr-widget-xyz-y .xyz-intgray'),
+                negpos: $('#com-chilipeppr-widget-xyz-y .xyz-negpos'),
+                decimal: $('#com-chilipeppr-widget-xyz-y .xyz-decimal')
+            };
+            this.axisz = {
+                intblack: $('#com-chilipeppr-widget-xyz-z .xyz-intblack'),
+                intgray: $('#com-chilipeppr-widget-xyz-z .xyz-intgray'),
+                negpos: $('#com-chilipeppr-widget-xyz-z .xyz-negpos'),
+                decimal: $('#com-chilipeppr-widget-xyz-z .xyz-decimal')
+            };
+            this.axisa = {
+                intblack: $('#com-chilipeppr-widget-xyz-a .xyz-intblack'),
+                intgray: $('#com-chilipeppr-widget-xyz-a .xyz-intgray'),
+                negpos: $('#com-chilipeppr-widget-xyz-a .xyz-negpos'),
+                decimal: $('#com-chilipeppr-widget-xyz-a .xyz-decimal')
+            };
+            this.axes = {
+                x: this.axisx,
+                y: this.axisy,
+                z: this.axisz,
+                a: this.axisa
+            }
+        },
+        updateAxesFromStatus: function (axes) {
+            console.log("updateAxesFromStatus:", axes);
+            if ('x' in axes && axes.x != null) {
+                this.updateAxis("x", axes.x);
+            }
+            if ('y' in axes && axes.y != null) {
+                this.updateAxis("y", axes.y);
+            }
+            if ('z' in axes && axes.z != null) {
+                this.updateAxis("z", axes.z);
+            }
+            if ('a' in axes && axes.a != null) {
+                this.updateAxis("a", axes.a);
+            }
+        },
+        // keep track of lastval so less dom updates to perform
+        lastVal: {
+            x: 0,
+            y: 0,
+            z: 0,
+            a: 0,
+        },
+        updateAxis: function (axis, val) {
+            //console.log("updateAxis. axis:", axis, "val:", val);
+            var ax = this.axes[axis];
+            var axl = this.lastVal[axis];
+            
+            // if this val is same as last val, return immediately
+            // this happens alot as the cnc controller could send lots of redundant position updates
+            if (val == axl) {
+                //console.log("new val:", val, "is same as last val:", axl, "axis:", axis, "exiting");
+                return;
+            }
+
+            // set the negative indicator, but only do it if there was a change
+            // to reduce dom updates for efficiency
+            if (val < 0 && axl >= 0) {
+                ax.negpos.removeClass("xyz-dimmed");
+                ax.negpos.addClass("xyz-active");
+            } else if (val >= 0 && axl < 0) {
+                ax.negpos.removeClass("xyz-active");
+                ax.negpos.addClass("xyz-dimmed");
+            }
+
+            // convert float into integer part and decimal part
+            var arr = (Math.abs(val) + "").split(".");
+            var intval = arr[0];
+            //console.log("arr.length:", arr.length, arr);
+            //var decval;
+            //if (arr.length > 0) decval = arr[1];
+            //else decval = "000";
+            var decval = ((arr.length > 1) ? arr[1] : "000");
+            decval += decval.length == 1 ? "00" : decval.length == 2 ? "0" : "";
+            //console.log("abs intval:", intval, "decval:", decval);
+            
+            // set the integer part into dom
+            ax.intblack.html(intval);
+
+            // see about what dimmed out 0 padding we need
+            // use lastval to see if any delta so we have less dom updates to perform since they're slow
+            var axla = Math.abs(axl);
+            //console.log("abs last val:", axla);
+            if (intval >= 100 && axla < 100) ax.intgray.html("");
+            else if (intval < 100 && intval >= 10 && (axla < 10 || axla >= 100)) ax.intgray.html("0");
+            else if (intval == 0 && axla > 0) ax.intgray.html("00");
+
+            ax.decimal.html(decval);
+
+            // set lastVal so we have it next time into this method
+            this.lastVal[axis] = val;
+        },
+        menuSetup: function() {
+            $('#com-chilipeppr-widget-xyz .xyz-showa').click(this.showHideAxisA.bind(this));
+            $('#com-chilipeppr-widget-xyz .showhideaaxis').click(this.showHideAxisA.bind(this));
+            
+            // Setup goto zero - per axis menu
+            $('#com-chilipeppr-widget-xyz-x .dropdown-menu a').eq(0).click("x", this.gotoZero.bind(this)).prop('href', 'javascript:');
+            $('#com-chilipeppr-widget-xyz-y .dropdown-menu a').eq(0).click("y", this.gotoZero.bind(this)).prop('href', 'javascript:');;
+            $('#com-chilipeppr-widget-xyz-z .dropdown-menu a').eq(0).click("z", this.gotoZero.bind(this)).prop('href', 'javascript:');;
+            $('#com-chilipeppr-widget-xyz-a .dropdown-menu a').eq(0).click("a", this.gotoZero.bind(this)).prop('href', 'javascript:');;
+
+            // Setup zeroing G28 - per axis menu
+            $('#com-chilipeppr-widget-xyz-x .dropdown-menu a').eq(1).click("x", this.zeroOutAxisG28.bind(this)).prop('href', 'javascript:');
+            $('#com-chilipeppr-widget-xyz-y .dropdown-menu a').eq(1).click("y", this.zeroOutAxisG28.bind(this)).prop('href', 'javascript:');;
+            $('#com-chilipeppr-widget-xyz-z .dropdown-menu a').eq(1).click("z", this.zeroOutAxisG28.bind(this)).prop('href', 'javascript:');;
+            $('#com-chilipeppr-widget-xyz-a .dropdown-menu a').eq(1).click("a", this.zeroOutAxisG28.bind(this)).prop('href', 'javascript:');;
+
+            // Setup zeroing G92 - per axis menu
+            $('#com-chilipeppr-widget-xyz-x .dropdown-menu a').eq(2).click("x", this.zeroOutAxisG92.bind(this)).prop('href', 'javascript:');
+            $('#com-chilipeppr-widget-xyz-y .dropdown-menu a').eq(2).click("y", this.zeroOutAxisG92.bind(this)).prop('href', 'javascript:');;
+            $('#com-chilipeppr-widget-xyz-z .dropdown-menu a').eq(2).click("z", this.zeroOutAxisG92.bind(this)).prop('href', 'javascript:');;
+            $('#com-chilipeppr-widget-xyz-a .dropdown-menu a').eq(2).click("a", this.zeroOutAxisG92.bind(this)).prop('href', 'javascript:');;
+
+            // Setup unzeroing G92 - per axis menu
+            $('#com-chilipeppr-widget-xyz-x .dropdown-menu a').eq(3).click("x", this.unzeroOutAxisG92.bind(this)).prop('href', 'javascript:');
+            $('#com-chilipeppr-widget-xyz-y .dropdown-menu a').eq(3).click("y", this.unzeroOutAxisG92.bind(this)).prop('href', 'javascript:');;
+            $('#com-chilipeppr-widget-xyz-z .dropdown-menu a').eq(3).click("z", this.unzeroOutAxisG92.bind(this)).prop('href', 'javascript:');;
+            $('#com-chilipeppr-widget-xyz-a .dropdown-menu a').eq(3).click("a", this.unzeroOutAxisG92.bind(this)).prop('href', 'javascript:');;
+
+            // Setup homing - per axis menu
+            $('#com-chilipeppr-widget-xyz-x .dropdown-menu a').eq(4).click("x", this.homeAxis.bind(this)).prop('href', 'javascript:');
+            $('#com-chilipeppr-widget-xyz-y .dropdown-menu a').eq(4).click("y", this.homeAxis.bind(this)).prop('href', 'javascript:');;
+            $('#com-chilipeppr-widget-xyz-z .dropdown-menu a').eq(4).click("z", this.homeAxis.bind(this)).prop('href', 'javascript:');;
+            $('#com-chilipeppr-widget-xyz-a .dropdown-menu a').eq(4).click("a", this.homeAxis.bind(this)).prop('href', 'javascript:');;
+            
+            // Might as well setup the homing button here as well
+            $('#com-chilipeppr-widget-xyz-ftr .joghome').click("xyz", this.homeAxis.bind(this));
+            
+
+        },
+        gotoZero: function(evt) {
+            console.log("gotoZero. evt.data:", evt.data, "evt:", evt);
+            var cmd = "G0 ";
+            if (evt.data == "xyz") {
+                cmd += "X0 Y0 Z0";
+                // if a axis showing
+                if (this.isAAxisShowing) {
+                    cmd += " A0";
+                }
+            } else {
+                cmd += evt.data.toUpperCase() + "0";
+            }
+            cmd += "\n";
+            console.log(cmd);
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/send", cmd);
+
+        },
+        zeroOutAxisG28: function(evt) {
+            console.log("zeroOutAxis28. evt.data:", evt.data, "evt:", evt);
+            var cmd = "G28.3 ";
+            if (evt.data == "xyz") {
+                cmd += "X0 Y0 Z0";
+                if (this.isAAxisShowing) {
+                    cmd += " A0";
+                }
+            } else {
+                cmd += evt.data.toUpperCase() + "0";
+            }
+            cmd += "\n";
+            console.log(cmd);
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/send", cmd);
+
+        },
+        zeroOutAxisG92: function(evt) {
+            console.log("zeroOutAxis92. evt.data:", evt.data, "evt:", evt);
+            var cmd = "G92 ";
+            if (evt.data == "xyz") {
+                cmd += "X0 Y0 Z0";
+                if (this.isAAxisShowing) {
+                    cmd += " A0";
+                }
+            } else {
+                cmd += evt.data.toUpperCase() + "0";
+            }
+            cmd += "\n";
+            console.log(cmd);
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/send", cmd);
+
+        },
+        unzeroOutAxisG92: function(evt) {
+            console.log("zeroOutAxis92. evt.data:", evt.data, "evt:", evt);
+            var cmd = "G92.1 ";
+            if (evt.data == "xyz") {
+                cmd += "X0 Y0 Z0";
+                if (this.isAAxisShowing) {
+                    cmd += " A0";
+                }
+            } else {
+                cmd += evt.data.toUpperCase() + "0";
+            }
+            cmd += "\n";
+            console.log(cmd);
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/send", cmd);
+
+        },
+        homeAxis: function(evt) {
+            // Homes all axes present in command. At least one axis letter must be present. The value (number) must be provided but is ignored.
+            // The homing sequence is fixed and always starts with the Z axis (if requested). The sequence runs ZXYA (but skipping all axes that are not specified in the G28.2 command)
+            console.log("homeAxis. evt.data:", evt.data, "evt:", evt);
+            var cmd = "G28.2 ";
+            if (evt.data == "xyz") {
+                cmd += "X0 Y0 Z0";
+                if (this.isAAxisShowing) {
+                    cmd += " A0";
+                }
+            } else {
+                cmd += evt.data.toUpperCase() + "0";
+            }
+            cmd += "\n";
+            console.log(cmd);
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/send", cmd);
+
+        },
+        isAAxisShowing: false,
+        showHideAxisA: function() {
+            var el = $('#com-chilipeppr-widget-xyz-a');
+            if (el.hasClass('hidden')) {
+                this.isAAxisShowing = true;
+                el.removeClass('hidden');
+                $('#com-chilipeppr-widget-xyz .showhideaaxis').addClass("active");
+            } else {
+                this.isAAxisShowing = false;
+                el.addClass('hidden');
+                $('#com-chilipeppr-widget-xyz .showhideaaxis').removeClass("active");
+            }
+            $(window).trigger('resize');
+        },
+        btnSetup: function () {
+            // setup planner indicator icon
+            $('#com-chilipeppr-widget-xyz div.plannerpause').popover({
+                html: true,
+                delay: 200,
+                animation: true,
+                trigger: 'hover',
+                placement: 'auto',
+                container: 'body'
+            });
+            
+            // in / mm
+            $('#com-chilipeppr-widget-xyz .btnInMm').click(this.toggleInMm.bind(this));
+            
+            $('#com-chilipeppr-widget-xyz .showhideaaxis').popover();
+            
+        },
+        jogFocusIndicate: function() {
+            $('#com-chilipeppr-widget-xyz').addClass("panel-primary");
+        },
+        jogFocusUnindicate: function() {
+            $('#com-chilipeppr-widget-xyz').removeClass("panel-primary");
+        },
+        isInCustomMenu: false,
+        customMenuSetVal: function(itemNum) {
+            console.log("setting custom val from itemNum:", itemNum);
+            if (itemNum instanceof Object)
+                itemNum = itemNum.data; // convert evt obj to just the data
+            var cls = ".jogincrCustomInput" + itemNum;
+            var inputEl = $('#com-chilipeppr-widget-xyz-ftr ' + cls);
+            var val = parseFloat(inputEl.val());
+            if (val != null) {
+                $('#com-chilipeppr-widget-xyz-ftr .jogincrCustomVal').text(val);
+                this.changeBaseVal({data:{newval:val, cls:".jogincrCustomBtn"}});
+            } else
+                 $('#com-chilipeppr-widget-xyz-ftr .jogincrCustomVal').text("-");
+        },
+        jogSetup: function () {
+            // attach to focus and blur events
+            // when focused, we'll jog
+            var that = this;
+            $('#com-chilipeppr-widget-xyz-jog').popover();
+            $('#com-chilipeppr-widget-xyz-ftr .btn').popover();
+
+
+            // setup button events
+            $('#com-chilipeppr-widget-xyz-ftr .jogx').click("X+", this.jogBtn.bind(this));
+            $('#com-chilipeppr-widget-xyz-ftr .jogy').click("Y+", this.jogBtn.bind(this));
+            $('#com-chilipeppr-widget-xyz-ftr .jogz').click("Z+", this.jogBtn.bind(this));
+            $('#com-chilipeppr-widget-xyz-ftr .jogxneg').click("X-", this.jogBtn.bind(this));
+            $('#com-chilipeppr-widget-xyz-ftr .jogyneg').click("Y-", this.jogBtn.bind(this));
+            $('#com-chilipeppr-widget-xyz-ftr .jogzneg').click("Z-", this.jogBtn.bind(this));
+            
+            //gotoZero
+            $('#com-chilipeppr-widget-xyz-ftr .joggotozero').click("xyz", this.gotoZero.bind(this));
+            $('#com-chilipeppr-widget-xyz-ftr .jogzeroout').click("xyz", this.zeroOutAxisG28.bind(this));
+
+            // setup base value increment buttons
+            $('#com-chilipeppr-widget-xyz-ftr .jogincr1').click({newval:1.0, cls:".jogincr1"}, this.changeBaseVal.bind(this));
+            $('#com-chilipeppr-widget-xyz-ftr .jogincrpt1').click({newval:0.1, cls:".jogincrpt1"}, this.changeBaseVal.bind(this));
+            $('#com-chilipeppr-widget-xyz-ftr .jogincrpt01').click({newval:0.01, cls:".jogincrpt01"}, this.changeBaseVal.bind(this));
+            $('#com-chilipeppr-widget-xyz-ftr .jogincrpt001').click({newval:0.001, cls:".jogincrpt001"}, this.changeBaseVal.bind(this));
+            
+            // setup custom increment button
+            var custIncrBtn = $('#com-chilipeppr-widget-xyz-ftr .jogincrCustomBtn');
+            custIncrBtn.click(function() {
+                var txt = $('#com-chilipeppr-widget-xyz-ftr .jogincrCustomVal').text();
+                if (txt != "-") {
+                    var val = parseFloat(txt);
+                    that.changeBaseVal({data:{newval:val, cls:".jogincrCustomBtn"}});
+                }
+            });
+            
+            var custDropUpBtn = $('#com-chilipeppr-widget-xyz-ftr .jogincrCustomDropUpBtn');
+            custDropUpBtn.on('click', function () {
+                console.log("drop up btn clicked");
+                that.isInCustomMenu = true;
+                //$('#com-chilipeppr-widget-xyz-ftr').blur();
+            });
+            
+            // show/ hide.bs.dropdown
+            var custMenu = $('#com-chilipeppr-widget-xyz-ftr .jogincrCustomDropUpMenu').parent();
+            custMenu.on('show.bs.dropdown', function () {
+                console.log("drop up custom increment menu shown");
+                that.isInCustomMenu = true;
+                $('#com-chilipeppr-widget-xyz-ftr').blur();
+            });
+            custMenu.on('hidden.bs.dropdown', function () {
+                console.log("drop up custom increment menu hidden");
+                that.isInCustomMenu = false;
+                $('#com-chilipeppr-widget-xyz-ftr').blur();
+            });
+            
+            var custInput = $('#com-chilipeppr-widget-xyz-ftr .jogincrCustomInput');
+            custInput.click(function(e) {
+                console.log("got click on jogincrCustomInput");
+                that.isInCustomMenu = true;
+                e.stopPropagation();
+                $('#com-chilipeppr-widget-xyz-ftr').blur();
+                console.log("in custom menu mode");
+            });
+            custInput.keydown(function (evt) {
+                console.log("keypress in custInput. evt:", evt);
+                if (evt.keyCode == 13) {
+                    console.log("user hit enter");
+                    //custMenu.dropdown('toggle');
+                    //custMenu.trigger('hide.bs.dropdown');
+                    custDropUpBtn.trigger('click');
+                    var domEl = $(evt.target);
+                    console.log("domEl:", domEl);
+                    var cls = domEl.attr('class');
+                    cls.match(/jogincrCustomInput(\d)/);
+                    var num = RegExp.$1;
+                    that.customMenuSetVal(num);
+                }
+                //evt.preventDefault();
+                //evt.stopPropagation();
+                //return false;
+            });
+            
+            // setup custom menu set buttons
+            $('#com-chilipeppr-widget-xyz-ftr .jogincrCustomSet1').click(1, this.customMenuSetVal.bind(this));
+            $('#com-chilipeppr-widget-xyz-ftr .jogincrCustomSet2').click(2, this.customMenuSetVal.bind(this));
+            $('#com-chilipeppr-widget-xyz-ftr .jogincrCustomSet3').click(3, this.customMenuSetVal.bind(this));
+            $('#com-chilipeppr-widget-xyz-ftr .jogincrCustomSet4').click(4, this.customMenuSetVal.bind(this));
+
+            // setup jog btn
+            $('#com-chilipeppr-widget-xyz-jog').click(function () {
+                console.log("setting focus/blur to footer");
+                var elFtr = $('#com-chilipeppr-widget-xyz-ftr');
+                //if ($('#com-chilipeppr-widget-xyz').hasClass('panel-primary'))
+                //    elFtr.blur();
+                //else
+                    elFtr.focus();
+            });
+
+            var isjogging = false;
+
+            $('#com-chilipeppr-widget-xyz-ftr').focusin(function () {
+                if (that.isInCustomMenu) {
+                    console.log("got focusin for axes widget, but we appear to be showing the custom increment menu, so ignoring focus.");
+                    return;
+                }
+                //console.log("jog area focus");
+                $('#com-chilipeppr-widget-xyz').addClass("panel-primary");
+                $('#com-chilipeppr-widget-xyz-ftr').addClass("panel-primary");
+                isjogging = true;
+                that.accelBaseValHilite({});
+                console.log("got focusin on axes widget ftr");
+            });
+            $('#com-chilipeppr-widget-xyz-ftr').focusout(function () {
+                
+                //console.log("jog area blur");
+                $('#com-chilipeppr-widget-xyz').removeClass("panel-primary");
+                $('#com-chilipeppr-widget-xyz-ftr').removeClass("panel-primary");
+                isjogging = false;
+                that.accelBaseValHilite({});
+                console.log("got focusout on axes widget ftr");
+            });
+            /*$('#com-chilipeppr-widget-xyz-ftr').keypress(function (evt) {
+                console.log("got keypress for jog. evt:", evt, evt.which);
+            });*/
+
+            // keep track of lastKeydown as a timestamp so we can yeild sending too fast
+            that.lastKeydownTime = 0;
+            
+            
+            $('#com-chilipeppr-widget-xyz-ftr').keydown(function (evt) {
+
+                if (that.isInCustomMenu) {
+                    console.log("custom menu showing. not doing jog.");
+                    return true;
+                }
+                
+                // this lets the cnc controller know we started jogging
+                // the controller may or may not care
+                if (!isjogging  && evt.which > 30 && evt.which < 41) {
+                    isjogging = true;
+                    chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/jogstart', "");
+                }
+
+                // hilite the acceleration
+                that.accelBaseValHilite(evt);
+                
+                // if this keydown event does not contain a relevant keypress then just exit
+                if (!(evt.which > 30 && evt.which < 41)) {
+                    //console.log("exiting cuz not arrow key. evt:", evt);
+                    return;
+                } else {
+                    console.log("evt:", evt);
+                }
+
+                //if (evt.which != 16 && evt.which != 17 && evt.which != 18) console.log("got keydown for jog. evt:", evt, evt.which);
+                // let's slow down keypresses so we don't overwhelm the jogging
+                var curTime = new Date().getTime();
+                if (curTime - that.lastKeydownTime < 20) {
+                    console.log("yeilding cuz time was too quick");
+                    return;
+                }
+                that.lastKeydownTime = curTime;
+                
+                // see if planner buffer full, if so yeild
+                if (that.isPausedByPlanner) {
+                    console.log("planner buffer full. yeilding.");
+                    return;
+                }
+
+                var key = evt.which;
+                var direction = null;
+                /*
+                var isFast, is100xFast, is1000xFast, is10000xFast = false;
+                if (evt.shiftKey == true) {
+                    isFast = true;
+                }
+                if (evt.ctrlKey == true) {
+                    is100xFast = true;
+                }
+                if (evt.shiftKey == true && evt.ctrlKey) {
+                    is1000xFast = true;
+                }
+                if (evt.shiftKey == true && evt.altKey == true) {
+                    is10000xFast = true;
+                }
+                */
+
+                if (key == 38) {
+                    // up arrow. Y+
+                    direction = "Y+";
+                    $('#com-chilipeppr-widget-xyz-ftr .jogy').addClass("hilite");
+                } else if (key == 40) {
+                    // down arrow. Y-
+                    direction = "Y-";
+                    $('#com-chilipeppr-widget-xyz-ftr .jogyneg').addClass("hilite");
+                } else if (key == 37) {
+                    direction = "X-";
+                    $('#com-chilipeppr-widget-xyz-ftr .jogxneg').addClass("hilite");
+                } else if (key == 39) {
+                    direction = "X+";
+                    $('#com-chilipeppr-widget-xyz-ftr .jogx').addClass("hilite");
+                } else if (key == 33) {
+                    // page up
+                    direction = "Z+";
+                    $('#com-chilipeppr-widget-xyz-ftr .jogz').addClass("hilite");
+                } else if (key == 34) {
+                    // page down
+                    direction = "Z-";
+                    $('#com-chilipeppr-widget-xyz-ftr .jogzneg').addClass("hilite");
+                }
+
+                if (direction) {
+                    //that.jog(direction, isFast, is100xFast, is1000xFast, is10000xFast);
+                    that.jog(direction);
+                }
+            });
+            
+            // when key is up, we're done jogging
+            $('#com-chilipeppr-widget-xyz-ftr').keyup(function (evt) {
+                
+                if (that.isInCustomMenu) {
+                    console.log("custom menu showing. not doing jog.");
+                    return true;
+                }
+                
+                // test if keys that represent real jog (i.e. not shift/ctrl/alt, etc)
+                if (evt.which > 30 && evt.which < 41) {
+                    // let parent method know jogging is done
+                    isjogging = false;
+                    
+                    // this tells the cnc controller to cancel immediately all moves so jog stops fast
+                    chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/jogdone', "");
+                }
+                
+                //if (!(evt.which > 30 && evt.which < 41)) {
+                    // remove accel hilite
+                    that.accelBaseValUnhilite();
+                //}                
+                
+                var key = evt.which;
+                if (key == 38) {
+                    // up arrow. Y+
+                    $('#com-chilipeppr-widget-xyz-ftr .jogy').removeClass("hilite");
+                } else if (key == 40) {
+                    // down arrow. Y-
+                    $('#com-chilipeppr-widget-xyz-ftr .jogyneg').removeClass("hilite");
+                } else if (key == 37) {
+                    $('#com-chilipeppr-widget-xyz-ftr .jogxneg').removeClass("hilite");
+                } else if (key == 39) {
+                    $('#com-chilipeppr-widget-xyz-ftr .jogx').removeClass("hilite");
+                } else if (key == 33) {
+                    // page up
+                    $('#com-chilipeppr-widget-xyz-ftr .jogz').removeClass("hilite");
+                } else if (key == 34) {
+                    // page down
+                    $('#com-chilipeppr-widget-xyz-ftr .jogzneg').removeClass("hilite");
+                }
+                
+                that.lastKeydownTime = 0;
+            });
+
+        },
+        jogBtn: function (evt) {
+            //console.log("jogBtn:", arguments);
+            var direction = evt.data;
+            this.accelBaseValHilite(evt);
+            /*
+            var isFast, is100xFast, is1000xFast, is10000xFast = false;
+            //var isSuperFast = false;
+            if (evt.shiftKey == true) {
+                isFast = true;
+            }
+            if (evt.ctrlKey == true) {
+                is100xFast = true;
+            }
+            if (evt.altKey == true) {
+                is1000xFast = true;
+            }
+            if (evt.shiftKey == true && evt.altKey == true) {
+                is10000xFast = true;
+            }
+            if (evt.shiftKey == true && evt.ctrlKey) {
+                is1000xFast = true;
+            }
+            */
+
+            //this.jog(direction, isFast, is100xFast, is1000xFast, is10000xFast);
+            this.jog(direction);
+        },
+        baseval: 1.00,
+        accelBaseval: 1.00,
+        customOrigVal: null,
+        accelBaseValHilite: function(evt) {
+            //console.log("accelBaseValHilite. this.baseval:", this.baseval);
+            //this.accelBaseValUnhilite();
+            // see if there's an accelerator key. if so hilite blue to indicate
+            // we're accelerating
+            var accelval = this.baseval;
+            //var baseval = this.baseval;
+            var isCustom = false;
+            if (accelval != 0.001 && accelval != 0.01 && accelval != 0.1 && accelval != 1) {
+                // they have a custom val
+                //console.log("doing accelerator on custom val");
+                isCustom = true;
+            }
+            
+            if (evt.shiftKey == true) {
+                accelval = this.baseval * 10;
+            }
+            if (evt.ctrlKey == true || evt.altKey == true ) {
+                accelval = this.baseval * 100;
+            }
+            if (evt.shiftKey == true && (evt.ctrlKey == true || evt.altKey == true)) {
+                accelval = this.baseval * 1000;
+            }
+            
+            //console.log("accelval:", accelval);
+            this.accelBaseval = accelval;
+            
+            $('#com-chilipeppr-widget-xyz-ftr .jogincrements-horiz button').removeClass("hiliteblue");
+
+            if (isCustom) {
+                // just tweak the val in red <code> instead of hiliting button
+                $('#com-chilipeppr-widget-xyz-ftr .jogincrCustomBtn').addClass("hiliteblue");
+                this.customOrigVal = this.baseval;
+                $('#com-chilipeppr-widget-xyz-ftr .jogincrCustomVal').text(accelval);
+            } else {
+                this.customOrigVal = null;
+                //$('#com-chilipeppr-widget-xyz-ftr .btnincrements button').removeClass("hiliteblue");
+                if (accelval == 1.0) $('#com-chilipeppr-widget-xyz-ftr .jogincr1').addClass("hiliteblue");
+                if (accelval == 0.1) $('#com-chilipeppr-widget-xyz-ftr .jogincrpt1').addClass("hiliteblue");
+                if (accelval == 0.01) $('#com-chilipeppr-widget-xyz-ftr .jogincrpt01').addClass("hiliteblue");
+                if (accelval == 0.001) $('#com-chilipeppr-widget-xyz-ftr .jogincrpt001').addClass("hiliteblue");
+            }
+        },
+        accelBaseValUnhilite: function() {
+            console.log("accelBaseValUnhilite");
+            if (this.customOrigVal != null) {
+                // the previous hilite was for custom
+                this.customOrigVal = null;
+                $('#com-chilipeppr-widget-xyz-ftr .jogincrCustomVal').text(this.baseval);
+            }
+            this.accelBaseval = this.baseval;
+            
+            $('#com-chilipeppr-widget-xyz-ftr .jogincrements-horiz button').removeClass("hiliteblue");
+            //$('#com-chilipeppr-widget-xyz-ftr .btnincrements button').removeClass("hiliteblue");
+        },
+        changeBaseVal: function(evt) {
+            console.log("changeBaseVal. data:", evt.data, evt);
+            this.baseval = evt.data.newval;
+            this.accelBaseval = this.baseval;
+            // reset all hilites
+            $('#com-chilipeppr-widget-xyz-ftr .jogincrements-horiz button').removeClass("hilite");
+            $('#com-chilipeppr-widget-xyz-ftr .jogincrements-horiz button').removeClass("hiliteblue");
+            //$('#com-chilipeppr-widget-xyz-ftr .btnincrements button').removeClass("hilite");
+            // set new hilite
+            $('#com-chilipeppr-widget-xyz-ftr ' + evt.data.cls).addClass("hilite");
+            
+            // if this was set from a click, then save cookie
+            if (evt.type == "click") {
+                console.log("saving cookie");
+                this.saveOptionsCookie();
+            }
+        },
+        jog: function (direction, isFast, is100xFast, is1000xFast, is10000xFast) {
+            var key = direction;
+            var cmd = "G91 G0 ";
+            var feedrate = 200;
+            var mult = 1;
+            var xyz = "";
+            //var val = 0.001;
+            var val = 1.00;
+            //var baseval = 1.00;
+            var baseval = this.accelBaseval;
+            
+            // adjust feedrate relative to acceleration
+            //feedrate = feedrate * ((this.accelBaseval / this.baseval) / 2);
+
+            if (key == "Y+") {
+                // up arrow. Y+
+                xyz = "Y";
+                val = baseval; //0.001;
+            } else if (key == "Y-") {
+                // down arrow. Y-
+                xyz = "Y";
+                val = -1 * baseval; //0.001;
+            } else if (key == "X+") {
+                // right arrow. X+
+                xyz = "X";
+                val = baseval; //0.001;
+            } else if (key == "X-") {
+                // left arrow. X-
+                xyz = "X";
+                val = -1 * baseval; //0.001;
+            } else if (key == "Z+") {
+                // page up. Z+
+                xyz = "Z";
+                val = baseval; //0.001;
+            } else if (key == "Z-") {
+                // page down. Z-
+                xyz = "Z";
+                val = -1 * baseval; //0.001;
+            }
+            val = val * mult;
+
+            if (xyz.length > 0) {
+                //cmd += xyz + val + " F" + feedrate + "\nG90\n";
+                cmd += xyz + val + "\nG90\n";
+                // do last minute check to see if planner buffer is too full, if so ignore this cmd
+                if (!(this.isPausedByPlanner))
+                    chilipeppr.publish("/com-chilipeppr-widget-serialport/send", cmd);
+                else
+                    console.log("planner buffer full, so not sending jog cmd");
+            }
+        },
+        initBody: function(evt) {
+            $('#' + this.id + ' .hidebody').click(this.toggleBody.bind(this));
+            var config = localStorage.getItem("/" + this.id + "/body");
+            if (config == "visible")
+                this.showBody();
+            else
+                this.hideBody();
+        },
+        toggleBody: function(evt) {
+            if ($('#' + this.id + '-body').hasClass('hidden'))
+                this.showBody(evt);
+            else
+                this.hideBody(evt);
+        },
+        showBody: function(evt) {
+            $('#' + this.id + '-body').removeClass('hidden');
+            $('#' + this.id + '-ftr').removeClass('hidden');
+            $('#' + this.id + ' .hidebody span').addClass('glyphicon-chevron-up');
+            $('#' + this.id + ' .hidebody span').removeClass('glyphicon-chevron-down');
+            if (!(evt == null)) localStorage.setItem("/" + this.id + "/body", "visible");
+            $(window).trigger('resize');
+        },
+        hideBody: function(evt) {
+            $('#' + this.id + '-body').addClass('hidden');
+            $('#' + this.id + '-ftr').addClass('hidden');
+            $('#' + this.id + ' .hidebody span').removeClass('glyphicon-chevron-up');
+            $('#' + this.id + ' .hidebody span').addClass('glyphicon-chevron-down');
+            if (!(evt == null)) localStorage.setItem("/" + this.id + "/body", "hidden");
+        },
+        forkSetup: function () {
+            //$('#com-chilipeppr-widget-xyz-tbar-fork').prop('href', this.fiddleurl);
+            //$('#com-chilipeppr-widget-xyz-tbar-standalone').prop('href', this.url);
+            //$('#com-chilipeppr-widget-xyz .fork-name').html(this.id);
+            $('#com-chilipeppr-widget-xyz .panel-title').popover({
+                title: this.name,
+                content: this.desc,
+                trigger: 'hover',
+                placement: "auto",
+                html: true,
+                delay: 200,
+                animation: true
+            });
+            
+            // load the pubsub viewer / fork element which decorates our upper right pulldown
+            // menu with the ability to see the pubsubs from this widget and the forking links
+            var that = this;
+            chilipeppr.load("http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/", function () {
+                require(['inline:com-chilipeppr-elem-pubsubviewer'], function (pubsubviewer) {
+                    pubsubviewer.attachTo($('#com-chilipeppr-widget-xyz .panel-heading .dropdown-menu'), that);
+                });
+            });
+
+        },
+    }
+});
+//]]>  
+
+</script>
+
+
+</head>
+<body>
+  <div id="com-chilipeppr-widget-xyz" class="panel panel-default">
+    
+    <div id="com-chilipeppr-widgetholder-wcs" 
+        
+    style="position: absolute;left:-80px;top:10px;" class="hidden"></div>
+    
+    
+    <div class="panel-heading">
+        
+        <div class="btn-group pull-left" style="margin-left:-6px;padding-right:6px;">
+            <button type="button" class="btn btn-xs btn-default btnToggleShowWcs"  data-delay="500" data-animation="true" data-placement="auto" data-container="body" data-trigger="hover" data-title="Show Work Coordinate System" data-content="Open up the WCS widget to be able to switch work coordinate systems easily or see which layer you're on.">
+                <svg
+                width="18px"
+                height="18px"
+                viewbox="0 0 16 16"
+                style="margin-bottom:-5px;"
+                id="svg7248">
+                    <g
+     id="layer1">
+    <path
+       d="m 8.062054,9.1535644 c 1.941557,1.1209616 3.883115,2.2419176 5.824672,3.3628786 -1.929436,1.113962 -3.858868,2.227928 -5.7883047,3.341891 C 6.1568636,14.737378 4.2153064,13.616421 2.2737492,12.49546 4.2031855,11.381494 6.1326177,10.267531 8.062054,9.1535644 z"
+       id="rect5199"
+       style="fill:#7d7d7d;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.0389093;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       d="M 7.9617522,6.2482783 C 9.0250831,6.862191 10.088408,7.4761039 11.151734,8.0900117 10.095045,8.7000964 9.0383569,9.3101809 7.9816736,9.9202555 6.9183482,9.3063476 5.8550218,8.6924349 4.791692,8.0785221 5.8483748,7.4684424 6.9050638,6.8583578 7.9617522,6.2482783 z"
+       id="rect4468"
+       style="fill:#7d7d7d;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.05283081;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    <path
+       d="M 8.0620637,0.14166344 C 10.00362,1.2626219 11.945177,2.3835803 13.886735,3.5045388 11.957301,4.6185031 10.027867,5.7324674 8.0984326,6.8464317 6.1568757,5.7254733 4.2153187,4.6045148 2.2737619,3.4835566 4.2031959,2.3695921 6.1326297,1.2556277 8.0620637,0.14166344 z"
+       id="rect4482"
+       style="fill:#7d7d7d;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.0389093;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       d="m 825.95441,412.99112 c 115.23809,0 230.47619,0 345.71429,0 0,114.51869 0,229.03737 0,343.55606 -115.2381,0 -230.4762,0 -345.71429,0 0,-114.51869 0,-229.03737 0,-343.55606 z"
+       transform="matrix(0.01684822,0.00972733,-0.0168482,0.00972736,1.1043589,-11.871067)"
+       style="fill:#a2a2a2;fill-opacity:0;fill-rule:evenodd;stroke:none" />
+    <path
+       d="m 2.2846517,3.7975423 c 0,2.8872136 0,5.7744323 0,8.6616457"
+       id="pathLeft"
+       style="fill:none;stroke:#000000;stroke-width:0.435;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:0.435, 0.435;stroke-dashoffset:0" />
+    <path
+       d="m 13.886938,3.8292167 c 0,2.8977753 0,5.7955505 0,8.6933263"
+       id="pathRight"
+       style="fill:none;stroke:#000000;stroke-width:0.435;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:0.435, 0.435;stroke-dashoffset:0" />
+  </g>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="btn-toolbar pull-right" role="toolbar" data-style="position:absolute;right:0px;top:0px;padding:10px 15px;">
+            <div class="btn-group plannerpause" data-toggle="popover" data-content="This indicator shows that we're being asked to pause our sending of commands to the CNC controller so we don't overfill the buffer.">
+                <span disabled="true" class="plannerpauseindicator glyphicon glyphicon glyphicon-time btn btn-sm"></span>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-xs btn-default btnInMm" data-delay="500" data-animation="true" data-placement="auto" data-container="body" data-trigger="hover" data-title="Toggle between in and mm" data-content="Send G20 or G21 to the controller to switch between in and mm."><span style="font-size:8px;">in / mm</span></button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-xs btn-default btnToggleShowTouchJog"  data-delay="500" data-animation="true" data-placement="auto" data-container="body" data-trigger="hover" data-title="Show Touch/Scroll/Mouse Jog" data-content="View the touch/scroll/mouse jog area.">
+                    <svg width="18px" height="18px" viewBox="0 0 16 15" style="margin-bottom:-5px;" >
+                     <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <rect
+       style="fill:#c7c7c7;fill-opacity:1"
+       id="rect2995"
+       width="11.895755"
+       height="7.6640639"
+       x="-7.9218755"
+       y="8.1015425"
+       transform="matrix(0.80452054,-0.59392483,0.80452054,0.59392483,0,0)" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       d="M 12.012025,5.1134737 9.0594827,5.1513007 12.012026,7.369192 z"
+       id="path4975"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <rect
+       transform="matrix(0.80452054,-0.59392483,0.80452054,0.59392483,0,0)"
+       y="11.336672"
+       x="-6.1134734"
+       height="0.98116386"
+       width="1.5229107"
+       id="rect4987"
+       style="fill:#000000;fill-opacity:1" />
+    <rect
+       style="fill:#000000;fill-opacity:1"
+       id="rect4989"
+       width="1.5229107"
+       height="0.98116386"
+       x="-3.4123509"
+       y="11.248804"
+       transform="matrix(0.80452054,-0.59392483,0.80452054,0.59392483,0,0)" />
+    <rect
+       transform="matrix(0.80452054,-0.59392483,0.80452054,0.59392483,0,0)"
+       y="11.224115"
+       x="-1.1307598"
+       height="0.98116386"
+       width="1.5229107"
+       id="rect4991"
+       style="fill:#000000;fill-opacity:1" />
+  </g>   
+                    </svg>
+                </button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-xs btn-default showhideaaxis" data-delay="500" data-animation="true" data-placement="auto" data-container="body" data-trigger="hover" data-title="Show A Axis" data-content="View the A Axis in this widget.">
+                    <!-- <span class="glyphicon" style=""> -->
+                    <svg width="18px" height="18px" viewBox="0 0 15 15" style="margin-bottom:-5px;" >
+                        <g
+     transform="translate(0,-1)"
+     id="layer1">
+    <rect
+       width="9.4103031"
+       height="8.1495714"
+       x="5.4276471"
+       y="10.471354"
+       transform="matrix(0.86602641,-0.49999826,0,1,0,0)"
+       id="rect3833"
+       style="fill:#f2f2f2;fill-opacity:1" />
+    <path
+       d="m 1.2047429,5.7539288 3.4930048,2.0050654 0,8.1495718 -3.4930048,-2.005124 z"
+       id="rect3843"
+       style="fill:#cccccc;fill-opacity:1" />
+    <path
+       d="M 1.2065082,5.751951 9.3485287,1.1046795 12.837494,3.111665 4.6954743,7.7589365 z"
+       id="rect3845"
+       style="fill:#e6e6e6;fill-opacity:1" />
+    <g
+       transform="matrix(0.72698276,-0.41972171,0,0.72698276,1.9959922,6.7024392)"
+       id="text3847"
+       style="font-size:12.23077774px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans">
+      <path
+         d="m 5.3885789,13.508963 3.3622695,-8.7550395 1.2481604,0 3.5832352,8.7550395 -1.319825,0 -1.021222,-2.651595 -3.6608723,0 -0.9615015,2.651595 z m 2.5261812,-3.5951802 2.9681139,0 L 9.9691485,7.4891267 C 9.6904481,6.7525795 9.4834169,6.1474114 9.3480543,5.6736206 9.2365721,6.2350015 9.079308,6.7923932 8.8762616,7.3457973 z"
+         id="path3852" />
+    </g>
+    <g
+       transform="matrix(1.1671134,0,0,1.1671134,-4.6139988,-2.1092078)"
+       id="text3854"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans" />
+  </g>
+                        </svg>
+                    <!-- </span> -->
+                </button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-xs btn-default view-small"><span class="glyphicon" style="font-size:8px;">S</span></button>
+                <button type="button" class="btn btn-xs btn-default view-large active"><span class="glyphicon">L</span></button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-xs btn-default hidebody"><span class="glyphicon glyphicon-chevron-up"></span></button>
+            </div>
+
+            <div class="btn-group">
+                <div class="dropdown">
+                <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>
+    
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li><a href="#" class="xyz-showa">Show/Hide A Axis</a></li>
+                    <!-- <li class="divider"></li>
+                    <li role="presentation" class="dropdown-header fork-name"></li>
+                    <li><a href="" target="_blank" id="com-chilipeppr-widget-xyz-tbar-standalone">View Widget Standalone</a></li>
+                    <li><a href="" target="_blank" id="com-chilipeppr-widget-xyz-tbar-fork">Fork Widget</a></li> -->
+                </ul>
+                </div>
+            </div>
+        </div>
+        <span class="panel-title" data-toggle="popover">Axes</span>
+    </div>
+    <div id="com-chilipeppr-widget-xyz-body" class="panel-body">
+        <div class="container-fluid">
+            <!-- X -->
+            <div id="com-chilipeppr-widget-xyz-x" class="row">
+                <!-- Label -->
+                <div class="col col-xs-3" style="position:relative;">
+                    <div class="btn-group com-chilipeppr-xyz-menu">
+                        <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span>
+
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="">Go To Zero On X Axis (G0 X0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">G28.3 1st layer coordinates. Sets absolute coordinates without running a homing cycle</li>
+                            <li><a href="">Zero Out X Axis (G28.3 X0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">G92 3rd layer coordinates. Temporary offset not saved to EEPROM. G92 forgotten when you do a cycle end (M2 or M30)</li>
+                            <li><a href="">Zero Out X Axis (G92 X0)</a></li>
+                            <li><a href="">Un-Zero Out X Axis (G92.1 X0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li><a href="">Home Axis (G28.2 X0 Must have limit switch)</a></li>
+                        </ul>
+                    </div>
+                    <div class="well com-chilipeppr-xyz-well com-chilipeppr-xyz-label-well flatbottom">
+                         <h2 class="com-chilipeppr-xyz-label">X</h2>
+
+                    </div>
+                </div>
+                <!-- Value -->
+                <div class="col col-xs-9">
+                    <div class="well com-chilipeppr-xyz-well com-chilipeppr-xyz-pos-well flatbottom">
+                         <h2 class="com-chilipeppr-xyz-pos"><table><tr><td style="width:70px;text-align:right;"><span class="xyz-negpos xyz-dimmed" >-</span><span class="xyz-intgray xyz-dimmed">00</span><span class="xyz-intblack">0</span></td><td>.<span class="xyz-decimal">000</span></td></tr></table></h2>
+
+                        <div class="com-chilipeppr-xyz-dim">mm</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Y -->
+            <div id="com-chilipeppr-widget-xyz-y" class="row">
+                <!-- Label -->
+                <div class="col col-xs-3" style="position:relative;">
+                    <div class="btn-group com-chilipeppr-xyz-menu">
+                        <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span>
+
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="">Go To Zero On Y Axis (G0 Y0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">G28.3 1st layer coordinates. Sets absolute coordinates without running a homing cycle</li>
+                            <li><a href="">Zero Out Y Axis (G28.3 Y0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">G92 3rd layer coordinates. Temporary offset not saved to EEPROM. G92 forgotten when you do a cycle end (M2 or M30)</li>
+                            <li><a href="">Zero Out Y Axis (G92 Y0)</a></li>
+                            <li><a href="">Un-Zero Out Y Axis (G92.1 Y0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li><a href="">Home Axis (G28.2 Y0 Must have limit switch)</a></li>
+                        </ul>
+                    </div>
+                    <div class="well com-chilipeppr-xyz-well com-chilipeppr-xyz-label-well flatbottom flattop">
+                         <h2 class="com-chilipeppr-xyz-label">Y</h2>
+
+                    </div>
+                </div>
+                <!-- Value -->
+                <div class="col col-xs-9">
+                    <div class="well com-chilipeppr-xyz-well com-chilipeppr-xyz-pos-well flatbottom flattop">
+                         <h2 class="com-chilipeppr-xyz-pos"><table><tr><td style="width:70px;text-align:right;"><span class="xyz-negpos xyz-dimmed" >-</span><span class="xyz-intgray xyz-dimmed">00</span><span class="xyz-intblack">0</span></td><td>.<span class="xyz-decimal">000</span></td></tr></table></h2>
+
+                        <div class="com-chilipeppr-xyz-dim">mm</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Z -->
+            <div id="com-chilipeppr-widget-xyz-z" class="row">
+                <!-- Label -->
+                <div class="col col-xs-3" style="position:relative;">
+                    <div class="btn-group com-chilipeppr-xyz-menu">
+                        <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span>
+
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="">Go To Zero On Z Axis (G0 Z0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">G28.3 1st layer coordinates. Sets absolute coordinates without running a homing cycle</li>
+                            <li><a href="">Zero Out Z Axis (G28.3 Z0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">G92 3rd layer coordinates. Temporary offset not saved to EEPROM. G92 forgotten when you do a cycle end (M2 or M30)</li>
+                            <li><a href="">Zero Out Z Axis (G92 Z0)</a></li>
+                            <li><a href="">Un-Zero Out Z Axis (G92.1 Z0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li><a href="">Home Axis (G28.2 Z0 Must have limit switch)</a></li>
+                        </ul>
+                    </div>
+                    <div class="well com-chilipeppr-xyz-well com-chilipeppr-xyz-label-well flattop">
+                         <h2 class="com-chilipeppr-xyz-label">Z</h2>
+
+                    </div>
+                </div>
+                <!-- Value -->
+                <div class="col col-xs-9">
+                    <div class="well com-chilipeppr-xyz-well com-chilipeppr-xyz-pos-well flattop">
+                         <h2 class="com-chilipeppr-xyz-pos"><table><tr><td style="width:70px;text-align:right;"><span class="xyz-negpos xyz-dimmed" >-</span><span class="xyz-intgray xyz-dimmed">00</span><span class="xyz-intblack">0</span></td><td>.<span class="xyz-decimal">000</span></td></tr></table></h2>
+
+                        <div class="com-chilipeppr-xyz-dim">mm</div>
+                    </div>
+                </div>
+            </div>
+            <!-- A -->
+            <div id="com-chilipeppr-widget-xyz-a" class="row hidden">
+                <!-- Label -->
+                <div class="col col-xs-3" style="position:relative;">
+                    <div class="btn-group com-chilipeppr-xyz-menu">
+                        <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span>
+
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="">Go To Zero On A Axis (G0 A0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">G28.3 1st layer coordinates. Sets absolute coordinates without running a homing cycle</li>
+                            <li><a href="">Zero Out A Axis (G28.3 A0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">G92 3rd layer coordinates. Temporary offset not saved to EEPROM. G92 forgotten when you do a cycle end (M2 or M30)</li>
+                            <li><a href="">Zero Out A Axis (G92 A0)</a></li>
+                            <li><a href="">Un-Zero Out A Axis (G92.1 A0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li><a href="">Home Axis (G28.2 A0 Must have limit switch)</a></li>
+                        </ul>
+                    </div>
+                    <div class="well com-chilipeppr-xyz-well com-chilipeppr-xyz-label-well">
+                         <h2 class="com-chilipeppr-xyz-label">A</h2>
+
+                    </div>
+                </div>
+                <!-- Value -->
+                <div class="col col-xs-9">
+                    <div class="well com-chilipeppr-xyz-well com-chilipeppr-xyz-pos-well">
+                         <h2 class="com-chilipeppr-xyz-pos"><table><tr><td style="width:70px;text-align:right;"><span class="xyz-negpos xyz-dimmed" >-</span><span class="xyz-intgray xyz-dimmed">00</span><span class="xyz-intblack">0</span></td><td>.<span class="xyz-decimal">000</span></td></tr></table></h2>
+
+                        <div class="com-chilipeppr-xyz-dim">&deg;</div>
+                    </div>
+                </div>
+            </div>
+            <!-- B / E1 -->
+            <div id="com-chilipeppr-widget-xyz-b" class="row hidden">
+                <!-- Label -->
+                <div class="col col-xs-3" style="position:relative;">
+                    <div class="btn-group com-chilipeppr-xyz-menu">
+                        <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span>
+
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="">Go To Zero On A Axis (G0 A0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">G28.3 1st layer coordinates. Sets absolute coordinates without running a homing cycle</li>
+                            <li><a href="">Zero Out A Axis (G28.3 A0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">G92 3rd layer coordinates. Temporary offset not saved to EEPROM. G92 forgotten when you do a cycle end (M2 or M30)</li>
+                            <li><a href="">Zero Out A Axis (G92 A0)</a></li>
+                            <li><a href="">Un-Zero Out A Axis (G92.1 A0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li><a href="">Home Axis (G28.2 A0 Must have limit switch)</a></li>
+                        </ul>
+                    </div>
+                    <div class="well com-chilipeppr-xyz-well com-chilipeppr-xyz-label-well">
+                         <h2 class="com-chilipeppr-xyz-label">B</h2>
+
+                    </div>
+                </div>
+                <!-- Value -->
+                <div class="col col-xs-9">
+                    <div class="well com-chilipeppr-xyz-well com-chilipeppr-xyz-pos-well">
+                         <h2 class="com-chilipeppr-xyz-pos"><table><tr><td style="width:70px;text-align:right;"><span class="xyz-negpos xyz-dimmed" >-</span><span class="xyz-intgray xyz-dimmed">00</span><span class="xyz-intblack">0</span></td><td>.<span class="xyz-decimal">000</span></td></tr></table></h2>
+
+                        <div class="com-chilipeppr-xyz-dim">&deg;</div>
+                    </div>
+                </div>
+            </div>
+            <!-- C / E2 -->
+            <div id="com-chilipeppr-widget-xyz-c" class="row hidden">
+                <!-- Label -->
+                <div class="col col-xs-3" style="position:relative;">
+                    <div class="btn-group com-chilipeppr-xyz-menu">
+                        <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span>
+
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="">Go To Zero On A Axis (G0 A0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">G28.3 1st layer coordinates. Sets absolute coordinates without running a homing cycle</li>
+                            <li><a href="">Zero Out A Axis (G28.3 A0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation" class="dropdown-header">G92 3rd layer coordinates. Temporary offset not saved to EEPROM. G92 forgotten when you do a cycle end (M2 or M30)</li>
+                            <li><a href="">Zero Out A Axis (G92 A0)</a></li>
+                            <li><a href="">Un-Zero Out A Axis (G92.1 A0)</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li><a href="">Home Axis (G28.2 A0 Must have limit switch)</a></li>
+                        </ul>
+                    </div>
+                    <div class="well com-chilipeppr-xyz-well com-chilipeppr-xyz-label-well">
+                         <h2 class="com-chilipeppr-xyz-label">C</h2>
+
+                    </div>
+                </div>
+                <!-- Value -->
+                <div class="col col-xs-9">
+                    <div class="well com-chilipeppr-xyz-well com-chilipeppr-xyz-pos-well">
+                         <h2 class="com-chilipeppr-xyz-pos"><table><tr><td style="width:70px;text-align:right;"><span class="xyz-negpos xyz-dimmed" >-</span><span class="xyz-intgray xyz-dimmed">00</span><span class="xyz-intblack">0</span></td><td>.<span class="xyz-decimal">000</span></td></tr></table></h2>
+
+                        <div class="com-chilipeppr-xyz-dim">&deg;</div>
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+        </div>
+    </div>
+    <div id="com-chilipeppr-widget-xyz-ftr" tabindex="1" class="panel-footer " style="padding:2px;">
+        <div class="hiddenx">
+            <!-- <div style="float:right;border:1px solid red;xwidth:80px;">
+                <button type="button" class="btn btn-lg btn-default" style="height:50px;">Show<br/>Touch<br/>Jog</button>
+            </div> -->
+
+        <table style="">
+        <tr>
+            <td class="col xcol-xs-3" style="border:0px red solid;">
+                    <div class="btn-group-vertical">
+                        <button class="btn btn-xs btn-default joggotozero " data-toggle="popover" data-placement="top" data-title="Move to Zero Position on All Axes" data-content="G0 X0 Y0 Z0 A0<br/>If you need to go to X0 Y0 first and then Z0, you can use the menus on the axes above." data-html="true" data-delay="500" data-trigger="hover" data-container="body">Go To Zero</button>
+                        <button class="btn btn-xs btn-default jogzeroout " data-toggle="popover" data-placement="top" data-title="Set Position" data-content="G28.3 X0 Y0 Z0 A0" data-html="false" data-delay="500" data-trigger="hover" data-container="body">Zero Out</button>
+                        <button class="btn btn-xs btn-default joghome " style="" data-toggle="popover" data-placement="top" data-title="Homing Sequence" data-content="G28.2 X0 Y0 Z0 A0<br/>Must have limit switches" data-html="true" data-delay="200" data-trigger="hover" data-container="body"><span class="glyphicon glyphicon-home"></span> Axes</button>
+                </div>
+            </td>
+            <td class="col xcol-xs-2" style="border:0px green solid;padding-left:6px;">
+                <button id="com-chilipeppr-widget-xyz-jog" class="btn btn-default dbltall" style="padding: 8px 2px;xheight:68px;" data-toggle="popover" data-placement="auto" data-title="Jog Shortcut Keys" data-content="X+ : Left Arrow<br>X- : Right Arrow<br>Y+ : Up Arrow<br>Y- : Down Arrow<br>Z+ : Page Up<br>Z- : Page Down<br>Shift : 10x Move By<br>Ctrl (or Alt) : 100x Move By<br>Shift + Ctrl (or Alt) : 1,000x Move By" data-html="true" data-delay="200" data-trigger="hover" data-container="body"><span class="rotate90">Jog</span></button>
+            </td>
+            <td class="col xcol-xs-7" style="border:0px yellow solid;">
+                
+                <button class="btn btn-default jogxneg dbltall" xstyle="height:68px;">X<br/><span class="glyphicon glyphicon-circle-arrow-left"></span></button>
+            </td>
+            <td >
+                <div class="btn-group-vertical" style="margin-right:-2px;">
+                    <button class="btn btn-default jogy"    >Y <span class="glyphicon glyphicon-circle-arrow-up"></span></button>
+                    <button class="btn btn-default jogyneg ">Y <span class="glyphicon glyphicon-circle-arrow-down"></span></button>
+                </div>
+            </td>
+            <td>
+                <button class="btn btn-default jogx dbltall" xstyle="height:68px;">X<br/><span class="glyphicon glyphicon-circle-arrow-right"></span> </button>
+            </td>
+            <td>
+                <div class="btn-group-vertical">
+                    <button class="btn btn-default jogz "   >Z <span class="glyphicon glyphicon-plus-sign"></span></button>
+                    <button class="btn btn-default jogzneg ">Z <span class="glyphicon glyphicon-minus-sign"></span></button>
+                </div>
+            </td>
+            <!-- <td style="border:0px green solid;width:20px;position:relative;">
+                <div style="position:absolute;bottom:60%;left:-90%;width:1px;height:1px;">
+                <div class="rotate90 moveby" xstyle="position:absolute;top:0;left:0;border:0px red solid;">Move&nbsp;By</div>
+                </div>
+            </td> -->
+            <!-- <td>
+                <div class="btn-group btnincrements">
+                    <div class="btn-group-vertical jogincrements-normal">
+                        <button class="btn btn-default btn-xs jogincr1 hilite">1</button>
+                        <button class="btn btn-default btn-xs jogincrpt1 ">0.1</button>
+                        <button class="btn btn-default btn-xs jogincrpt01 ">0.01</button>
+                        <button class="btn btn-default btn-xs jogincrpt001 ">0.001</button>
+                    </div>
+                    <div class="jogincrements-small">
+                        <div class="btn-group-vertical">
+                            <button class="btn btn-default btn-xs jogincr1 hilite">1</button>
+                            <button class="btn btn-default btn-xs jogincrpt1 ">0.1</button>
+                        </div>
+                        <div class="btn-group-vertical">
+                            <button class="btn btn-default btn-xs jogincrpt01 ">0.01</button>
+                            <button class="btn btn-default btn-xs jogincrpt001 ">0.001</button>
+                        </div>
+                    </div>
+                </div>
+                
+            </td> -->
+            <td class="xhidden" style="">
+                <button type="button" class="btn btn-lg btn-default btnShowTouchJog btnToggleShowTouchJog" style="padding:0 10px;"><svg width="38px" height="38px" viewBox="0 0 16 15" style="margin-bottom:-5px;" >
+                     <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <rect
+       style="fill:#c7c7c7;fill-opacity:1"
+       id="rect2995"
+       width="11.895755"
+       height="7.6640639"
+       x="-7.9218755"
+       y="8.1015425"
+       transform="matrix(0.80452054,-0.59392483,0.80452054,0.59392483,0,0)" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       d="M 12.012025,5.1134737 9.0594827,5.1513007 12.012026,7.369192 z"
+       id="path4975"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <rect
+       transform="matrix(0.80452054,-0.59392483,0.80452054,0.59392483,0,0)"
+       y="11.336672"
+       x="-6.1134734"
+       height="0.98116386"
+       width="1.5229107"
+       id="rect4987"
+       style="fill:#000000;fill-opacity:1" />
+    <rect
+       style="fill:#000000;fill-opacity:1"
+       id="rect4989"
+       width="1.5229107"
+       height="0.98116386"
+       x="-3.4123509"
+       y="11.248804"
+       transform="matrix(0.80452054,-0.59392483,0.80452054,0.59392483,0,0)" />
+    <rect
+       transform="matrix(0.80452054,-0.59392483,0.80452054,0.59392483,0,0)"
+       y="11.224115"
+       x="-1.1307598"
+       height="0.98116386"
+       width="1.5229107"
+       id="rect4991"
+       style="fill:#000000;fill-opacity:1" />
+  </g>   
+                    </svg></button>
+            </td>
+        </tr>
+            <tr>
+                <td align="right" style="padding-right:2px;">
+                    Move By
+                </td>
+                <td colspan="7" style="padding-left:6px;padding-top:2px;">
+                    
+                    <!-- <div class="pull-left">Move By&nbsp;</div> -->
+                    <div class="btn-group jogincrements-horiz dropup " style="">
+                        
+                        <button class="btn btn-default btn-xs jogincr1 hilite">1</button>
+                        <button class="btn btn-default btn-xs jogincrpt1 ">0.1</button>
+                        <button class="btn btn-default btn-xs jogincrpt01 ">0.01</button>
+                        <button class="btn btn-default btn-xs jogincrpt001 ">0.001</button>
+                        <button class="btn btn-default btn-xs jogincrCustomBtn ">Custom <code class="jogincrCustomVal">10</code></button>
+                        <button type="button" class="btn btn-xs btn-default dropdown-toggle jogincrCustomDropUpBtn" data-toggle="dropdown" aria-expanded="false"> <span class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right jogincrCustomDropUpMenu" role="menu" style="padding:6px 8px;">
+                            <div class="input-group">
+                                <input type="number" class="form-control jogincrCustomInput jogincrCustomInput1" value="" placeholder="Custom Move By 1"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default jogincrCustomSet jogincrCustomSet1">Set</button>
+                                </span>
+                            </div>
+                            <div class="input-group">
+                                <input type="number" class="form-control jogincrCustomInput jogincrCustomInput2" value="" placeholder="Custom Move By 2"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default jogincrCustomSet jogincrCustomSet2">Set</button>
+                                </span>
+                            </div>
+                            <div class="input-group">
+                                <input type="number" class="form-control jogincrCustomInput jogincrCustomInput3" value="" placeholder="Custom Move By 3"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default jogincrCustomSet jogincrCustomSet3">Set</button>
+                                </span>
+                            </div>
+                            <div class="input-group">
+                                <input type="number" class="form-control jogincrCustomInput jogincrCustomInput4" value="" placeholder="Custom Move By 4"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default jogincrCustomSet jogincrCustomSet4">Set</button>
+                                </span>
+                            </div>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <!-- <div class="btn-group btn-group-justified">
+            <div class="btn-group">
+                    <button class="btn btn-default jogzero flatbottom">Zero Out</button>
+            </div>
+            <div class="btn-group">
+                <button id="com-chilipeppr-widget-xyz-jog" class="btn btn-default flatbottom btn-nobg" style="width:100%;" data-toggle="popover" data-placement="top" data-title="Jog Shortcut Keys" data-content="X+ : Left Arrow<br>X- : Right Arrow<br>Y+ : Up Arrow<br>Y- : Down Arrow<br>Z+ : Page Up<br>Z- : Page Down<br>Shift : 10x Fast Mode (0.01 mm|inch)<br>Ctrl : 100x Fast Mode (0.1 mm|inch) <br>Shift + Ctrl : 1,000x Fast Mode (1.0 mm|inch)<br>Shift + Alt : 10,000x Fast Mode" data-html="true" data-delay="200" data-trigger="hover" data-container="body">Jog</button>
+            </div>
+             <div class="btn-group">
+                <button class="btn btn-default jogy flatbottom">Y <span class="glyphicon glyphicon-circle-arrow-up"></span>
+        
+                    </button>
+            </div>
+            <div class="btn-group">
+                <div class="btn-group btn-group-justified btnincrements">
+                    <div class="btn-group">
+                        <button class="btn btn-default jogy flatbottom">1</button>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-default jogy flatbottom">0.1</button>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-default jogy flatbottom">0.01</button>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group">
+                    <button class="btn btn-default jogz flatbottom">Z <span class="glyphicon glyphicon-plus-sign"></span>
+        
+                    </button>
+            </div>
+        </div> -->
+        
+        <!-- <div class="btn-group btn-group-justified">
+            <div class="btn-group">
+                    <button class="btn btn-default joghome flattop" style="width:100%;"><span class="glyphicon glyphicon-home"></span> Axes
+        
+                    </button>
+            </div>
+            <div class="btn-group">
+                    <button class="btn btn-default jogxneg flatright" style="border-left:0;border-right:0;">X <span class="glyphicon glyphicon-circle-arrow-left"></span>
+        
+                    </button>
+            </div>
+            <div class="btn-group">
+                    <button class="btn btn-default jogyneg flattop flatleft flatright">Y <span class="glyphicon glyphicon-circle-arrow-down"></span>
+        
+                    </button>
+            </div>
+            <div class="btn-group">
+                    <button class="btn btn-default jogx flatleft" style="border-left:0;border-right:0;"><span class="glyphicon glyphicon-circle-arrow-right"></span> X</button>
+            </div>
+            <div class="btn-group">
+                    <button class="btn btn-default jogzneg flattop">Z <span class="glyphicon glyphicon-minus-sign"></span>
+        
+                    </button>
+            </div>
+        </div> -->
+        </div>
+        <div class="touchpad-overlay hidden" style="margin-top:4px;">
+            <canvas style="border:1px dashed silver;border-radius: 4px;"></canvas>
+        </div>
+    </div>
+    
+    
+</div>
+
+  
+</body>
+
+
+</html>
+
+
+<!-- end chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/gh45j/show/light/ -->

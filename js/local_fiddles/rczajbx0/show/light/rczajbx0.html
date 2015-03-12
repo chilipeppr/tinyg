@@ -1,0 +1,839 @@
+<!-- start chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/rczajbx0/show/light/ -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    
+  
+  <style type='text/css'>
+    /*html,body {
+    height:100%;
+    overflow:hidden;
+}*/
+.cmd-checkmark {
+    font-size:9px;
+}
+.cmd-send {
+    color: #999999;
+}
+.cmd-queued {
+    color: yellow;
+}
+.cmd-write {
+    color: green;
+}
+span.cmd-complete {
+    color: black;
+}
+
+.com-chilipeppr-widget-spconsole-console-log pre {
+    margin:0;
+    padding:0;
+    background: none;
+    border: none;
+}
+.com-chilipeppr-widget-spconsole .out {
+    color: blue;
+    /* margin-left:-5px; */
+}
+.panel.com-chilipeppr-widget-spconsole {
+    /* height:100%; */
+    /* min-height:250px; */
+    /* position:relative; */
+    margin:0;
+    padding:0;
+    /* height:60px; */
+}
+.com-chilipeppr-widget-spconsole .com-chilipeppr-widget-spconsole-body {
+    padding:0;
+    overflow: auto;
+    overflow-x: hidden;
+    width:100%;
+    /* height:100%; */
+    /* top:0; */
+    /* bottom:0; */
+    /* position:absolute; */
+    position:relative;
+}
+.com-chilipeppr-widget-spconsole .com-chilipeppr-widget-spconsole-console-log {
+    overflow: auto;
+    /* margin:0; */
+    margin-bottom:35px;
+    /* padding: 0 0 40px 16px; */
+    padding-left:12px;
+    padding-bottom:4px;
+    padding-right:12px;
+    /* position:absolute; */
+    width:100%;
+    height:40px;
+    /* top:44px; */
+    /* bottom:36px; */
+    /* height:100%; */
+}
+.com-chilipeppr-widget-spconsole-consoleinput {
+    position: absolute;
+    width:100%;
+    left:0;
+    bottom:0;
+    /* padding-top:2px; */
+    /* margin-top:1px; */
+    /* background-color:silver; */
+}
+.com-chilipeppr-widget-spconsole .subtitle {
+    font-size:9px;
+}
+  </style>
+  
+</head>
+<body>
+  <div class="panel panel-default com-chilipeppr-widget-spconsole">
+    <div class="panel-heading">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span>
+
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <!-- <li role="presentation" class="dropdown-header fork-name"></li>
+                <li><a href="" class="standalone" target="_blank">View Widget Standalone</a></li>
+                <li><a href="" class="fork" target="_blank">Fork Widget</a></li> -->
+            </ul>
+        </div>
+        <div class="btn-group pull-right" style="margin-right:6px;">
+            <button type="button" class="btn btn-xs btn-default spconsole-clear" data-container="body" data-toggle="popover" data-placement="auto" data-content="Clear the console window." data-trigger="hover" data-delay="500">Clear</button>
+            <button type="button" class="btn btn-xs btn-default spconsole-pause " data-container="body" data-toggle="popover" data-placement="auto" data-content="Disable the serial port console from updating. This can help reduce load on your browser." data-trigger="hover" data-delay="500"><span class="glyphicon glyphicon-ban-circle"></span></button>
+            <button type="button" class="hidden btn btn-xs btn-default spconsole-filter active" data-container="body" data-toggle="popover" data-placement="auto" data-content="Toggle the filter. A filter can be applied to remove lower priority information from getting logged. The filter is set by the workspace you are in." data-trigger="hover" data-delay="500"  ><span class="glyphicon glyphicon-filter"  ></span></button>
+        </div>
+
+        <span class="panel-title">Serial Port Console <span class="subtitle">(Multi Port Mode)</span></span>
+    </div>
+    <div class="panel-body com-chilipeppr-widget-spconsole-body">
+        <div class="com-chilipeppr-widget-spconsole-console-log">
+            <pre></pre>
+        </div>
+        <div class="com-chilipeppr-widget-spconsole-consoleinput">
+            <form id="com-chilipeppr-widget-spconsole-consoleform">
+                <div class="input-group">
+                    <span class="input-group-btn dropup">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu">
+                            <!-- <li><a href="#" id="">{"sr":""}</a>
+                            </li> -->
+                        </ul>
+
+                    </span>
+                    <input type="text" class="form-control" placeholder="Type serial port command" /> <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Go!</button>
+                        </span>
+
+                        <!-- /input-group -->
+                </div>
+            </form>
+        </div>
+                
+    </div>
+</div>
+
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+
+// Load additional files via Chilipeppr's require.js
+requirejs.config({
+    paths: {
+        jqueryui: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.core',
+        jqueryuiWidget: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.widget',
+        jqueryuiMouse: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.mouse',
+        jqueryuiResizeable: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.resizable',
+    },
+    shim: {
+        jqueryuiWidget: ['jqueryui'],
+        jqueryuiMouse: ['jqueryuiWidget'],
+        jqueryuiResizeable: ['jqueryuiMouse' ]
+    }
+});
+
+// Test this element. This code is auto-removed by the chilipeppr.load()
+cprequire_test(["inline:com-chilipeppr-widget-spconsole"], function (sp) {
+    console.log("test running of " + sp.id);
+    
+    var singlePortMode = true;
+    
+    var test = function() {
+        if (singlePortMode) {
+            
+            // sample sending of data, perhaps from another widget, or from
+            // ourselves
+            // /com-chilipeppr-widget-serialport/send  data: G91 G1 Y0.001 F100\nG90\n
+            setTimeout(function () {
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {D:'G91 G1 Y0.001 F100\nG90\n', Id:"g1"});
+            }, 1000);
+            
+            setTimeout(function () {
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline:'G91 G1 Y10.001 F100\nG90\n'});
+            }, 2000);
+            
+            // sample recvline from the serial port
+            setTimeout(function () {
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline:'{"sr":{"vel":0.02,"mpox":10.474,"dist":1,"stat":5}}\n'});
+            }, 3000);
+            
+            setTimeout(function() {
+                for(var ctr = 0; ctr < 200; ctr++) {
+                    chilipeppr.publish("/com-chilipeppr-widget-serialport/send", 'G91 G1 Y0.001 F100\nG90\n');
+                    chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline:'{"sr":{"vel":0.02,"mpox":10.474,"dist":1,"stat":5}}\n'});
+                    
+                }
+            }, 3500);
+            
+            sp.init(true);
+            
+        } else {        
+            sp.portBoundTo = {Name:"COM21"};
+            setTimeout(function() {
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/ws/recv", JSON.stringify({
+                    "P": "COM21",
+                    "D": ".\r\nd0\u0009drdy off\r\nFreeRam after setup: 1111\r\nsadfa\r\nasdfasdf\r\rwwwwww\r\n"
+                }) );
+                console.log("just did fake publish to test");
+            }, 2000);
+            sp.init();
+        }
+    }
+    test();
+    sp.init(true, /^{/);
+        
+} /*end_test*/ );
+
+cpdefine("inline:com-chilipeppr-widget-spconsole", ["chilipeppr_ready", "jquerycookie", 'jqueryuiResizeable'], function () {
+    return {
+        id: "com-chilipeppr-widget-spconsole",
+        url: "http://fiddle.jshell.net/chilipeppr/rczajbx0/show/light/",
+        fiddleurl: "http://jsfiddle.net/chilipeppr/rczajbx0/",
+        name: "Widget / Serial Port Console v1.7",
+        desc: "This widget lets you see the data in/out of the serial port and send commands.",
+        foreignPublish: {
+            '/com-chilipeppr-widget-serialport/send' : "(High-level mode) When the user types a command, we send this signal so the serial port widget can pass the command along to the serial port server. This is the high-level send command that is used when in single port mode where we can ignore which serial port we are sending to and let the serial port widget figure it out. To get into this mode you must call init(true) to put this widget into singlePortMode. Optionally you can also call setSinglePortMode().", 
+            '/com-chilipeppr-widget-serialport/ws/send' : '(Low-level mode) When the user types in a command, we send it to the serial port widget. This is the low-level command where we have to specify the serial port and the command. This happens in non-single port mode. When in single port mode, we do not send commands on this signal. We instead send a /com-chilipeppr-widget-serialport/send signal because we can then let the serial port widget decide which serial port to send to.',
+            '/com-chilipeppr-widget-serialport/getlist' : "(Low-level mode) When in low-level mode we must request the serial port list from the serial port widget so we can show the user which port to pick. When in single port mode, we do not use this signal because we do not have to worry about which port we are sending on."
+        },
+        foreignSubscribe: {
+            '/com-chilipeppr-widget-serialport/recvline' : "(High-level mode) When in high-level mode, i.e. setSinglePortMode(), this is the signal we receive incoming serial data on. This signal sends us data in a per-line format so we do not have to piece the data together like we do in low-level mode.",
+            '/com-chilipeppr-widget-serialport/ws/recv' : "(Low-level mode) When in low-level mode, this is the signal we receive the incoming serial data on. We will have to filter which data we want to show based on the port the user bound this widget to because we will get data for all connected serial ports including ones we do not want data for. It is up to this widget to decide what to show.",
+            '/com-chilipeppr-widget-serialport/list' : "(Low-level mode) We subscribe to this signal so we know what the list of serial ports is, so we can ask the user to bind this widget to the correct serial port. This is useful if you are instantiating this widget a couple of times or opening multiple serial ports for your app and you just want this specific widget to bind to a particular serial port. This is considered low-level mode because you have more work to do. This widget then must also send the commands using the /com-chilipeppr-widget-serialport/ws/send publish signal and specify the port and command when sending."
+        },
+        portBoundTo: null,
+        portIsBound: false,
+        isSinglePortMode: false,
+        init: function (isSinglePortMode, filterRegExp) {
+            //console.log("init called");
+            console.group("init of serial port console");
+
+            // load jquery-ui css, but make sure nobody else loaded it
+            if (!$("link[href='//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css']").length)
+            $('<link>')
+            .appendTo('head')
+            .attr({type : 'text/css', rel : 'stylesheet'})
+            .attr('href', '//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css');
+
+            this.logSetup();
+            this.btnBarSetup();
+            this.consoleSetup();
+            this.setupResizeable();
+            //this.resizerSetup();
+            //this.resize();
+            if (isSinglePortMode) {
+                this.setSinglePortMode();
+            } else {
+                this.subscribeSetup();
+                this.onPortList();
+            }
+            
+            // let other widgets load
+            setTimeout(this.resize.bind(this), 3000);
+            
+            this.setupPauseBtn();
+            this.setupClearBtn();
+            
+            // initialize popovers
+            $('.com-chilipeppr-widget-spconsole [data-toggle="popover"]').popover();
+            
+            // see if instantiator wants us to apply a filter
+            if (filterRegExp) {
+                var that = this;
+                console.log("they want regexp filter:", filterRegExp);
+                $('.com-chilipeppr-widget-spconsole .spconsole-filter').removeClass("hidden");
+                this.filterRegExp = filterRegExp;
+                this.isFilterActive = true;
+                // attach click event
+                $('.com-chilipeppr-widget-spconsole .spconsole-filter').click( function() {
+                    // toggle filter
+                    that.isFilterActive = !that.isFilterActive;
+                    if (that.isFilterActive) {
+                        $('.com-chilipeppr-widget-spconsole .spconsole-filter').addClass("active");
+                    } else {
+                        $('.com-chilipeppr-widget-spconsole .spconsole-filter').removeClass("active");
+                    }
+                });
+            }
+            
+            console.log(this.name + " done loading.");
+            console.groupEnd();
+        },
+        // global props for filtering console
+        filterRegExp: null,
+        isFilterActive: false,
+        setupClearBtn: function() {
+            $('.com-chilipeppr-widget-spconsole .spconsole-clear').click(this.onClear.bind(this));
+            //this.appendLog("asdfasdf");
+        },
+        onClear: function(evt) {
+            console.log("onClear. evt:", evt);
+            var log = this.logEls.log;
+            log.html("");
+        },
+        setupPauseBtn: function() {
+            $('.com-chilipeppr-widget-spconsole .spconsole-pause').click(this.onPause.bind(this));
+        },
+        isPaused: false,
+        onPause: function(evt) {
+            console.log("onPause. evt:", evt);
+            
+            if (this.isPaused) {
+                // we are unpausing, so resubscribe
+                chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvline", this, this.onRecvLine);
+                this.setupJsonMode();
+                $('.com-chilipeppr-widget-spconsole .spconsole-pause').removeClass('active', true);
+                $('.com-chilipeppr-widget-spconsole .spconsole-pause span').removeClass('text-danger');
+                this.isPaused = false;
+            } else {
+                // unsubscribe from a bunch of stuff to pause and reduce load
+                // on the browser UI
+                chilipeppr.unsubscribe("/com-chilipeppr-widget-serialport/recvline", this, this.onRecvLine);
+                this.unsetupJsonMode();
+                $('.com-chilipeppr-widget-spconsole .spconsole-pause').addClass('active', true);
+                $('.com-chilipeppr-widget-spconsole .spconsole-pause span').addClass('text-danger');
+                this.isPaused = true;
+            }
+        },
+        isInJsonMode: false, // store whether we are in json mode
+        setSinglePortMode: function() {
+            // in this mode we just show signals from the channel
+            // /com-chilipeppr-widget-serialport/recvline 
+            // we also just send on the channel
+            // /com-chilipeppr-widget-serialport/send 
+            // that way we don't have to know what serial port the user
+            // is connected to. 
+            this.isSinglePortMode = true;
+            
+            // in single port mode, we only recv serial data in line by line
+            // mode (as opposed to multi-port where we get it block by block
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvline", this, this.onRecvLine);
+            // if another widget sends a serial cmd, echo it here
+            //chilipeppr.subscribe("/com-chilipeppr-widget-serialport/send", this, this.onEchoOfSend);
+            
+            // query to see if we are at version 1.7 or above of SPJS and if so
+            // use /jsonSend
+            var that = this;
+            var jsonModeCallback = function(data) {
+                // we get this when the serial port widget tells us what mode we are in
+                console.group("serial port console - jsonModeCallback");
+                console.log("got data from callback:", data);
+                
+                if (data == null) {
+                    // that means serial port widget not initialized yet
+                    // so retry
+                    console.log("data was null in jsonModeCallback. hopefully a /onportopen comes in so we know what mode we are in");
+                    //, so queuing up another request for 1 second from now");
+                    /*
+                    setTimeout(function() {
+                        console.group("jsonModeCallback retry");
+                        console.log("retrying to see what the single select port is");
+                        chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvSingleSelectPort", jsonModeCallback);
+                        chilipeppr.publish("/com-chilipeppr-widget-serialport/requestSingleSelectPort", ""); 
+                        console.groupEnd();
+                    }, 1000);
+                    */
+                } else if ('Ver' in data) {
+                    console.log("found we have version 1.7 or above so that's good cuz json mode is available");
+                    that.isInJsonMode = true;
+                    that.jsonModeSingleSelectPort = data;
+                    that.setupJsonMode();
+                }
+                chilipeppr.unsubscribe("/com-chilipeppr-widget-serialport/recvSingleSelectPort", jsonModeCallback);
+                console.groupEnd();
+            };
+            var onPortOpenCallback = function(data) {
+                // if a port is opened, we need to requery for the single select port
+                // because it could have changed
+                chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvSingleSelectPort", jsonModeCallback);
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/requestSingleSelectPort", ""); 
+            };
+            
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/onportopen", onPortOpenCallback); 
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvSingleSelectPort", jsonModeCallback); 
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/requestSingleSelectPort", "");            
+            
+            // update title of widget to reflect single port mode
+            //$('.com-chilipeppr-widget-spconsole .subtitle').text("(Single Port Mode)");
+            //if (this.jsonModeSingleSelectPort)
+            //    $('.com-chilipeppr-widget-spconsole .subtitle').text("(" + this.jsonModeSingleSelectPort + ")");
+            //else
+                $('.com-chilipeppr-widget-spconsole .subtitle').text("");
+            
+            
+        },
+        setupJsonMode: function() {
+            // if we are in json mode we need to do a few unique things
+            // unsubscribe first just in case
+            console.group("serial port console - setupJsonMode");
+            //chilipeppr.unsubscribe("/com-chilipeppr-widget-serialport/jsonSend", this, this.jsonOnSend);
+            chilipeppr.unsubscribe("/com-chilipeppr-widget-serialport/onQueue", this, this.jsonOnQueue);
+            chilipeppr.unsubscribe("/com-chilipeppr-widget-serialport/onWrite", this, this.jsonOnWrite);
+            chilipeppr.unsubscribe("/com-chilipeppr-widget-serialport/onComplete", this, this.jsonOnComplete);
+            
+            // 1. we subscribe to more events like /jsonOnQueue, /jsonOnWrite, /jsonOnComplete
+            //chilipeppr.subscribe("/com-chilipeppr-widget-serialport/jsonSend", this, this.jsonOnSend);
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/onQueue", this, this.jsonOnQueue);
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/onWrite", this, this.jsonOnWrite);
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/onComplete", this, this.jsonOnComplete);
+            console.groupEnd();
+        },
+        unsetupJsonMode: function() {
+            chilipeppr.unsubscribe("/com-chilipeppr-widget-serialport/onQueue", this, this.jsonOnQueue);
+            chilipeppr.unsubscribe("/com-chilipeppr-widget-serialport/onWrite", this, this.jsonOnWrite);
+            chilipeppr.unsubscribe("/com-chilipeppr-widget-serialport/onComplete", this, this.jsonOnComplete);
+        },
+        jsonOnSend: function(data) {
+            /*
+            // write it to the log
+            console.group("serial port console - jsonOnSend");
+            console.log("data:", data);
+            var arr;
+            if (Array.isArray(data)) {
+                // multiple cmds were sent
+                arr = data;
+            } else {
+                // just treat single as array
+                arr = [];
+                arr.push(data);
+            }
+                
+            for (var index = 0; index < arr.length; index++) {
+                var item = arr[index];
+                var msgEl = $(
+                    "<div id=\"" + item.Id + "\" class=\"out\">" +
+                    '<span class="glyphicon glyphicon-ok cmd-checkmark cmd-send"></span> ' +
+                    item.D +
+                    '</div>'
+                );
+                this.appendLog(msgEl);
+            }
+            console.groupEnd();
+            */
+        },
+        jsonOnQueue: function(data) {
+            //if (data.Id.length > 0)
+            //    $('.com-chilipeppr-widget-spconsole-console-log #' + data.Id + " span").removeClass('cmd-send').addClass('cmd-queued');
+            
+            // write it to the log
+            //console.group("serial port console - jsonOnQueue");
+            console.log("serial port console. jsonOnQueue() data:", data);
+            
+            var item = data;
+            var msgEl = null;
+            if (item.Id.length > 0 && 'D' in data) {
+                msgEl = $(
+                    "<div id=\"" + item.Id + "\" class=\"out\">" +
+                    '<span class="glyphicon glyphicon-ok cmd-checkmark cmd-queued"></span> ' +
+                    data.D +
+                    '</div>'
+                );
+            } else if ('D' in data) {
+                // no id, so don't show status
+                msgEl = $(
+                    "<div class=\"out\">" +
+                    data.D +
+                    '</div>'
+                );
+            }
+            if (msgEl != null)
+                this.appendLog(msgEl);
+            //console.groupEnd();
+                     
+        },
+        jsonOnWrite: function(data) {
+            if (data.Id.length > 0)
+                $('.com-chilipeppr-widget-spconsole-console-log #' + data.Id + " span").removeClass('cmd-queued').addClass('cmd-write');
+        },
+        jsonOnComplete: function(data) {
+            if (data.Id.length > 0)
+                $('.com-chilipeppr-widget-spconsole-console-log #' + data.Id + " span").removeClass('cmd-queued cmd-write').addClass('cmd-complete');
+        },
+        onRecvLine: function(data) {
+            if (data.dataline) {
+                this.appendLog(data.dataline);
+            }
+        },
+        onEchoOfSend: function(data) {
+            this.appendLogEchoCmd(data);
+        },
+        setupResizeable: function() {
+            //$( "#com-chilipeppr-widget-gcode-body" ).resizable({
+            $( ".com-chilipeppr-widget-spconsole" ).resizable({
+                //alsoResize: "#com-chilipeppr-widget-gcode-body-2col > td:first"
+                alsoResize: ".com-chilipeppr-widget-spconsole-console-log",
+                //ndex:1
+                //handles: "s",
+                
+                //maxHeight:1000,
+                resize: function(evt) {
+                    console.log("resize resize", evt);
+                    //$( ".com-chilipeppr-widget-spconsole" ).removeAttr("style");
+                    $( ".com-chilipeppr-widget-spconsole" ).css('height', 'initial');
+                    $( ".com-chilipeppr-widget-spconsole-console-log" ).css('width', 'initial');
+                },
+                start: function(evt) {
+                    console.log("resize start", evt);
+                },
+                stop: function(evt) {
+                    console.log("resize stop", evt);
+                    //$( ".com-chilipeppr-widget-spconsole" ).removeAttr("style");
+                    $( ".com-chilipeppr-widget-spconsole" ).css('height', 'initial');
+                    $( ".com-chilipeppr-widget-spconsole-console-log" ).css('width', 'initial');
+                }
+            });
+        },
+        subscribeSetup: function() {
+            // We will subscribe to the port list.
+            // If anything is open, we'll pick the first one
+            // If multiple opens, we'll show a pulldown
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/list", this, this.onPortList);
+            // Since we may load after the ChiliPeppr Serial Port Server object
+            // we can also publish a request to resend the list
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/getlist", "");
+        },
+        onPortList: function(ports) {
+            // This gets called when a publish occurs on
+            // "/com-chilipeppr-widget-serialport/list"
+            // We are sent an object of ports
+            console.log("Got port list from a publish on the serial port selector widget. Going to use that to pick a port for the console. ports:", ports);
+            // find if any are open
+            var isAnyOpen = false;
+            var that = this;
+            var ctrPorts = 0;
+            if (!ports) ports = "";
+            $.each(ports, function(item, val) {
+                console.log("item:", item, "val:", val);
+                if (val.IsOpen) {
+                    ctrPorts++;
+                    isAnyOpen = true;
+                    that.portBoundTo = val;
+                    that.portIsBound = true;
+                }
+            });
+            var hdr = $('.com-chilipeppr-widget-spconsole .panel-heading');
+            if (ctrPorts == 1) {
+                // we have a single port. good. this is easy
+                hdr.text("Serial Port Console - " + this.portBoundTo.Friendly + "");
+            } else if (ctrPorts > 1) {
+                hdr.text("Serial Port Console - " + "Multiple serial ports selected (pick one for now).");
+            } else {
+                hdr.text("Serial Port Console - " + "No port selected");
+            }
+        },
+        resize: function() {
+            // add the top of the widget + height of widget
+            // to get sizing. then subtract that from height of window to figure out what height to add (subtract) from log
+            var wdgt = $('.com-chilipeppr-widget-spconsole');
+            var wht = wdgt.offset().top + wdgt.height();
+            var delta = $( window ).height() - wht;
+            //console.log("delta:", delta, "wht:", wht);
+            var loght = $('.com-chilipeppr-widget-spconsole-console-log').height();
+            $('.com-chilipeppr-widget-spconsole-console-log').height(loght + delta - 13);
+        },
+        resizerSetup: function() {
+            // due to the layout complexity here of being
+            // nested very deep, doing absolute positioning
+            // for pure CSS resize is not working, so use
+            // jquery resize
+            var that = this;
+            $( window ).resize(function() {
+                //console.log("New height of window after resize: ", $( window ).height() );
+                //console.log("New pos of .com-chilipeppr-widget-spconsole:", $('.com-chilipeppr-widget-spconsole').offset(), "height:",  $('.com-chilipeppr-widget-spconsole').height());
+                //console.log("New height of .com-chilipeppr-widget-spconsole-console-log:", $('.com-chilipeppr-widget-spconsole-console-log').height() );
+                that.resize();
+            });
+        },
+        forkSetup: function () {
+            //$('.com-chilipeppr-widget-spconsole .fork').prop('href', this.fiddleurl);
+            //$('.com-chilipeppr-widget-spconsole .standalone').prop('href', this.url);
+            //$('.com-chilipeppr-widget-spconsole .fork-name').html(this.id);
+            $('.com-chilipeppr-widget-spconsole .panel-title').popover({
+                title: this.name,
+                content: this.desc,
+                html: true,
+                delay: 200,
+                animation: true,
+                trigger: 'hover',
+                placement: 'auto'
+            });
+            
+            // load the pubsub viewer / fork element which decorates our upper right pulldown
+            // menu with the ability to see the pubsubs from this widget and the forking links
+            var that = this;
+            chilipeppr.load("http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/", function () {
+                require(['inline:com-chilipeppr-elem-pubsubviewer'], function (pubsubviewer) {
+                    pubsubviewer.attachTo($('.com-chilipeppr-widget-spconsole .panel-heading .dropdown-menu'), that);
+                });
+            });
+
+        },
+        btnBarSetup: function () {
+            var that = this;
+            this.forkSetup();
+            $('.com-chilipeppr-widget-spconsole .btn').tooltip({
+                animation: true,
+                delay: 100,
+                container: 'body'
+            });
+        },
+        history: [], // store history of commands so user can iterate back
+        historyLastShownIndex: null,    // store last shown index so iterate from call to call
+        pushOntoHistory: function(cmd) {
+            this.history.push(cmd);
+            
+            // push onto dropup menu
+            var el = $('<li><a href="javascript:">' + cmd + '</a></li>');
+            $('#com-chilipeppr-widget-spconsole-consoleform .dropdown-menu').append(el);
+            el.click(cmd, this.onHistoryMenuClick.bind(this));
+        },
+        onHistoryMenuClick: function(evt) {
+            console.log("got onHistoryMenuClick. data:", evt.data);
+            $("#com-chilipeppr-widget-spconsole-consoleform input").val(evt.data);
+            //return true;
+        },
+        globalCmdCtr: 0, // keep a running ctr for getting a unique id for console serial cmds
+        consoleSetup: function () {
+            var that = this;
+            
+            if (!that.isSinglePortMode) {
+                that.consoleSubscribeToLowLevelSerial();
+            }
+
+            $("#com-chilipeppr-widget-spconsole-consoleform").submit(function (evt) {
+                //console.log("got submit on form");
+                console.group("submit on form in serial port console");
+                evt.preventDefault();
+                
+                var msg = $('#com-chilipeppr-widget-spconsole-consoleform input');
+                console.log("msg:", msg.val());
+                //if (!msg.val()) {
+                //    return false;
+                //}
+                
+                // push onto history stack
+                if (msg.val().length > 0) {
+                    //console.log("pushing msg to history. msg:", msg.val());
+                    that.pushOntoHistory(msg.val());
+                    
+                }
+                
+                var newline = "\n";
+                
+                // publish the cmd to the serial port
+                if (that.isSinglePortMode) {
+                    // we're in single port mode, so publish to high-level
+                    // /send channel and let serial port widget figure out
+                    // what port to send to
+                    
+                    if (that.isInJsonMode) {
+                        // send via json method now
+                        var cmd = { 
+                            D:  msg.val() + newline, 
+                            Id: "console" + that.globalCmdCtr++ 
+                        }
+                        chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", cmd);
+                    } else {
+                        // send traditionally
+                        chilipeppr.publish("/com-chilipeppr-widget-serialport/send", msg.val() + newline);
+                    }
+                    
+                } else {
+                    // show this msg in the log as an echo cmd
+                    that.appendLogEchoCmd(msg.val());
+                    // publish to the low-level /ws/send so we can
+                    // specify the port
+                    //console.log("that:", that);
+                    //console.log("portBoundTo:", that.portBoundTo);
+                    if (that.portBoundTo && that.portBoundTo.Name) {
+                        var cmd = "send " + that.portBoundTo.Name + " " + msg.val() + newline;
+                        //console.log("Publishing cmd: ", cmd);
+                        chilipeppr.publish("/com-chilipeppr-widget-serialport/ws/send", cmd);
+                    }
+                }
+                
+                // reset input box to empty
+                msg.val("");
+                // reset history on submit
+                that.historyLastShownIndex = null;
+                console.groupEnd();
+                return false;
+            });
+            
+            // show history by letting user do up/down arrows
+            $("#com-chilipeppr-widget-spconsole-consoleform").keydown(function(evt) {
+                //console.log("got keydown. evt.which:", evt.which, "evt:", evt);
+                if (evt.which == 38) {
+                    // up arrow
+                    if (that.historyLastShownIndex == null)
+                        that.historyLastShownIndex = that.history.length;
+                    that.historyLastShownIndex--;
+                    if (that.historyLastShownIndex < 0) {
+                        console.log("out of history to show. up arrow.");
+                        that.historyLastShownIndex = 0;
+                        return;
+                    }
+                    $("#com-chilipeppr-widget-spconsole-consoleform input").val(that.history[that.historyLastShownIndex]);
+                } else if (evt.which == 40) {
+                    if (that.historyLastShownIndex == null)
+                        return;
+                        //that.historyLastShownIndex = -1;
+                    that.historyLastShownIndex++;
+                    if (that.historyLastShownIndex >= that.history.length) {
+                        console.log("out of history to show. down arrow.");
+                        that.historyLastShownIndex = that.history.length;
+                        $("#com-chilipeppr-widget-spconsole-consoleform input").val("");
+                        return;
+                    }
+                    $("#com-chilipeppr-widget-spconsole-consoleform input").val(that.history[that.historyLastShownIndex]);
+                }
+            });
+
+        },
+        consoleSubscribeToLowLevelSerial: function() {
+            // subscribe to websocket events
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/ws/recv", this, function (msg) {
+                // make sure the data is for the port we're bound to
+                if (msg.match(/^\{/)) {
+                    // it's json
+                    //console.log("it is json");
+                    var data = $.parseJSON(msg);
+                    if (this.portBoundTo && this.portBoundTo.Name && data.P && data.P == this.portBoundTo.Name) {
+                        // this is our serial port data
+                        var d = data.D;
+                        // convert newlines
+                        //console.log("data before replace:", d);
+                        //d.replace(/\r\n|\r|\n/gm, "<br/>");
+                        //var spd = $("<div/>").text(data.D);
+                        //console.log("data after replace:", d);
+                        this.appendLog(d);
+                    }
+                }
+            });
+        },
+        appendLogEchoCmd: function(msg) {
+            //console.log("appendLogEchoCmd. msg:", msg);
+            var msg2 = $("<div class=\"out\"/>").text("" + msg);
+            //console.log(msg2);
+            this.appendLog(msg2);
+        },
+        logSetup: function() {
+            if (this.logEls.log == null) {
+                console.log("lazy loading logEls. logEls:", this.logEls);
+                this.logEls.log = $('.com-chilipeppr-widget-spconsole-console-log pre');
+                this.logEls.logOuter = $('.com-chilipeppr-widget-spconsole-console-log');
+            }
+        },
+        logEls: {
+            log: null,
+            logOuter: null,
+        },
+        appendLog: function (msg) {
+            //console.log("appendLog. msg:", msg);
+            
+            if (this.isFilterActive) {
+                // see if log matches filter and ignore
+                if ( !(msg.appendTo) && msg.match(this.filterRegExp)) {
+                    return;
+                }
+            }
+            
+            
+            //console.log("logEls:", this.logEls);
+            //console.log(this.logEls.logOuter);
+            var d = this.logEls.logOuter[0];
+            var doScroll = d.scrollTop == d.scrollHeight - d.clientHeight;
+            var log = this.logEls.log;
+            if (log.html().length > 25000) {
+                // truncating log
+                console.log("Truncating log.");
+                /*
+                var logHtml = log.html().split(/\n/);
+                var sliceStart = logHtml.length - 200;
+                if (sliceStart < 0) sliceStart = 0;
+                log.html(logHtml.slice(sliceStart).join("\n"));
+                */
+                var loghtml = log.html();
+                log.html("--truncated--" + loghtml.substring(loghtml.length - 2500));
+            }
+            if (msg.appendTo)
+                msg.appendTo(log);
+            else
+                log.html(log.html() + msg);
+            
+            //if (doScroll) {
+                d.scrollTop = d.scrollHeight - d.clientHeight;
+            //}
+        },
+        serialConsoleSaveCookie: function(portname) {
+            var settings = JSON.stringify({ name:portname });
+            
+            // store our port/baud settings in cookie for convenience
+            $.cookie('com-chilipeppr-spconsole-port', settings, {
+                expires: 365,
+                path: '/'
+            });
+
+        },
+        serialConsoleGetCookie: function(portname) {
+            // get cookies that may have been stored for the previous settings
+            // of the baud, rts, dtr settings
+            // make sure we loaded jquery.cookie plugin
+            var settings = $.cookie('com-chilipeppr-spconsole-port');
+            //console.log("getCookie:", settings);
+            if (settings) {
+                settings = $.parseJSON(settings);
+                //console.log("just evaled settings: ", settings);
+            }
+            return settings;
+        },
+    }
+});
+//]]>  
+
+</script>
+
+
+</body>
+
+
+</html>
+
+
+<!-- end chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/rczajbx0/show/light/ -->

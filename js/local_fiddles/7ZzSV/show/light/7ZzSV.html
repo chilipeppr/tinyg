@@ -1,0 +1,376 @@
+<!-- start chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/7ZzSV/show/light/ -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    
+  
+    
+      
+    
+  
+  <style type='text/css'>
+    .lastModifyDate {
+    color: silver;
+}
+#org-jscut-gcode-widget-body {
+    max-height:100px;
+    overflow:auto;
+}
+  </style>
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+
+// Test this element. This code is auto-removed by the chilipeppr.load()
+cprequire_test(["inline:org-jscut-gcode-widget"], function (macro) {
+    console.log("test running of " + macro.id);
+    macro.init();
+        
+} /*end_test*/ );
+
+
+cpdefine("inline:org-jscut-gcode-widget", ["chilipeppr_ready"], function () {
+    
+    return {
+        id: "org-jscut-gcode-widget",
+        url: "http://fiddle.jshell.net/chilipeppr/7ZzSV/show/light/",
+        fiddleurl: "http://jsfiddle.net/chilipeppr/7ZzSV/",
+        name: "Widget / JSCut",
+        desc: "Receive Gcode files from JSCut.",
+        publish: {
+        },
+        subscribe: {},
+        foreignPublish: {
+        },
+        foreignSubscribe: {
+        },
+        init: function () {
+
+            this.forkSetup();
+                        
+            // setup del files
+            $('#org-jscut-gcode-widget .recent-file-delete').click( this.deleteRecentFiles.bind(this));
+
+            this.buildRecentFileMenu();
+                        
+            // popovers
+            $('#org-jscut-gcode-widget .panel-heading .btn').popover();
+            
+            this.getFilesFromChiliPepprStorage();
+            //jscut-refresh
+            $('#org-jscut-gcode-widget .jscut-refresh').click( this.getFilesFromChiliPepprStorage.bind(this));
+            
+            this.checkIfUrlParamToAutoLoad();
+            
+            console.log(this.name + " done loading.");
+        },
+        getUrlParameterByName: function(name) {
+            var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+        },
+        checkIfUrlParamToAutoLoad: function() {
+            var loadJscut = this.getUrlParameterByName('loadJscut');
+            console.log("checkIfUrlParamToAutoLoad. loadJscut:", loadJscut);
+            
+            // see if they gave us the key or just a true
+            if (loadJscut != null && (loadJscut == true || loadJscut == "true")) {
+                // just ask for our widget to be shown
+                // this assumes the workspace that loaded us just has a parent div
+                // with the hidden class
+                $('#org-jscut-gcode-widget').parent().removeClass('hidden');
+            } else if (loadJscut != null && loadJscut.length > 0) {
+                // assume it's the key and load it
+                this.loadFileFromChiliPeppr(loadJscut);
+            }
+
+        },
+        getFilesFromChiliPepprStorage: function() {
+            // this queries chilipeppr's storage facility to see what
+            // files are available for jscut
+            var that = this;
+            $('#org-jscut-gcode-widget-body .alert-warning').addClass('hidden');
+
+            $.ajax({
+                url: "http://www.chilipeppr.com/datagetallkeys",
+                xhrFields: {
+                    withCredentials: true
+                }
+            })
+            .done(function( data ) {
+                
+                // see if error
+                if (data.Error) {
+                    // we got json, but it's error
+                    $('#org-jscut-gcode-widget-body .alert-warning').html("<p>We can't retrieve your data from JSCut because you are not logged in. Please login to ChiliPeppr to see your list of available files.</p><p>Error:" + data.Msg + "</p>").removeClass('hidden');
+                    return;
+                }
+                    
+                // loop thru keys and get org-jscut ones
+                var files = [];
+                data.forEach(function(item) {
+                    console.log("item:", item);
+                    if (item.Name && item.Name.match(/org-jscut-gcode/)) {
+                        // we have a jscut file
+                        files.push({
+                            name: item.Name, 
+                            created: item.CreateDate,
+                            size: item.ValueSize
+                        });
+                    }
+                });
+                if (files.length > 0) {
+                    that.buildJscutFileMenu(files);
+                }
+            });
+        },
+        buildJscutFileMenu: function(files) {
+            
+            console.log("buildJscutFileMenu. files:", files);
+            
+            // cleanup prev recent files
+            $('#org-jscut-gcode-widget .dropdown-menu-main > li.recent-file-item').remove();
+            
+            var li = $('#org-jscut-gcode-widget .dropdown-menu-main > li.recent-files');
+            console.log("listItems:", li);
+            var ctr = 0;
+            var that = this;
+            
+            files.forEach(function(item) {
+                var recentName = item.name;
+                var recentLastModified = item.created;
+                var rlm = new Date(recentLastModified);
+                var recentSize = item.size;
+                var rsize = parseInt(recentSize / 1024);
+                if (rsize == 0) rsize = 1;
+                var newLi = $(
+                    '<li class="recent-file-item"><a href="javascript:">' + recentName +
+                    ' <span class="lastModifyDate">' + rlm.toLocaleString() + '</span>' +
+                    ' ' + rsize + 'KB' +
+                    '</a></li>');
+                    //' <button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></button></a></li>');
+                newLi.insertAfter(li);
+                
+                newLi.click(recentName, function(data) {
+                    console.log("got jscut file click. data:", data);
+                    var key = data.data;
+                    that.loadFileFromChiliPeppr(key);
+                    
+                });
+
+                ctr++;
+
+            });
+            
+        },
+        loadFileFromChiliPeppr: function(key) {
+            // call dataget on chilipeppr servers to get value
+            // then load as if drag dropped
+            console.log("loadFileFromChiliPeppr. key:", key);
+            $('#org-jscut-gcode-widget-body .alert-warning').addClass('hidden');
+            
+            $.ajax({
+                url: "http://www.chilipeppr.com/dataget?key=" + key,
+                xhrFields: {
+                    withCredentials: true
+                }
+            })
+            .done(function( data ) {
+
+                console.log("got ajax callback of getdata. data:", data);
+                
+                // see if error
+                if (data.Error) {
+                    // we got json, but it's error
+                    $('#org-jscut-gcode-widget-body .alert-warning').html("<p>We could not load your JSCut file from ChiliPeppr's cloud storage. Please login to ChiliPeppr to load your file.</p><p>Error:" + data.Msg + "</p>").removeClass('hidden');
+                    return;
+                }
+
+                // we should have the file content. just fire it off as a drag/drop
+                // as if the user dragged this onto the browser
+                var info = {
+                    name: "JSCut " + key.replace(/org-jscut-gcode/i, ""),
+                    lastModified: new Date()
+                };
+                // send event off as if the file was drag/dropped
+                chilipeppr.publish("/com-chilipeppr-elem-dragdrop/ondropped", data.Value, info);
+
+            });
+        },
+        deleteRecentFiles: function() {
+            console.log("deleting files");
+            // loop thru file storage and delete entries that match this widget
+            for (var i = 0; i < localStorage.length; i++){
+                console.log("localStorage.item.key:", localStorage.key(i));
+                var key = localStorage.key(i);
+                if (key.match(/org-jscut-gcode-widget/))
+                    localStorage.removeItem(key);
+                
+            }
+            //localStorage.clear();
+            this.buildRecentFileMenu();
+        },
+        createRecentFileEntry: function(fileStr, info) {
+            console.log("createRecentFileEntry. fileStr.length:", fileStr.length, "info:", info);
+            // get the next avail slot
+            var lastSlot = -1;
+            for(var ctr = 0; ctr < 100; ctr++) {
+                if ('org-jscut-gcode-widget-recent' + ctr in localStorage) {
+                    console.log("found recent file entry. ctr:", ctr);
+                    lastSlot = ctr;
+                }
+            }
+            console.log("lastSlot we found:", lastSlot);
+            
+            var nextSlot = lastSlot + 1;
+            var recent = localStorage.getItem("org-jscut-gcode-widget-recent" + nextSlot);
+            if (recent == null) {
+                console.log("empty slot. filling.");
+                localStorage.setItem("org-jscut-gcode-widget-recent" + nextSlot, fileStr);
+                localStorage.setItem("org-jscut-gcode-widget-recent" + nextSlot + "-name", info.name);
+                localStorage.setItem("org-jscut-gcode-widget-recent" + nextSlot + "-lastMod", info.lastModified);
+                this.buildRecentFileMenu();
+            }
+            
+        },
+        buildRecentFileMenu: function() {
+            
+            // cleanup prev recent files
+            $('#org-jscut-gcode-widget .dropdown-menu-main > li.recent-file-item').remove();
+            
+            var li = $('#org-jscut-gcode-widget .dropdown-menu-main > li.recent-files');
+            console.log("listItems:", li);
+            var ctr = 0;
+            var recentName = localStorage.getItem("org-jscut-gcode-widget-recent" + ctr + "-name");
+            while(recentName != null) {
+                console.log("recentFile ctr:", ctr, "recentName:", recentName);
+                var recentLastModified = localStorage.getItem("org-jscut-gcode-widget-recent" + ctr + "-lastMod");
+                var rlm = new Date(recentLastModified);
+                var recentSize = localStorage.getItem("org-jscut-gcode-widget-recent" + ctr).length;
+                var rsize = parseInt(recentSize / 1024);
+                if (rsize == 0) rsize = 1;
+                var newLi = $(
+                    '<li class="recent-file-item"><a href="javascript:">' + recentName +
+                    ' <span class="lastModifyDate">' + rlm.toLocaleString() + '</span>' +
+                    ' ' + rsize + 'KB' +
+                    '</a></li>');
+                    //' <button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-trash"></span></button></a></li>');
+                newLi.insertAfter(li);
+                var that = this;
+                newLi.click("org-jscut-gcode-widget-recent" + ctr, function(data) {
+                    console.log("got recent file click. data:", data);
+                    var key = data.data;
+                    that.loadFileFromLocalStorageKey(key);
+                    
+                });
+
+                ctr++;
+                recentName = localStorage.getItem("org-jscut-gcode-widget-recent" + ctr + "-name");
+                
+            }
+        },
+        loadFileFromLocalStorageKey: function(key) {
+            // load file into probes
+            var info = {
+                name: localStorage.getItem(key + '-name'), 
+                lastModified: localStorage.getItem(key + '-lastMod')
+            };
+            console.log("loading jscut data. localStorage.key:", key, "info:", info);
+            
+            // load the data
+            this.jscript = localStorage.getItem(key);
+            this.loadJscript(this.jscript);
+            this.status("Loaded jscut data \"" + info.name + "\"");
+        },
+        forkSetup: function () {
+            var topCssSelector = '#' + this.id;
+            
+            $(topCssSelector + ' .panel-title').popover({
+                title: this.name,
+                content: this.desc,
+                html: true,
+                delay: 200,
+                animation: true,
+                trigger: 'hover',
+                placement: 'auto'
+            });
+            
+            var that = this;
+            chilipeppr.load("http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/", function () {
+                require(['inline:com-chilipeppr-elem-pubsubviewer'], function (pubsubviewer) {
+                    pubsubviewer.attachTo($(topCssSelector + ' .panel-heading .dropdown .dropdown-menu-main'), that);
+                });
+            });
+            
+        },
+    }
+});
+//]]>  
+
+</script>
+
+
+</head>
+<body>
+  <div id="org-jscut-gcode-widget" class="panel panel-default">
+    <div class="panel-heading">
+
+        <span class="panel-title" data-toggle="popover">JSCut</span>
+
+        <div class="btn-group pull-right" style="margin-right:0;">
+            <div class="dropdown">
+                <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-main xdropdown-menu-right" role="menu">
+                    <li role="presentation" class="dropdown-header recent-files">Recent JScut Files</li>
+                    <!-- <li><a href="javascript:" class="recent-file-delete"><span class="glyphicon glyphicon-trash"></span> Clear Macros</a></li> -->
+                    
+                </ul>
+            </div>
+        </div>
+        
+        <div class="btn-group pull-right" style="margin-right:6px;">
+            <button type="button" class="btn btn-xs btn-default jscut-refresh" data-container="body" data-toggle="popover" data-placement="auto" data-content="Refresh file list by querying ChiliPeppr for any JSCut files that have been placed in ChiliPeppr's cloud storage for your login ID" data-trigger="hover" data-delay="800"><span class="glyphicon glyphicon-refresh"></span></button>
+        </div>
+
+        <div class="btn-group pull-right" style="margin-right:6px;">
+            <a href="http://jscut.org/jscut.html" target="_blank" class="btn btn-xs btn-default jscut-nav" data-container="body" data-toggle="popover" data-placement="auto" data-content="Visit JSCut's website" data-trigger="hover" data-delay="800"><span class="glyphicon glyphicon-link"></span> JSCut</a>
+        </div>
+
+            
+    </div>
+    <div id="org-jscut-gcode-widget-body" class="panel-body">
+ 
+        <div class="alert alert-warning hidden"></div>
+        
+        <p>JSCut files are available in upper right pull-down menu. JSCut sends files to ChiliPeppr's cloud storage for you. Click refresh if your file is not appearing.</p>
+        
+        <p><a href="http://jscut.org/jscut.html">JSCut</a> is an online Gcode toolpath creator. It takes in SVG files and creates milling operations based on the specs you enter such as pocket, outline, or engraving operations.</p>
+        
+        <p>JScut has graciously added the ability to save your final Gcode direct to ChiliPeppr to make your life easy. When you "Save Gcode" inside JSCut there is a ChiliPeppr button. Once you click that button, come back here and refresh this widget to see the file in your list.</p>
+        
+    </div>
+    <div id="org-jscut-gcode-widget-ftr" class="panel-footer hidden">
+    </div>
+</div>
+    
+
+  
+</body>
+
+
+</html>
+
+
+<!-- end chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/7ZzSV/show/light/ -->

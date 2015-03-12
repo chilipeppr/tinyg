@@ -1,0 +1,137 @@
+body {
+    font-family: Helvetica, Arial, Verdana, Tahoma, sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    background: #F9F9F9;
+}
+
+body, ul, ol, li, p, pre, div, a {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-decoration: none;
+    color: #525252;
+}
+
+a {
+    outline: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#wrapper {
+    position: relative;
+    border: solid 1px #C6CACD;
+    height: 100%;
+}
+
+#head {
+    height: 35px;
+    overflow: hidden;
+    border-bottom: solid 1px #C6CACD;
+    background: rgba(255, 255, 255, .9);
+    z-index: 100;
+    box-shadow: 0 1px 4px rgba(49, 49, 64, 0.1);
+    position: fixed;
+    top: 1px;
+    left: 1px;
+    right: 1px;
+}
+
+    #head h1 {
+        float: right;
+        height: 35px;
+        margin: 0 0 0 10px;
+    }
+
+    #head h1 a {
+        display: block;
+        height: 35px;
+        line-height: 35px;
+        color: #C6CACD;
+        font-size: .8em;
+        padding-right: 35px;
+        background: url(/img/embeddable/logo.png) 100% 50% no-repeat;
+        margin-right: 15px;
+    }
+
+#actions {
+    float: left;
+}
+
+    #actions select {
+      display: none;
+      margin: 8px 10px;
+    }
+
+  #actions ul {
+    display: block;
+  }
+
+    #actions li {
+        float: left;
+        height: 35px;
+    }
+
+    #actions li a {
+        display: block;
+        height: 35px;
+        line-height: 35px;
+        padding: 0 15px;
+    }
+
+    #actions li.active a {
+        font-weight: bold;
+    }
+
+    @media only screen and (max-width: 500px){
+        #actions select {
+          display: block;
+        }
+
+      #actions ul {
+        display: none;
+      }
+    }
+
+#tabs {
+    position: relative;
+    overflow: auto;
+    height: 100%;
+}
+
+    #tabs .tCont {
+        padding: 45px 15px 10px;
+        margin: 0;
+        display: none;
+    }
+
+    #tabs .active {
+        display: block;
+    }
+
+    #tabs pre {
+        background: transparent;
+        border: none;
+        font-size: .95em;
+    }
+
+    #tabs #resources a {
+        font-size: 1em;
+    }
+
+#tabs #result.tCont {
+    padding: 36px 0 0 0;
+}
+
+#result iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    margin: 0;
+}
+
