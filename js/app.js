@@ -149,7 +149,7 @@ require(["jquery","bootstrap","amplify"], function() {
 						var end_pos = fiddle_url.indexOf("/", start_pos + 1);
 
 						var fiddle_id = fiddle_url.substr(start_pos + 1, end_pos - 1);
-						var local_request_url = "js/local_fiddles" + fiddle_url + fiddle_id + ".html";
+						var local_request_url = "/js/local_fiddles" + fiddle_url + fiddle_id + ".html";
 						console.info("local request url is: %o", local_request_url);
 
 						$.get(local_request_url, function(data){
