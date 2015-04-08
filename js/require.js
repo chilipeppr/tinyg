@@ -2149,18 +2149,18 @@ requirejs.config({
 */
 
         // to access local files only
-        chilipeppr_ready: ['js/main'],
-        chilipeppr_init2: ['js/app2'],
-        chilipeppr_init: ['js/app'],
+        chilipeppr_ready: ['/js/main'],
+        chilipeppr_init2: ['/js/app2'],
+        chilipeppr_init: ['/js/app'],
         google: ['http://www.google-analytics.com/analytics', ''],
-        jquery: ['js/jquery-2.1.0.min'],
-        bootstrap: ['js/bootstrap.min'],
-        amplify: ['js/amplify'],
-        jquerycookie: ['js/jquery.cookie'],
-        jqueryui: ['js/jquery.ui.core'],
-        jqueryuiWidget: ['js/jquery.ui.widget'],
-        jqueryuiMouse: ['js/jquery.ui.mouse'],
-        jqueryuiResizeable: ['js/jquery.ui.resizable'],
+        jquery: ['/js/jquery-2.1.0.min'],
+        bootstrap: ['/js/bootstrap.min'],
+        amplify: ['/js/amplify'],
+        jquerycookie: ['/js/jquery.cookie'],
+        jqueryui: ['/js/jquery.ui.core'],
+        jqueryuiWidget: ['/js/jquery.ui.widget'],
+        jqueryuiMouse: ['/js/jquery.ui.mouse'],
+        jqueryuiResizeable: ['/js/jquery.ui.resizable'],
 
     },
 	shim: {
