@@ -1,0 +1,331 @@
+<!-- start chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/ -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    
+  
+    
+      
+    
+  
+  <style type='text/css'>
+    
+  </style>
+  
+</head>
+<body>
+  <div class="modal fade " id="com-chilipeppr-elem-pubsubviewer-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+          <table class="table table-bordered table-striped">
+              <!-- <thead>
+                      <tr>
+                          <th style="">Signal</th>
+                          <th style="">Description</th>
+                      </tr>
+                  </thead> -->
+              <tbody>
+                  <tr>
+                      <td>ID</td>
+                      <td class="pubsub-id">
+                          com-chilipeppr-widget-tinyg
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>Standalone URL</td>
+                      <td class="pubsub-url">
+                          http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>Fiddle URL</td>
+                      <td class="pubsub-fiddleurl">
+                          http://jsfiddle.net/chilipeppr/zMbL9/
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>Description</td>
+                      <td class="pubsub-desc">
+                          This element shows a modal of a widget's/element's pubsub so the user can see how this widget/element interacts with other widgets/elements.
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+
+          <div class="pubsub-interface hidden">
+              <h4>Interface Implementation</h4>
+              <p>This widget/element implements an interface specification. Since Javascript does not have the notion of interfaces like the way languages such as Java have native support for interfaces, ChiliPeppr has defined its own loose version of an interface. If this widget/element has implemented an interface, it means it has followed a general standard set of pubsub signals that other widgets/elements should follow as well to make them swappable.</p>
+          <table id="com-chilipeppr-elem-pubsubviewer-interface" class="table table-bordered table-striped">
+              <thead>
+                  <tr>
+                      <th style="">Interface Implementation</th>
+                      <th style="">Description</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  
+              </tbody>
+          </table>
+          </div><!-- interface -->
+          
+          <h4>Publish</h4>
+          <p>This widget/element publishes the following signals. These signals are owned by this widget/element and are published to all objects inside the ChiliPeppr environment that listen to them via the chilipeppr.subscribe(signal, callback) method.</p>
+          <table id="com-chilipeppr-elem-pubsubviewer-pub" class="table table-bordered table-striped">
+              <thead>
+                  <tr>
+                      <th style="">Signal</th>
+                      <th style="">Description</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  
+              </tbody>
+          </table>
+
+          <h4>Subscribe</h4>
+          <p>This widget/element subscribes to the following signals. These signals are owned by this widget/element. Other objects inside the ChiliPeppr environment can publish to these signals via the chilipeppr.publish(signal, data) method.</p>
+          <table id="com-chilipeppr-elem-pubsubviewer-sub" class="table table-bordered table-striped">
+              <thead>
+                  <tr>
+                      <th style="">Signal</th>
+                      <th style="">Description</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  
+              </tbody>
+          </table>
+
+          <h4>Foreign Publish</h4>
+          <p>This widget/element publishes to the following signals that are owned by other objects.</p>
+          <table id="com-chilipeppr-elem-pubsubviewer-foreignpub" class="table table-bordered table-striped">
+              <thead>
+                  <tr>
+                      <th style="">Signal</th>
+                      <th style="">Description</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  
+              </tbody>
+          </table>
+
+          <h4>Foreign Subscribe</h4>
+          <p>This widget/element subscribes to the following signals owned by other objects.</p>
+          <table id="com-chilipeppr-elem-pubsubviewer-foreignsub" class="table table-bordered table-striped">
+              <thead>
+                  <tr>
+                      <th style="">Signal</th>
+                      <th style="">Description</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  
+              </tbody>
+          </table>
+          
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+
+// Test this element. This code is auto-removed by the chilipeppr.load()
+cprequire_test(["inline:com-chilipeppr-elem-pubsubviewer"], function (psv) {
+    console.log("test running of " + psv.id);
+    //psv.init();
+    
+    var divs = $('<div id="com-chilipeppr-elem-pubsubviewer-object" class=""></div>' +
+    '<div id="com-chilipeppr-elem-pubsubviewer-object2" class=""></div>');
+    $('body').append(divs);
+    
+    chilipeppr.load("#com-chilipeppr-elem-pubsubviewer-object",
+        "http://fiddle.jshell.net/chilipeppr/XxEBZ/show/light/", function () {
+        require(["inline:com-chilipeppr-widget-tinyg", 'inline:com-chilipeppr-elem-pubsubviewer'], function (tinyg, pubsubviewer) {
+            console.log("inside require of tinyg");
+            console.log("tinyg obj:", tinyg);
+            tinyg.init();
+            
+            //psv.show(cpobj);
+            //pubsubviewer.attachTo($('#com-chilipeppr-elem-pubsubviewer-object .panel-heading .dropdown-menu'), tinyg);
+        });
+        });
+
+        chilipeppr.load("#com-chilipeppr-elem-pubsubviewer-object2",
+        "http://fiddle.jshell.net/chilipeppr/gh45j/show/light/", function () {
+        require(["inline:com-chilipeppr-widget-xyz"], function (xyz) {
+            console.log("inside require of xyz");
+            console.log("xyz obj:", xyz);
+            xyz.init();
+            //psv.show(cpobj);
+            //psv.attachTo($('#com-chilipeppr-elem-pubsubviewer-object2 .panel-heading .dropdown-menu'), xyz);
+        });
+        });
+
+} /*end_test*/ );
+
+cpdefine("inline:com-chilipeppr-elem-pubsubviewer", ["chilipeppr_ready"], function () {
+    return {
+        id: "com-chilipeppr-elem-pubsubviewer",
+        url: "http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/",
+        fiddleurl: "http://jsfiddle.net/chilipeppr/zMbL9/",
+        name: "Element / Pubsub Viewer",
+        desc: "This element shows a modal of a widget's/element's pubsub so the user can see how this widget/element interacts with other widgets/elements.",
+        isInitted: false,
+        init: function () {    
+            //var that = this;
+            $('#com-chilipeppr-elem-pubsubviewer-modal').on('show.bs.modal', this.onShow.bind(this));
+            $('#com-chilipeppr-elem-pubsubviewer-modal').on('hidden.bs.modal', function (e) {
+                console.log("modal hidden");
+            })
+            //this.show();
+            this.isInitted = true;
+            console.log(this.name + " done initting.");
+        },
+        cpobject: null,    // the object we're showing pubsub for
+        pubsubClick: function(evt) {
+            console.log("got pubsub click in dropdown. evt:", evt);
+            if (evt.data) {
+                console.log("evt had correct object so showing modal:", evt.data);
+                this.show(evt.data);
+            }
+        },
+        show: function(cpobject) {
+            this.cpobject = cpobject;
+            if (!this.isInitted) this.init();
+            $('#com-chilipeppr-elem-pubsubviewer-modal').modal('show');
+        },
+        onShow: function() {
+            console.log("modal show pre");
+            var o = this.cpobject;
+            $('#com-chilipeppr-elem-pubsubviewer-modal .modal-title')
+                .text("PubSub Viewer for \"" +
+                      o.name + "\"");
+            
+            // do pre-amble info
+            $('#com-chilipeppr-elem-pubsubviewer-modal .pubsub-id').html(o.id);
+            $('#com-chilipeppr-elem-pubsubviewer-modal .pubsub-url').html('<a href="' + o.url + '" target="_blank">' + o.url + '</a>');
+            $('#com-chilipeppr-elem-pubsubviewer-modal .pubsub-fiddleurl').html('<a href="' + o.fiddleurl + '" target="_blank">' + o.fiddleurl + '</a>');
+            $('#com-chilipeppr-elem-pubsubviewer-modal .pubsub-desc').html(o.desc);
+            
+            // do interface implementations
+            if (o.implements && o.implements != null) {
+                $('#com-chilipeppr-elem-pubsubviewer-modal .pubsub-interface').removeClass('hidden');
+                $('#com-chilipeppr-elem-pubsubviewer-modal #com-chilipeppr-elem-pubsubviewer-interface > tbody > tr').remove();
+                if (Object.keys(o.implements).length > 0) {
+                    var keys = Object.keys(o.implements);
+                    $.each(keys, function(i, key) {
+                        $('#com-chilipeppr-elem-pubsubviewer-modal #com-chilipeppr-elem-pubsubviewer-interface > tbody').append('<tr><td>' + key + '</td><td>' + o.implements[key] + '</td></tr>');
+                    });
+                }
+            } else {
+                // hide the interface section
+                $('#com-chilipeppr-elem-pubsubviewer-modal .pubsub-interface').addClass('hidden');
+            }
+            
+            // do publish
+            this.appendKeyVal(o.publish, "#com-chilipeppr-elem-pubsubviewer-pub");
+            this.appendKeyVal(o.subscribe, "#com-chilipeppr-elem-pubsubviewer-sub");
+            this.appendKeyVal(o.foreignPublish, "#com-chilipeppr-elem-pubsubviewer-foreignpub");
+            this.appendKeyVal(o.foreignSubscribe, "#com-chilipeppr-elem-pubsubviewer-foreignsub");
+            
+            
+        },
+        appendKeyVal: function(data, id) {
+            // remove rows from previous rendering
+            $('#com-chilipeppr-elem-pubsubviewer-modal ' + id + ' > tbody > tr').remove();
+            if (data !== null && typeof data === 'object' && Object.keys(data).length > 0) {
+                
+                var keys = Object.keys(data);
+                $.each(keys, function(i, key) {
+                    $('#com-chilipeppr-elem-pubsubviewer-modal ' + id + ' > tbody').append('<tr><td>' + key + '</td><td>' + data[key] + '</td></tr>');
+                });
+            } else {
+                $('#com-chilipeppr-elem-pubsubviewer-modal ' + id + ' > tbody').append('<tr><td colspan="2">(No signals defined in this widget/element)</td></tr>');
+                
+            }
+        },
+        attachTo: function(dropdownMenuEl, cpobject, altTitle) {
+            var el = dropdownMenuEl;
+            var o = cpobject;
+            // this method let's you pass in a dropdown-menu
+            // and we'll attach a new section with a divider,
+            // the id of the widget, a link to the pubsub vieweer,
+            // a linke to the standalone widget, and a link to fork
+            // the widget
+            
+            // see if there's any <li> items. if there are add a divider
+            // <li class="divider"></li>
+            if (el.children('li').length > 0) {
+                // has li's, so add divider
+                el.append('<li class="divider"></li>');
+            }
+            
+            // allow user to override the name Widget, i.e. set it to Workspace or Element
+            var title = "Widget";
+            if (altTitle != null && altTitle.length > 0) title = altTitle;
+            
+            /*
+            <li role="presentation" class="dropdown-header fork-name"></li>
+            <li><a href="" target="_blank" class="standalone">View Widget Standalone</a></li>
+             <li><a href="" target="_blank" class="fork">Fork Widget</a></li>
+            */
+            el.append('<li role="presentation" class="dropdown-header fork-name">' + o.id + '</li>');
+            var pslink = $('<li><a href="javascript:" class="pubsublink">PubSub for this ' + title + '</a></li>').click(o, this.pubsubClick.bind(this));
+            el.append(pslink);
+            el.append('<li><a href="' + o.url + '" target="_blank" class="standalone">View ' + title + ' Standalone</a></li>');
+            var fork = $('<li><a href="' + o.fiddleurl + '" target="_blank" class="fork">Fork ' + title + '</a></li>').click(o, function() {
+                console.log("Got fork click. object:", o);
+                ga('send', 'event', 'button', 'click', 'fork' + title + '-' + o.id );
+            });
+            el.append(fork);
+            
+            el.children('.panel-title').popover({
+                title: this.name,
+                content: this.desc,
+                html: true,
+                delay: 200,
+                animation: true,
+                trigger: 'hover',
+                placement: 'auto'
+            });
+        }
+    }
+});
+//]]>  
+
+</script>
+
+
+</body>
+
+
+</html>
+
+
+<!-- end chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/ -->

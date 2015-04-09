@@ -1,0 +1,323 @@
+<!-- start chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/7aX6x/show/light/ -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    
+  
+    
+      
+    
+  
+  <style type='text/css'>
+    #mainnav {
+    margin-bottom: 10px;
+}
+.com-chilipeppr-mainnav .navbar-collapse {
+    /* height:30px; */
+}
+a.navbar-brand.main-brand {
+    color:#bebebe;
+    padding-right:10px;
+}
+a.navbar-brand.subbrand {
+    margin-bottom:0;
+    padding-left:10px;
+}
+/* .nav li:hover{
+    color: #555;
+background-color: #e7e7e7;
+} */
+  </style>
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+
+// //www.google-analytics.com/analytics.js
+requirejs.config({
+    paths: {
+        google: '//www.google-analytics.com/analytics'
+    }
+});
+
+// Test this element. This code is auto-removed by the chilipeppr.load()
+cprequire_test(["inline:com-chilipeppr-hdr"], function (header) {
+    console.log("test running of " + header.id);
+    header.init();
+    //header.editBoot();
+} /*end_test*/ );
+
+cpdefine("inline:com-chilipeppr-hdr", ["chilipeppr_ready", "google"], function (cp, google) {
+    return {
+        id: "com-chilipeppr-hdr",
+        url: "http://fiddle.jshell.net/jlauer/Qheec/show/light/",
+        fiddleurl: "http://jsfiddle.net/jlauer/Qheec/",
+        name: "Widget / Header",
+        desc: "This widget is the header panel.",
+        publish: null,
+        subscribe: null,
+        isConnected: false,
+        init: function () {
+            this.setupLinks();
+            this.checkLogin();
+            this.editBootSetup();
+            this.setupForceRefresh();
+            this.setupToggleConsole();
+            //this.doAnalytics();
+            //this.editBoot();
+            console.log(this.name + " done loading.");
+        },
+        isDebugOutputOn: false, // track on/off
+        origConsole: null, // store orig console method
+        setupToggleConsole: function() {
+            $('#com-chilipeppr-topbar-menu-toggleconsolelog').popover();
+            $('#com-chilipeppr-topbar-menu-toggleconsolelog').click(this.toggleConsoleLog.bind(this));
+            
+            if (!this.isDebugOutputOn) {
+                // repoint console.log
+                this.origConsole = console.log;
+                console.log = function() {};
+            }
+        },
+        toggleConsoleLog: function() {
+            this.isDebugOutputOn = !this.isDebugOutputOn;
+            if (this.isDebugOutputOn) {
+                console.log = this.origConsole;
+                chilipeppr.publish("/com-chilipeppr-elem-flashmsg/flashmsg", "Debug Console Output On", "Now logging debug output to console.");
+            } else {
+                this.origConsole = console.log;
+                console.log = function() {};
+                chilipeppr.publish("/com-chilipeppr-elem-flashmsg/flashmsg", "Debug Console Output Off", "No longer logging debug output to console.");
+            }
+        },
+        setupForceRefresh: function() {
+            $('#com-chilipeppr-topbar-menu-forcerefresh').popover();
+            $('#com-chilipeppr-topbar-menu-forcerefresh').prop('href', window.location.href + "?forcerefresh=true");
+        },
+        doFork: function() {
+            //this.editBoot();
+            cprequire(['inline:com-chilipeppr-widget-editbootscript'], function (editboot) {
+                console.log("Since we're reopening edit boot dialog in fork mode, need to tell it");
+                editboot.init();
+                editboot.doFork();
+                $('#com-chilipeppr-hdr-editbootmodal').modal({show: true});
+
+                //console.log("re-initted");
+            });
+        },
+        editBootSetup: function() {
+            var that = this;
+            chilipeppr.load("com-chilipeppr-hdr-editbootmodalbody", "http://fiddle.jshell.net/chilipeppr/uNALR/show/light/", function () {
+                console.log("Done lazy loading edit boot jscript content");
+                $("#com-chilipeppr-topbar-menu-editboot").click(that.editBoot);
+            });
+        },
+        editBoot: function() {
+            console.log("editing boot");
+                            
+            cprequire(['inline:com-chilipeppr-widget-editbootscript'], function (editboot) {
+                console.log("Since we're reopening edit boot dialog, reinitting");
+                editboot.init();
+                $('#com-chilipeppr-hdr-editbootmodal').modal({show: true});
+                console.log("re-initted");
+            });
+            
+        },
+        currentUser: null,
+        checkLogin: function () {
+            var that = this;
+            var jqxhr = $.getJSON("http://www.chilipeppr.com/datalogin?callback=?")
+            .done(function (data) {
+                console.log(data);
+                if (data.CurrentUser != undefined && data.CurrentUser != null) {
+                    console.log("user logged in ", data.CurrentUser);
+                    that.currentUser = data.CurrentUser;
+                    $('#com-chilipeppr-hdr-login').text(data.CurrentUser.Email);
+                    $('#com-chilipeppr-hdr-dd-login').addClass("hidden");
+                    $('#com-chilipeppr-hdr-dd-logout').prop('href', data.LogoutUrl);
+                    // if they click their login id log them out
+                    $('#com-chilipeppr-hdr-login').prop('href', data.LogoutUrl);
+                } else {
+                    console.log("user NOT logged in");
+                    $('#com-chilipeppr-hdr-login').text("Login");
+                    $('#com-chilipeppr-hdr-dd-login').removeClass("hidden");
+                    $('#com-chilipeppr-hdr-dd-logout').addClass("hidden");
+                    $('#com-chilipeppr-hdr-dd-login').prop('href', data.LoginUrl);
+                    $('#com-chilipeppr-hdr-dd-login').prop('target', "new");
+                    $('#com-chilipeppr-hdr-login').prop('href', data.LoginUrl);
+                    $('#com-chilipeppr-hdr-login').prop('target', "new");
+                }
+                that.doAnalytics();
+            })
+            .fail(function () {
+                that.doAnalytics();
+            })
+        },
+        doAnalytics: function() {
+            //console.log("Doing Google Analytics");
+            //console.log("google:", google, "ga:", ga);
+            ga('create', 'UA-51962619-1', 'chilipeppr.com');
+            ga('require', 'displayfeatures');
+            
+            // Set the user ID using signed-in user_id.
+            //console.log("currentUser", this.currentUser);
+            if (this.currentUser != undefined 
+                && this.currentUser != null 
+                && this.currentUser.Email != undefined 
+                && this.currentUser.Email != null) {
+                //console.log("Passing user id to Google");
+                ga('set', '&uid', this.currentUser.Email);
+            }
+            
+            ga('send', 'pageview');
+            
+            // resend this every 4.5 mins because Google Analytics
+            // defaults to 5 mins being the definition of active
+            setTimeout(this.doAnalytics.bind(this), 4.5 * 60 * 1000);
+        },
+        setupLinks: function () {
+            $('#com-chilipeppr-hdr-wspick').click(this.onWsPick);
+            var that = this;
+            $('#com-chilipeppr-topbar-menu-forkws').click(function() {
+                that.doFork();
+            });
+        },
+        onWsPick: function () {
+            console.log("Got into onWsPick");
+            // lazy load the picker
+            chilipeppr.load("#com-chilipeppr-hdr-modalbody", "http://fiddle.jshell.net/chilipeppr/8UwSX/show/light/", function () {
+                console.log("Done lazy loading workspace picker content");
+            });
+        }
+    }
+});
+//]]>  
+
+</script>
+
+
+</head>
+<body>
+  <nav id="mainnav" class="com-chilipeppr-mainnav navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span>
+ <span class="icon-bar"></span>
+ <span class="icon-bar"></span>
+ <span class="icon-bar"></span>
+
+            </button> <a class="navbar-brand main-brand" href="http://chilipeppr.com/"><img src="http://www.chilipeppr.com/img/chilipeppr_logo.png" style="max-height:22px;padding-right:3px;" />ChiliPeppr</a>  <a class="navbar-brand subbrand" href="http://chilipeppr.com/">Hardware Fiddle</a>
+
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class=""><a id="com-chilipeppr-hdr-wspick" href="#" data-toggle="modal" data-target="#com-chilipeppr-hdr-wspickmodal">Workspaces</a>
+
+                </li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search">
+                <!-- <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search" />
+                </div> -->
+                <!-- <button type="submit" class="btn btn-default">Submit</button> -->
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a id="com-chilipeppr-hdr-login" href="javascript:" style="padding-right:5px;">Login</a>
+
+                </li>
+                <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-left:5px;"> <b class="caret"></b></a>
+
+                    <ul class="dropdown-menu">
+                        <li><a id="com-chilipeppr-hdr-dd-login" href="javascript:">Login</a>
+
+                        </li>
+                        <li><a id="com-chilipeppr-hdr-dd-logout" href="javascript:">Logout</a>
+
+                        </li>
+                        <!-- <li><a id="com-chilipeppr-hdr-dd-yourws" href="javascript:">Your Workspaces</a>
+                        
+                        </li> -->
+                        <li class="divider"></li>
+                        <li><a href="javascript:" id="com-chilipeppr-topbar-menu-editboot">Edit Boot Javascript</a>
+
+                        </li>
+                        <!-- <li class="divider"></li> -->
+                        <li><a href="javascript:" id="com-chilipeppr-topbar-menu-forkws">Fork Boot Script</a>
+
+                        </li>
+                        <li><a href="javascript:" id="com-chilipeppr-topbar-menu-forcerefresh" data-container="body" data-toggle="popover" data-placement="left" data-trigger="hover" data-title="What is Force Refresh Mode?" data-content="If you are developing your own forks/widgets/workspace/etc you will want to force ChiliPeppr to pull down your new code on demand. So, the Force Refresh Mode simply adds a forcerefresh=true to the ChiliPeppr workspace URL to indicate to the server to always retrieve a fresh copy of your JSFiddles or other Javascript/HTML/CSS into the cache.">Force Refresh Mode</a>
+
+                        </li>
+                        <li><a href="javascript:" id="com-chilipeppr-topbar-menu-toggleconsolelog" data-container="body" data-toggle="popover" data-placement="left" data-trigger="hover" data-title="Toggle Debug Console Output" data-content="ChiliPeppr spits out a lot of debug info to the console. By default this is turned off to not overload your browser. If you are debugging, however, it is a super useful feature to turn on.">Toggle Debug Console Output</a>
+
+                        </li>
+                        <!-- <li><a href="javascript:">Create New Workspace</a>
+                        
+                        </li> -->
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+<!-- Workspace Picker Modal -->
+<!-- Modal -->
+<div class="modal fade" id="com-chilipeppr-hdr-wspickmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <h4 class="modal-title" id="myModalLabel">Workspace Picker</h4>
+
+            </div>
+            <div class="modal-body" id="com-chilipeppr-hdr-modalbody">...</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Workspace Picker Modal -->
+<!-- Edit Boot Javascript Modal -->
+<div class="modal fade" id="com-chilipeppr-hdr-editbootmodal" tabindex="-1" role="dialog" aria-labelledby="editboot-myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <h4 class="modal-title" id="editboot-myModalLabel">Edit Boot Javascript</h4>
+
+            </div>
+            <div class="modal-body" id="com-chilipeppr-hdr-editbootmodalbody">...</div>
+            <div class="modal-footer hidden">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Edit Boot Javascript Modal -->
+  
+</body>
+
+
+</html>
+
+
+<!-- end chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/7aX6x/show/light/ -->

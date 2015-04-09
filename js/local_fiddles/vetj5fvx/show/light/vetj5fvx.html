@@ -1,0 +1,2275 @@
+<!-- start chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/vetj5fvx/show/light/ -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    
+  
+  <style type='text/css'>
+    .com-chilipeppr-widget-serialport .com-chilipeppr-widget-serialport-body {
+    padding:0;
+    overflow: auto;
+    overflow-x: hidden;
+    /* min-height:80px; */
+}
+.com-chilipeppr-widget-serialport .serial-port-version {
+    font-size:9px;
+}
+.com-chilipeppr-widget-serialport .panel-title {
+    font-size:12px;
+}
+.com-chilipeppr-widget-serialport-install .alert-warning {
+    /* max-height:130px; */
+    /* overflow: scroll; */
+    /* overflow-x: hidden; */
+}
+.com-chilipeppr-widget-serialport .com-chilipeppr-widget-serialport-body .row .col-xs-12 {
+    padding:0;
+}
+.com-chilipeppr-widget-serialport .table {
+    margin-bottom:0;
+}
+.com-chilipeppr-widget-serialport-disconnected {
+    position: absolute;
+    width: 100%;
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    height:80%;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+    line-height: 100%;
+    z-index: 100;
+    margin:0;
+    padding:20px;
+    /* min-height:50px; */
+}
+.com-chilipeppr-widget-serialport .com-chilipeppr-widget-serialport-status .well.well-sm {
+    margin: 0;
+    padding-left:16px;
+    font-size: 10px;
+}
+.com-chilipeppr-widget-serialport .btn .glyphicon-ok-circle {
+    padding: 0 16px;
+}
+.com-chilipeppr-widget-serialport .com-chilipeppr-widget-serialport-console {
+    padding-top: 0px;
+}
+.com-chilipeppr-widget-serialport .com-chilipeppr-widget-serialport-console-log {
+    overflow: auto;
+    height: 160px;
+    margin:0;
+    padding: 0 8px;
+}
+.com-chilipeppr-widget-serialport .panel-footer {
+    font-size: 11px;
+}
+.com-chilipeppr-widget-serialport-portlist {
+    margin-bottom:0;
+}
+.com-chilipeppr-widget-serialport-portlistarea {
+    max-height:150px;
+    overflow: auto;
+}
+.com-chilipeppr-widget-serialport input[type=checkbox] {
+    margin-left:10px;
+}
+.com-chilipeppr-widget-serialport .com-chilipeppr-widget-serialport-baud {
+    /* margin-right:10px; */
+    margin:0;
+}
+.com-chilipeppr-widget-serialport-index {
+    list-style-type: none;
+    padding-left: 0;
+}
+.com-chilipeppr-widget-serialport-install {
+    max-height:300px;
+    overflow:auto;
+}
+.com-chilipeppr-widget-serialport-install p {
+    padding-top:10px;
+}
+.com-chilipeppr-widget-serialport-install p:first {
+    padding-top:0px;
+}
+.com-chilipeppr-widget-serialport .panel-heading .title {
+    line-height: 12px;
+}
+.com-chilipeppr-widget-serialport .panel-heading .subtitle {
+    font-size:10px;
+    display:inline;
+}
+.com-chilipeppr-widget-serialport .panel-heading .hosttitle {
+    font-size:10px;
+    display:inline;
+}
+.com-chilipeppr-widget-serialport .out {
+    color: blue;
+}
+.com-chilipeppr-widget-serialport-console-log pre {
+    margin:0;
+    padding:0;
+    border:none;
+}
+.com-chilipeppr-widget-serialport-buffer {
+    font-size:12px;
+}
+.com-chilipeppr-widget-serialport-body .nav-tabs {
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-top: 3px;
+    padding-left: 10px;
+}
+.com-chilipeppr-widget-serialport-body .nav>li>a {
+    padding: 2px 7px;
+}
+.com-chilipeppr-widget-serialport-img {
+    border: 0px solid red;
+    border-radius: 5px;
+    position: relative;
+    width: 50%;
+    height: 100px;
+    background-position: center;
+    background-size: cover;
+}
+.com-chilipeppr-widget-serialport-body .cloud-card {
+    /* margin-bottom:4px; */
+    /* margin-top:4px; */
+    margin-right:-10px;
+    border-spacing: 2px;
+    /* border-color: gray; */
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+.com-chilipeppr-widget-serialport-body .cloud-card:hover {
+    background-color: #f5f5f5;
+}
+.com-chilipeppr-widget-serialport-body .cloud-card:active {
+    background-color: #ddd;
+}
+.com-chilipeppr-widget-serialport-body .cloud-card a {
+    font-size:10px;
+    /* word-wrap: break-word; */
+    /* word-break: break-all; */
+    line-height:10px;
+}
+.com-chilipeppr-widget-serialport-body .cloud-card h4 {
+    margin-bottom:0;
+    font-size:15px;
+    line-height: 15px;
+}
+.com-chilipeppr-widget-serialport-body .cloud-card p {
+    font-size:10px;
+    margin-bottom:0;
+}
+.com-chilipeppr-widget-serialport .progress {
+    margin:0;
+}
+  </style>
+  
+</head>
+<body>
+  <div id="com-chilipeppr-widget-serialport" class="panel panel-default com-chilipeppr-widget-serialport">
+    <div class="panel-heading">
+
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span>
+
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li class=""><a href="javascript:" id="com-chilipeppr-widget-serialport-tbar-disconws">Connect to Alternate Host/IP</a></li>
+                <li><a href="javascript:" id="com-chilipeppr-widget-serialport-tbar-showhideconsole">Show / Hide Console</a></li>
+                <!-- <li><a href="javascript:" id="com-chilipeppr-widget-serialport-tbar-showhidestatus">Show / Hide Status</a></li> -->
+                <li class="divider"></li>
+                <li class="hidden"><a href="javascript:"id="com-chilipeppr-widget-serialport-tbar-disconws">Disconnect</a></li>
+                <li><a href="javascript:"id="com-chilipeppr-widget-serialport-tbar-reconws">Reconnect</a></li>
+                <li class="hidden"><a href="javascript:" id="com-chilipeppr-widget-serialport-tbar-refresh">Refresh Serial Port List</a></li>
+                
+                <!-- <li class="divider"></li>
+                    <li role="presentation" class="dropdown-header fork-name"></li>
+                    <li><a href="" class="standalone" target="_blank">View Widget Standalone</a></li>
+                    <li><a href="" class="fork" target="_blank">Fork Widget</a></li> -->
+            </ul>
+        </div>
+        <div class="btn-group pull-right" style="padding-right:4px;">
+            <button type="button" class="btn btn-xs btn-default hidebody"><span class="glyphicon glyphicon-chevron-up"></span></button>
+        </div>
+        
+        <div class="btn-group pull-right hidden" style="padding-right:4px;">
+            <button type="button" class="btn btn-xs btn-default spjs-restart" data-toggle="popover" data-placement="auto" data-container="body" data-content="Restart the Serial Port JSON Server by killing its process on the server and restarting it from scratch. This button sends the command 'restart' to SPJS." data-trigger="hover"><span class="glyphicon glyphicon-retweet" style="color:red;"></span></button>
+        </div>
+
+        <div class="btn-group pull-right" style="padding-right:4px;">
+            <button type="button" class="btn btn-xs btn-default refresh" data-toggle="popover" data-placement="auto" data-container="body" data-content="Reload serial port list from Serial Port JSON Server. This button sends the command 'list' to SPJS." data-trigger="hover" ><span class="glyphicon glyphicon-refresh"></span></button>
+            <button type="button" class="btn btn-xs btn-default disconnect" data-toggle="popover" data-placement="auto" data-container="body" data-content="Disconnect from Serial Port JSON Server" data-trigger="hover"><span class="glyphicon glyphicon-remove-sign"></span></button>
+        </div>
+        <div class="title" style="">
+            <span class="panel-title">Serial Port JSON Server 
+                <span class="serial-port-version"></span>
+                <div class="subtitle hidden">Multi Port Mode</div>
+                <div class="hosttitle"></div>
+            </span>
+
+        </div>
+    </div>
+    <div class="panel-body com-chilipeppr-widget-serialport-body">
+        
+        <div class="container-fluid">
+            
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="xactive"><a href="#com-chilipeppr-widget-serialport-portstab" aria-controls="com-chilipeppr-widget-serialport-portstab" role="tab" data-toggle="tab">Port List</a></li>
+                <li role="presentation" class="active"><a href="#com-chilipeppr-widget-serialport-yours" aria-controls="com-chilipeppr-widget-serialport-yours" role="tab" data-toggle="tab">Your Servers</a></li>
+                <li role="presentation" class="xactive"><a href="#com-chilipeppr-widget-serialport-cloud" aria-controls="com-chilipeppr-widget-serialport-cloud" role="tab" data-toggle="tab">Cloud Servers</a></li>
+                <!-- <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li> -->
+                <!-- <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li> -->
+            </ul>
+            
+            
+            <!-- Tab panes -->
+            <div class="tab-content">
+                
+                <div role="tabpanel" class="tab-pane xactive" id="com-chilipeppr-widget-serialport-portstab">
+
+                <!-- Tab Ports -->
+                    <!-- Serial Port List -->
+                    <div style="position:relative;margin:0;padding:0;">
+                        <div class="com-chilipeppr-widget-serialport-disconnected hidden">
+                            <p>SPJS Disconnected.
+                            <button type="button" class="btn btn-xs btn-default refresh"><span class="glyphicon glyphicon-refresh"></span> Reconnect
+                            </button>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 com-chilipeppr-widget-serialport-bufferindicator well hidden" style="margin-bottom:0;padding:3px 14px;">
+                                For your CNC device please choose the "<span class="buffername">Grbl</span>" buffer in the pulldown before connecting.
+                            </div>
+                            <div class="col-xs-12 com-chilipeppr-widget-serialport-portlistarea">
+                                
+                                <table class="table table-hover table-condensed com-chilipeppr-widget-serialport-portlist">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Serial Port List -->
+            </div>
+                
+                <div role="tabpanel" class="tab-pane active" id="com-chilipeppr-widget-serialport-yours">
+                    
+                                        
+                    <!-- Tab Your Servers -->
+                    <div class="row com-chilipeppr-widget-serialport-version hidden">
+                        <div class="col-xs-12">
+                            <div class="alert alert-info com-chilipeppr-widget-serialport-version-fullmsg" style="margin:0;">
+                                You are running an old version of the Serial Port JSON Server. Latest is 1.6. You are at
+                                <span class="com-chilipeppr-widget-serialport-version-yours">1.1</span> so you should disconnect and download the latest version.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End com-chilipeppr-widget-serialport-version -->
+                    
+                    <div class="row com-chilipeppr-widget-serialport-install">
+                        <div class="col-xs-12">
+                            <div class="alert alert-warning" style="margin:0;">
+                                <ul class="com-chilipeppr-widget-serialport-index">
+                                    <li><a href="#com-chilipeppr-widget-serialport-download">Download Serial Port JSON Server</a></li>
+                                    <li><a href="#com-chilipeppr-widget-serialport-connect">Connect to Host</a></li>
+                                    <li><a href="#com-chilipeppr-widget-serialport-scanHdr">Scan for Hosts</a></li>
+                                </ul>
+                                
+                                <p xstyle="padding-top:0;">You need to install and run the Serial Port Json Server on the machine that has the serial port connected to your device.
+                                </p>
+                                <p>Typically you will install the server on your localhost as this Serial Port Widget first looks there for a webocket connection. </p>
+                                <p>Optionally you may run the Serial Port Json Server on another host and directly connect to the IP address by typing it in below. This is handy if you're running the server on a Raspberry Pi or Beagle Bone Black for example. </p>
+                                <p>In case you don't know the IP address of your machine running the server, there is a port scan feature available below to quickly scan your entire subnet for available servers. Most home networks are on the 192.168.1.* subnet so try scanning with that address first.
+                                </p>
+                                
+                                <p>If you already have the server downloaded, you may just need to launch it from the command line.</p>
+                                
+                                <a name="com-chilipeppr-widget-serialport-connect"></a>
+                                <p>Connect to a local or remote host here.</p>
+                                <div id="com-chilipeppr-widget-serialport-hostconnectmsg"></div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="com-chilipeppr-widget-serialport-host" placeholder="Remote Host" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" id="com-chilipeppr-widget-serialport-hostbtn">Connect</button>
+                                    </span>
+                                </div>
+                                
+                                <a name="com-chilipeppr-widget-serialport-scanHdr"></a>
+                                <p>Scan your local subnet</p>
+                                <div id="com-chilipeppr-widget-serialport-scanresult"></div>
+                                <div id="com-chilipeppr-widget-serialport-scanresultcnt"></div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="com-chilipeppr-widget-serialport-scan" placeholder="Subnet" value="192.168.1.*" />
+                                    <span class="input-group-btn">
+                                        <button id="com-chilipeppr-widget-serialport-scanbtn" class="btn btn-default">Scan</button>
+                                    </span>
+                                </div>
+                                
+                                <a name="com-chilipeppr-widget-serialport-download"></a>
+                                <p style="padding-top:16px;font-weight:bold;">Downloads</p>
+                                
+                                <!-- v1.80 -->
+                                <p style="padding:0 0 12px 0;">Version 1.80<br/>
+                                    Build date: Mar 8, 2015<br/>
+                                    Build has new garbage collection, "broadcast" tag, and "hostname" tag support.</p>
+                                <div class="list-group">
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.80/serial-port-json-server_windows_386.zip">Windows x32</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.80/serial-port-json-server_windows_amd64.zip">Windows x64</a>
+                                    <a class="list-group-item" target="_blank" href="http://chilipeppr.com/downloads/v1.80/serial-port-json-server_macosx_v1.80.zip">Mac OS X x64 (Thanks to Riley Porter)</a>
+                                    <!-- <a class="list-group-item" target="_blank" href="http://github.com/johnlauer/serial-port-json-server">Mac OS X x64 (Compile from Github)</a> -->
+                                    <!-- <a class="list-group-item" target="_blank" href="http://github.com/johnlauer/serial-port-json-server">Mac OS X (Compile from Github)</a> -->
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.80/serial-port-json-server_linux_386.tar.gz">Linux x32</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.80/serial-port-json-server_linux_amd64.tar.gz">Linux x64</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.80/serial-port-json-server_linux_arm.tar.gz">Raspberry Pi (Linux ARM)</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.80/serial-port-json-server_linux_arm.tar.gz">Beagle Bone Black (Linux ARM)</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.80/serial-port-json-server_linux_amd64.tar.gz">Intel Edison (Linux x64)</a>
+                                    <a class="list-group-item" target="_blank" href="http://github.com/johnlauer/serial-port-json-server">Compile from source (Github)</a>
+                                </div>
+                                
+                                <!-- v1.77 -->
+                                <p style="padding:0 0 12px 0;">Version 1.77<br/>
+                                    Build date: Feb 1, 2015<br/>
+                                    Build has fixes to ensure no stalled gcode execution on jobs with short gcode moves and 100's of 1000's of lines.</p>
+                                <div class="list-group">
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.77/serial-port-json-server_windows_386.zip">Windows x32</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.77/serial-port-json-server_windows_amd64.zip">Windows x64</a>
+                                    <a class="list-group-item" target="_blank" href="http://chilipeppr.com/downloads/v1.77/serial-port-json-server-v1.77-osx.zip">Mac OS X x64 (Thanks to Jarret Luft for build)</a>
+                                    <!-- <a class="list-group-item" target="_blank" href="http://github.com/johnlauer/serial-port-json-server">Mac OS X x64 (Compile from Github)</a> -->
+                                    <!-- <a class="list-group-item" target="_blank" href="http://github.com/johnlauer/serial-port-json-server">Mac OS X (Compile from Github)</a> -->
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.77/serial-port-json-server_linux_386.tar.gz">Linux x32</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.77/serial-port-json-server_linux_amd64.tar.gz">Linux x64</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.77/serial-port-json-server_linux_arm.tar.gz">Raspberry Pi (Linux ARM)</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.77/serial-port-json-server_linux_arm.tar.gz">Beagle Bone Black (Linux ARM)</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.77/serial-port-json-server_linux_amd64.tar.gz">Intel Edison (Linux x64)</a>
+                                    <a class="list-group-item" target="_blank" href="http://github.com/johnlauer/serial-port-json-server">Compile from source (Github)</a>
+                                </div>
+
+                                
+                                <!-- v1.75 -->
+                                <!-- <p style="padding:12px 0;">Version 1.75<br/>
+                                    Build date: Dec 20, 2014<br/>
+                                    Build has fixes to ensure no thread dead-locking. New Grbl % wipe buffer command.</p> -->
+                                <!-- <div class="list-group">
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.75/serial-port-json-server_windows_386.zip">Windows x32</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.75/serial-port-json-server_windows_amd64.zip">Windows x64</a>
+                                    <a class="list-group-item" target="_blank" href="http://chilipeppr.com/downloads/v1.75/serial-port-json-server-osx64.zip">Mac OS X x64 (Thanks to Jarret Luft for build)</a>
+                                    <a class="list-group-item" target="_blank" href="http://github.com/johnlauer/serial-port-json-server">Mac OS X x64 (Compile from Github)</a>
+                                    <a class="list-group-item" target="_blank" href="http://github.com/johnlauer/serial-port-json-server">Mac OS X (Compile from Github)</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.75/serial-port-json-server_linux_386.tar.gz">Linux x32</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.75/serial-port-json-server_linux_amd64.tar.gz">Linux x64</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.75/serial-port-json-server_linux_arm.tar.gz">Raspberry Pi (Linux ARM)</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.75/serial-port-json-server_linux_arm.tar.gz">Beagle Bone Black (Linux ARM)</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.75/serial-port-json-server_linux_amd64.tar.gz">Intel Edison (Linux x64)</a>
+                                    <a class="list-group-item" target="_blank" href="http://github.com/johnlauer/serial-port-json-server">Compile from source (Github)</a>
+                                </div> -->
+                                
+                                
+                                
+                                <!-- v1.74 -->
+                                <!-- <p style="padding:12px 0;">Version 1.74<br/>
+                                    Build date: Oct 18, 2014<br/>
+                                    Build has some serial port closing bugs fixed for Linux/Mac. Also has fallback for COM port list on Windows.</p> -->
+                                <!-- <div class="list-group">
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.74/serial-port-json-server_windows_386.zip">Windows x32</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.74/serial-port-json-server_windows_amd64.zip">Windows x64</a>
+                                    <a class="list-group-item" target="_blank" href="http://chilipeppr.com/downloads/v1.74/serial-port-json-server_mac.zip">Mac OS X x64 (Thanks to paulkaplan for build)</a>
+                                    <a class="list-group-item" target="_blank" href="http://github.com/johnlauer/serial-port-json-server">Mac OS X x64 (Compile from Github)</a>
+                                    <a class="list-group-item" target="_blank" href="http://github.com/johnlauer/serial-port-json-server">Mac OS X (Compile from Github)</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.74/serial-port-json-server_linux_386.tar.gz">Linux x32</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.74/serial-port-json-server_linux_amd64.tar.gz">Linux x64</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.74/serial-port-json-server_linux_arm.tar.gz">Raspberry Pi (Linux ARM)</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.74/serial-port-json-server_linux_arm.tar.gz">Beagle Bone Black (Linux ARM)</a>
+                                    <a class="list-group-item" href="http://chilipeppr.com/downloads/v1.74/serial-port-json-server_linux_amd64.tar.gz">Intel Edison (Linux x64)</a>
+                                    <a class="list-group-item" target="_blank" href="http://github.com/johnlauer/serial-port-json-server">Compile from source (Github)</a>
+                                </div> -->
+                                
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End com-chilipeppr-widget-serialport-install -->
+                    
+                    <!-- End Your Devices Tab -->
+                    
+                </div> <!-- End tab pane "Your Devices" -->
+                <div role="tabpanel" class="tab-pane xactive" id="com-chilipeppr-widget-serialport-cloud">
+                    
+                    <div class="cloud-pickserver">
+                        
+                        <div class="row cloud-card" data-ws="ws://67.171.16.121:8989/ws">
+                        
+                            <div class="col-xs-6">
+                                <h4>TinyG v8</h4>
+                                <a>ws://tinygv8.chilipeppr.com</a>
+                                <p>115,200 baud rate</p>
+                                <p>Firmware 438.02</p>
+                            </div>
+                            
+                            <div class="col-xs-6 com-chilipeppr-widget-serialport-img" style="background-image: url('http://chilipeppr.com/img/tinyg.jpg')"></div>
+                            
+                        </div>
+                        
+                        <div class="row cloud-card" data-ws="ws://67.171.16.121:8990/ws">
+                            <div class="col-xs-6">
+                                <h4>TinyG v9 (ARM)</h4>
+                                <a>ws://tinygv9.chilipeppr.com</a>
+                                <p>Native USB Speed</p>
+                                <p>Firmware 74.03</p>
+                            </div>
+                            
+                            <div class="col-xs-6 com-chilipeppr-widget-serialport-img" style="background-image: url('http://chilipeppr.com/img/tinygv9_angle_wht_midres.jpg')"></div>
+
+                        </div>
+                        
+                        <div class="row cloud-card" data-ws="ws://tinygDue.chilipeppr.com:8989/ws" style="opacity:0.2;">
+                            
+                            <div class="col-xs-6">
+                                <h4>TinyG Due (ARM)</h4>
+                                <a>ws://tinygDue.chilipeppr.com</a>
+                                <p>Native USB Speed</p>
+                                <p>Firmware 47.10</p>
+                            </div>
+                            
+                            <div class="col-xs-6 com-chilipeppr-widget-serialport-img" style="background-image: url('https://camo.githubusercontent.com/2db1efbced4de80ff6e4706cdf5ccf6842268671…636f6d2f333733392f31303330313332353239355f333163623064633661625f682e6a7067')"></div>
+
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- End Cloud Devices Tab -->
+                    
+                </div><!-- End tab pane "Cloud Devices" -->
+            </div> <!-- End Tab Panes -->
+            
+            
+            
+            <div class="row com-chilipeppr-widget-serialport-console hidden">
+                <div class="col-xs-12">
+                    <div class="com-chilipeppr-widget-serialport-console-log well">
+                        <pre></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="row com-chilipeppr-widget-serialport-consoleinput hidden">
+                <form id="com-chilipeppr-widget-serialport-consoleform">
+                    <div class="col-xs-12">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Type serial port server command" /> <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                            
+                        </div>
+                        <!-- /input-group -->
+                    </div>
+                </form>
+            </div>
+            <div class="row com-chilipeppr-widget-serialport-status hidden">
+                <div class="col-xs-12">
+                    <div class="well well-sm ">Not connected to localhost:8989 serial port ajax server.</div>
+                </div>
+            </div>
+        </div> <!-- End Container Fluid -->
+    </div>
+    <div class="panel-footer hidden">
+        <div class="btn-group pull-left" style="padding-right:10px;">
+            <button type="button" class="btn btn-xs btn-default wsconnect disabled" data-toggle="tooltip" data-placement="auto" title="Connect to websocket serial port server."><span class="glyphicon glyphicon-ok-sign"></span>
+
+            </button>
+            <button type="button" class="btn btn-xs btn-default wsdisconnect" data-toggle="tooltip" data-placement="auto" title="Disconnect from websocket serial port server."><span class="glyphicon glyphicon-remove-sign"></span>
+
+            </button>
+        </div>
+        <div class="disconnected hidden"> <span class="glyphicon glyphicon-exclamation-sign" style="color:red"></span> Serial Port Server Disconnected</div>
+        <div class="connected "> <span class="glyphicon glyphicon-ok-sign" style="color:gray"></span> Serial Port Server Connected</div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="com-chilipeppr-serialport-modalconfig" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Script for <span class="modalconfig-port">ttyUSB0</span> on <span class="modalconfig-url">ws://10.1.1.136:8989/ws</span></h4>
+      </div>
+      <div class="modal-body">
+          <h5>Startup script that runs when you open this port</h5>
+          
+          <textarea class="form-control" rows="5" placeholder="$xvm=1&#10;$1po=1&#10;$1pl=0.85">
+          </textarea>
+          
+          <p class="modalconfig-portid" style="font-size:8px;color:silver;"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary modalconfig-save-btn" data-id="">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+
+// Test this element. This code is auto-removed by the chilipeppr.load()
+cprequire_test(["inline:com-chilipeppr-widget-serialport"], function (sp) {
+    console.log("test running of " + sp.id);
+    //sp.init("192.168.1.7");
+    sp.setSingleSelectMode();
+    sp.init(null, "tinyg");
+    //sp.init(null, "grbl");
+    sp.consoleToggle();
+    
+    var test = function() {
+        setTimeout(function() {
+            for (ctr = 0; ctr < 3; ctr++) {
+                //sp.sendBuffered('{"sr":""}\n');
+                //sp.sendBuffered('{"qr":""}\n');
+                sp.sendBuffered('{"sr":""}\n{"qr":""}\n');
+            }
+        }, 5000);
+    }
+    //test()
+
+    var test2 = function() {
+        for (ctr = 0; ctr < 30; ctr++) {
+            setTimeout(function() {
+                sp.sendBuffered('{"sr":""}\n');
+                sp.sendBuffered('{"qr":""}\n');
+            }, 5000 + (ctr * 2));
+        }
+    }
+    //test2()
+
+    setTimeout(function() {
+        chilipeppr.publish("/com-chilipeppr-widget-serialport/requestSingleSelectPort", "");
+    }, 2000);
+    
+    /*
+    setTimeout(function() {
+        chilipeppr.publish("/" + sp.id + "/send", '{"sr":""}\n{"sr":""}\n{"sr":""}\n{"sr":""}\n'); 
+        //chilipeppr.publish("/" + sp.id + "/ws/send", 'send COM22 {"sr":""}\nsend COM22 {"sr":""}\nsend COM22 {"sr":""}\nsend COM22 {"sr":""}\n'); 
+    }, 2000);
+    setTimeout(function() {
+    //    chilipeppr.publish("/" + sp.id + "/ws/send", 'send COM22 {"sr":""}\n'); 
+    }, 1000);
+    */
+    //sp.wsScan();
+} /*end_test*/ );
+
+cpdefine("inline:com-chilipeppr-widget-serialport", ["chilipeppr_ready", "jquerycookie"], function () {
+    return {
+        id: "com-chilipeppr-widget-serialport",
+        url: "http://fiddle.jshell.net/chilipeppr/vetj5fvx/show/light/",
+        fiddleurl: "http://jsfiddle.net/chilipeppr/vetj5fvx/",
+        name: "Widget / Serial Port v1.75",
+        desc: "This widget shows your available serial ports. It must connect with your local serial port Ajax server that ChiliPeppr provides for Windows, Mac, and Linux.",
+        publish: {
+            '/list' : "Sends the list of serial ports shown in this widget including the connect state so other widgets/elements in ChiliPeppr can use the list including knowing what serial ports to send/recv from. Send in /list and get back a /getlist with the JSON payload of the list.", 
+            '/ws/onconnect' : 'When the websocket connects. This widget currently supports only a single websocket. In the future, multiple websockets will be supported and a ws identifier will be attached. For now, you will receive the string "connected" in the payload. For multiple websockets a 2nd parameter will be published with the ws:// url',
+            '/ws/ondisconnect' : "When the websocket disconnects.", 
+            '/ws/sys' : "A system message. Mostly for visual display like an error.",
+            '/ws/recv' : "A signal published when the websocket receives data from the serial port server. The serial port, i.e. COM21, the websocket identifier, and data are sent.",
+            '/onportopen' : 'Published when the Serial Port JSON Server tells us a port was opened. This could happen from the user clicking to open, or if another browser or websocket client opens it, we will fire off this signal as well. The payload looks like {Cmd: "Open", Desc: "Got register/open on port.", Port: "COM22", Baud: 115200, BufferType: "tinyg"} ',
+            '/onportclose' : 'Published when the Serial Port JSON Server tells us a port was closed. This could happen from the user clicking to close, or if another browser, or SPJS, or websocket client closes it, we will fire off this signal. The payload looks like {Cmd: "Close", Desc: "Got unregister/close on port.", Port: "COM22", Baud: 115200} ',
+            '/onportopenfail' : 'Published when the Serial Port JSON Server tells us a port was attempting to be opened but failed for some reason. This could happen from the user clicking to open, or if another browser tries to open, but an error arose such as the port being locked by another process. The payload looks like {Cmd: "OpenFail", Desc: "Got error reading on port. ", Port: "COM22", Baud: 115200}',
+            '/recvline' : "We publish this signal in tandem with /ws/recv but we only publish this signal per newline. That way your widget can consume per line data which is typically the way you want it. We recommend you subscribe to this channel instead of /ws/recv to have less work to do of looking for newlines. When in setSingleSelectMode() we will only send you data for the port that is selected (in green in UI). You will not get this signal for secondary ports that are open. For secondary ports, you need to subscribe to /ws/recv and do lower level parsing.",
+            '/recvSingleSelectPort' : "In case any other widget/element wants to know what port is single selected (when in setSingleSelectMode()), they can send a signal to /requestSingleSelectPort and we'll respond back with this signal with an object like: " + JSON.stringify({
+                "Name": "COM22",
+                "Friendly": "USB Serial Port (COM22)",
+                "IsOpen": true,
+                "Baud": 115200,
+                "RtsOn": true,
+                "DtrOn": false,
+                "BufferAlgorithm": "tinyg",
+                "AvailableBufferAlgorithms": [
+                    "default",
+                    "tinyg",
+                    "dummypause"
+                ],
+                "Ver": 1.7
+            }, undefined, 2) + ". Will send back a null if no ports or no singleSelectPort is defined.",
+            '/onQueue' : 'This signal is published when a command is queued on SPJS. Payload is {"Id":"123", "D":"G0 X1\n", "QCnt":1, "Port":"COM2"}. You get the data back because if another browser sent into the SPJS, you get that data reflected in other browsers which is important for synchronizing. See /jsonSend for more info.', 
+            '/onWrite' : 'This signal is published when a command is written to the serial port on SPJS. Payload is {"Id":"123", "QCnt":0, "Port":"COM2"}. The serial command is not reiterated in this signal like it is in /onQueue. See /jsonSend for more info.', 
+            '/onComplete' : 'This signal is published when a command is done being written on SPJS and is known to have been processed by the serial device. Payload is {"Id":"123"}. Please note that sometimes /onComplete could come back before /onWrite due to the multi-threaded nature of serial ports and writing/reading as well as network congestion. See /jsonSend for more info.' ,
+            '/onError' : 'This signal is published when a command produces an error in the CNC controller either due to a gcode syntax problem, or an unsupported gcode command.  This signal can be used by the cnc-interface widget to handle for errors, or pause/cancel gcode execution so that the problem can be rectified.'
+        },
+        subscribe: {
+            '/ws/send' : "This widget subscribes to this signal so anybody can publish to a serial port by publishing here. You must specify which websocket (since multiple are supported, i.e. you could have 10 serial port servers running), and which serial port, i.e. COM21, and the data you are sending. Choosing which websocket not supported yet.",
+            '/send' : "This widget subscribes to this signal whereby you can simply send to this pubsub channel (instead of /ws/send which is lower level) and the widget will send to all serial ports that you are connected to at the same time. This is useful if you are sychronizing multiple hardware. You may put this widget into setSingleSelectMode() and then it will be the last port you opened that the data is sent to indicated by a green highlight in the UI. Most serial devices expect newline characters, so you should send those in your string as this pubsub channel does not add them.",
+            '/jsonSend' : '<p>This signal is like /send but a more structured version where you can send us commands like {"D": "G0 X1\n", "Id":"123"} or an array like [{"D": "G0 X1\n", "Id":"123"}, {"D": "G0 X2\n", "Id":"124"}] and then this widget will send callback signals in order of /onQueue, /onWrite, /onComplete. The payload is {"Id":"123"} on each of those.</p> <p>The SPJS has 3 steps to get your command to the serial device. Step 1 is /onQueue and this will come back immediately when SPJS has taken your command and queued it to memory/disk. Step 2 is /onWrite when SPJS actually has written your command to the serial device. If the device takes a while to execute the command it could be a bit of time until that command is physically executed. Step 3 is /onComplete which is SPJS attempting to watch for a response from the serial device to determine that indeed your command is executed. Please note /onComplete can come back prior to /onWrite based on your serial device and how fast it may have executed your serial command.</p> <p>You can omit the Id if you do not care about tracking. You will get callbacks with an empty Id so you will not be able to match them up. If you send in /jsonSend {"D": "G0 X1\nG0 X0\n", "Id":"123"} you will get back /onQueue [{"D":"G0 X1\n","Id":"123","Buf":"Buf"},{"D":"G0 X0\n","Id":"123-part-2-2","Buf":"Buf"}] because technically those are 2 commands with one Id. Some commands sent into Serial Port JSON Server get additional commands auto-added. For example, if you send in a command to TinyG that would put it in text mode, SPJS appends a command to put TinyG back in JSON mode. In those cases you will get parts added to your command and will see that in the response.</p>',
+            '/getlist' : "In case any other widget/element wants to request the list at any time, they can send a signal to this channel and we'll respond back with a /list",
+            '/requestSingleSelectPort' : "In case any other widget/element wants to know what port is single selected (when in setSingleSelectMode()), they can send a signal to this channel and we'll respond back with a /recvSingleSelectPort with an object like: " + JSON.stringify({
+                "Name": "COM22",
+                "Friendly": "USB Serial Port (COM22)",
+                "IsOpen": true,
+                "Baud": 115200,
+                "RtsOn": true,
+                "DtrOn": false,
+                "BufferAlgorithm": "tinyg",
+                "AvailableBufferAlgorithms": [
+                    "default",
+                    "tinyg",
+                    "dummypause"
+                ],
+                "Ver": 1.7
+            }, undefined, 2) + ". Will send back a null if no ports or no singleSelectPort is defined.",
+        },
+        foreignPublish: {
+            '/com-chilipeppr-elem-flashmsg/flashmsg' : "We publish system messages from the serial port server to the flash message element to display informational messages to the user.",
+            '/com-chilipeppr-interface-cnccontroller/plannerpause' : 'We publish a planner pause if we see that the buffer count in the Serial Port JSON Server gets above 20,000.',
+            '/com-chilipeppr-interface-cnccontroller/plannerresume' : 'We publish a planner resume when we get back to 15,000.'
+        },
+        isWsConnected: false,
+        host: null,
+        portlist: null,
+        conn: null,     // the websocket we're connected to (eventually make this an array so we can have multiple websockets)
+        isSingleSelectMode: false,  // means you can multiple open ports, or only open one
+        singleSelectPort: null,     // this will get set to the last port opened based on cookie or click
+        buffertype: null, // holds what buffertype to request on the "open comPort baud buffertype" command, if null we just don't send
+        defaultBaud: null, // holds default baud to put in the pulldown menu
+        init: function (host, buffertype, defaultBaud) {
+            console.group("init of serial port widget");
+            // see if we were passed a buffertype
+            // this is an extra command now that the serial port json
+            // server supports buffer algorithms for specific types
+            // of hardware. by default no buffer flow control is needed
+            // like if you're controlling an arduino
+            // but in the case of tinyg and grbl it helps to have buffer
+            // flow be very close to the serial port itself
+            // so the serial port json server supports algorithms to be
+            // added via github and compiled in. you may request
+            // that algorithm here globally, or per serial port
+            // it's best to not do this globally since the goal of 
+            // chilipeppr is to allow multiple serial port devices at
+            // the same time to control things like probes while sending
+            // gcode
+            if (buffertype != null && buffertype.length > 0) {
+                this.buffertype = buffertype;
+                console.log("we have a buffertype being requested. buffertype:", this.buffertype);
+                // also add extra msg to encourage the buffer choice
+                $('.com-chilipeppr-widget-serialport-bufferindicator').removeClass("hidden").find('.buffername').text(buffertype);
+
+                // Cheating a bit here, bu this seems to be the new std
+                // default baud rate out there
+                this.defaultBaud = 115200;
+            }
+            
+            if (defaultBaud) {
+                console.log("setting defaultBaud:", defaultBaud);
+                this.defaultBaud = defaultBaud;
+            }
+
+            this.btnBarSetup();
+            this.consoleSetup();
+            this.statusWatcher();
+            this.wsConnect(null, host);
+            
+            // setup onconnect pubsub event
+            chilipeppr.subscribe("/" + this.id + "/ws/onconnect", this, function (msg) {
+                this.getPortList();
+            });
+
+            // setup recv pubsub event
+            // this is when we receive data from the serial port
+            chilipeppr.subscribe("/" + this.id + "/ws/recv", this, function (msg) {
+                this.onWsMessage(msg);
+            });
+
+            // setup low-level send pubsub event
+            // this is when a widget sends data to the serial port
+            chilipeppr.subscribe("/" + this.id + "/ws/send", this, function (msg) {
+                this.wsSend(msg);
+            });
+            
+            // setup send pubsub event
+            // this is when a widget sends data to the serial port
+            // this only supports singleSelectMode()
+            chilipeppr.subscribe("/" + this.id + "/send", this, function (msg) {
+                this.send(msg);
+            });
+            
+            // setup jsonSend pubsub event
+            // this is when a widget sends data to the serial port
+            // in a structured way so they can get callbacks
+            // this only supports singleSelectMode()
+            chilipeppr.subscribe("/" + this.id + "/jsonSend", this, function (json) {
+                this.sendViaJson(json);
+            });
+            
+            // Allow others to request our serial port list
+            chilipeppr.subscribe("/" + this.id + "/getlist", this, function () {
+                chilipeppr.publish("/" + this.id + "/list", this.portlist);
+            });
+
+            var that = this;
+            
+            // show last remote host, if there is one
+            if ($.cookie('lasthost')) {
+                var lasthost = $.cookie('lasthost');
+                lasthost = lasthost.replace(/ws:\/\/(.*):.*/, "$1");
+                $('#com-chilipeppr-widget-serialport-host').val(lasthost);
+            }
+            
+            // if connect btn or enter key on remote host connect
+            var remoteCon = $('#com-chilipeppr-widget-serialport-hostbtn');
+            remoteCon.click(function() {
+                that.onRemoteHostConnect();
+            });
+            $('#com-chilipeppr-widget-serialport-host').keypress(function(event){
+                //console.log("got keypress. event:", event);
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode == '13'){
+                    that.onRemoteHostConnect(); 
+                }
+            });
+            
+            // setup the port scan button
+            $('#com-chilipeppr-widget-serialport-scanbtn').click(function() {
+                var subnet = $('#com-chilipeppr-widget-serialport-scan').val();
+                that.wsScan(null, subnet);
+            });
+            
+            // cleanup popovers that are getting created by some other widget's code
+            //$('.com-chilipeppr-widget-serialport').find('.popover').remove();
+            
+            // setup requestSingleSelectPort pubsub event
+            chilipeppr.subscribe("/" + this.id + "/requestSingleSelectPort", this, function (msg) {
+                this.publishSingleSelectPort();
+            });
+            
+            // subscribe to our own /onportopen signal to hide the buffer encouragement msg
+            chilipeppr.subscribe("/" + this.id + "/onportopen", this.hideBufferEncouragement.bind(this));
+            chilipeppr.subscribe("/" + this.id + "/list", this.bufferEncouragement.bind(this));
+            
+            this.initBody();
+            
+            console.log("setting up onPlannerResumeSetup");
+            this.onPlannerResumeSetup();
+            
+            // setup cloud servers
+            this.setupCloudServers();
+            
+            console.log(this.name + " done loading.");
+            console.groupEnd();
+        },
+        version: null,
+        versionFloat: 0.0,
+        onVersion: function(version) {
+            console.log("got version cmd. version:", version);
+            this.version = version;
+            this.versionFloat = parseFloat(version);
+            $('.com-chilipeppr-widget-serialport .serial-port-version').text(" v" + version + " ");
+            
+            // Handle functionality buttons show/hidden based on version here
+            if ( this.versionFloat >= 1.76) {
+                // show restart button
+                 $('.com-chilipeppr-widget-serialport .btn.spjs-restart').parent().removeClass("hidden");
+            } else {
+                // hide restart button
+                 $('.com-chilipeppr-widget-serialport .btn.spjs-restart').parent().addClass("hidden");
+            }
+            
+            // Handle informational message here
+            if ( this.versionFloat >= 1.7) {
+                $('.com-chilipeppr-widget-serialport-version-yours').text(version);
+                $('.com-chilipeppr-widget-serialport-version').addClass('hidden');
+            } else if (version == "1.6" || version == "1.2" || version == "1.3" || version == "1.3.1" || version == "1.4" || version == "1.5" || version == "snapshot") {
+                $('.com-chilipeppr-widget-serialport-version-yours').text(version);
+                //$('.com-chilipeppr-widget-serialport-version').addClass('hidden');
+                $('.com-chilipeppr-widget-serialport-version-fullmsg').html(
+                    "You are running version " + version + " of the Serial Port JSON Server. You MUST upgrade to the new 1.7 version as the Serial Port JSON Server has moved to a more stuctured send to enable onQueue, onWrite, and OnComplete events.<br/><br/>To upgrade, " + 
+                    '<button type="button" class="btn btn-xs btn-default disconnect-inline" data-toggle="popover" data-placement="auto" data-container="body" data-content="Disconnect from serial port server" data-trigger="hover" data-original-title="" title=""><span class="glyphicon glyphicon-remove-sign"></span></button>' +
+                    " disconnect from the websocket server and click the correct platform to download the binary for.");
+                $('.com-chilipeppr-widget-serialport-version-fullmsg .disconnect-inline').click(this.disconnect.bind(this));
+                /*
+            } else if (version == "1.2") {
+                $('.com-chilipeppr-widget-serialport-version-fullmsg').html("You are running version 1.2 of the Serial Port JSON Server. If you are running a TinyG, you should upgrade to the new 1.6 version as the Serial Port JSON Server now supports buffer flow control plugins. A plugin has been written for TinyG that puts the control closer to the serial port to ensure no lost Gcode. If you are running an alternate workspace, you're all set, although you could still upgrade.<br/><br/>To upgrade, disconnect from the websocket server and click the correct platform to download the binary for.");
+                */
+            } else {
+                if (version != null && version != "")
+                    $('.com-chilipeppr-widget-serialport-version-yours').text(version);
+                $('.com-chilipeppr-widget-serialport-version').removeClass('hidden');
+            }
+        },
+        resetVersion: function() {
+            // turn off the version msg in UI
+            // to handle earlier versions that don't send a version num
+            // default to always showing. then onVersion will hide for us
+            $('.com-chilipeppr-widget-serialport-version-yours').text("1.1");
+            // no longer doing this as of Jan 25 2015 cuz version 1.1 is SOOOOO old nobody
+            // has it anymore
+            //$('.com-chilipeppr-widget-serialport-version').removeClass('hidden');            
+        },
+        hideVersion: function() {
+            $('.com-chilipeppr-widget-serialport-version').addClass('hidden');
+            $('.com-chilipeppr-widget-serialport .panel-heading .serial-port-version').text('');
+        },
+        resetSpjsName: function() {
+            $('.com-chilipeppr-widget-serialport .panel-heading .hosttitle').text('');
+        },
+        onSpjsName: function(spjsName) {
+            $('.com-chilipeppr-widget-serialport .panel-heading .hosttitle').text(spjsName);
+        },
+        setupCloudServers: function() {
+            
+            // make everything clickable
+            $('.com-chilipeppr-widget-serialport-body .cloud-card').click(this.onCloudServerClick.bind(this));
+            
+        },
+        onCloudServerClick: function(evt) {
+            console.log("got onCloudServerClick. evt:", evt, "data:", evt.data);
+            var wsUrl = $(evt.currentTarget).data("ws");
+            console.log("url from data attrib:", wsUrl);
+            this.disconnect();
+            this.wsConnect(wsUrl);
+        },
+        showBufferEncouragement: function() {
+            $('.com-chilipeppr-widget-serialport-bufferindicator').removeClass('hidden');
+        },
+        hideBufferEncouragement: function() {
+            $('.com-chilipeppr-widget-serialport-bufferindicator').addClass('hidden');
+        },
+        bufferEncouragement: function(list, arg2) {
+            console.log("got bufferEncouragement port list:", list, "arg2:", arg2);
+            //$('.com-chilipeppr-widget-serialport-bufferindicator').addClass('hidden');
+            // see if we're being asked to show a default buffer. if we are then we need
+            // to analayze the current port list to see if anything is open with that buffer
+            // set. if it is we can hide the encouragement msg. if it's not, we should show the msg
+            //debugger;
+            var that = this;
+            if (this.buffertype != null) {
+                // yes, the instantiator wants a certain type of buffer to be used
+                var isAnythingConnectedWithTheBufferWeWant = false;
+                // process whole port list
+                list.forEach(function(item) {
+                    //debugger;
+                    if (item.IsOpen && item.BufferAlgorithm == that.buffertype) {
+                        isAnythingConnectedWithTheBufferWeWant = true;
+                    }
+                });
+                
+                if (isAnythingConnectedWithTheBufferWeWant)
+                    this.hideBufferEncouragement();
+                else
+                    this.showBufferEncouragement();
+            }
+        },
+        publishSingleSelectPort: function() {
+            console.log("got publishSingleSelectPort. isSingleSelectMode:", this.isSingleSelectMode, "singleSelectPort:", this.singleSelectPort, "portlist:", this.portlist);
+            var port = null;
+            var that = this;
+            if (this.portlist && this.portlist != null) {
+                this.portlist.forEach(function(item) {
+                    console.log("item:", item);
+                    if (item.Name == that.singleSelectPort) {
+                        console.log("found it. item.Name:", item.Name);
+                        port = item;
+                    }
+                });
+            }
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/recvSingleSelectPort", port);
+        },
+        onRemoteHostConnect: function() {
+            var host = $('#com-chilipeppr-widget-serialport-host').val();
+            $('#com-chilipeppr-widget-serialport-hostconnectmsg').html(
+                "Trying to connect to " +
+                $('#com-chilipeppr-widget-serialport-host').val() + "...");
+            this.wsConnect(host, function() {
+                $('#com-chilipeppr-widget-serialport-hostconnectmsg').html("Last connect successful.");
+            }, function() {
+                $('#com-chilipeppr-widget-serialport-hostconnectmsg').html("Failed to connect to host.");
+            });
+        },
+        setSingleSelectMode: function() {
+            this.isSingleSelectMode = true;
+            //var ver = " v" + this.version;
+            //if (this.version == null) ver = "";
+            $('.com-chilipeppr-widget-serialport .panel-heading .subtitle').html('Single Port Mode');            
+            this.singleSelectPort = $.cookie("singleSelectPort");
+            console.log("setSingleSelectMode. port:", this.singleSelectPort);
+        },
+        getPortListCount: 0,
+        getPortList: function () {
+            if (this.isWsConnected) {
+                this.getPortListCount = 0;
+                this.wsSend("list");
+            } else {
+                if (this.getPortListCount > 5) {
+                    // give up, so we don't get in endless loop
+                    this.publishSysMsg("Tried to get serial port list, but we are not connected to serial port json server.");
+                } else {
+                    this.getPortListCount++;
+                    this.wsConnect();
+                }
+            }
+
+        },
+        btnBarSetup: function () {
+            var that = this;
+            
+            /*
+            $('.com-chilipeppr-widget-serialport .btn').tooltip({
+                animation: true,
+                delay: 100,
+                //container: 'body'
+            });
+            */
+            $('.com-chilipeppr-widget-serialport .btn').popover({
+                animation: true,
+                delay: 100,
+                //container: 'body'
+            });
+            
+            $('.com-chilipeppr-widget-serialport .btn.refresh').click(function () {
+                $('.com-chilipeppr-widget-serialport-disconnected .refresh').prop('disabled', true);
+                that.getPortList();
+            });
+            $('#com-chilipeppr-widget-serialport-tbar-showhideconsole').click(
+                this.consoleToggle.bind(this)
+            );
+            $('#com-chilipeppr-widget-serialport-tbar-showhidestatus').click(
+                this.statusToggle.bind(this)
+            );
+            $('#com-chilipeppr-widget-serialport-tbar-refresh').click(function () {
+                that.getPortList();
+            });
+            $('#com-chilipeppr-widget-serialport-tbar-reconws').click(function () {
+                that.wsConnect();
+            });
+            $('#com-chilipeppr-widget-serialport-tbar-disconws').click(this.disconnect.bind(this));
+            $('.com-chilipeppr-widget-serialport .btn.disconnect').click(this.disconnect.bind(this));
+            
+            // the new restart command
+            $('.com-chilipeppr-widget-serialport .btn.spjs-restart').click(function () {
+                that.restartSpjs();
+            });
+            
+            this.forkSetup();
+
+        },
+        restartSpjs: function() {
+            this.wsSend("restart");
+        },
+        exitSpjs: function() {
+            this.wsSend("exit");
+        },
+        disconnect: function() {
+            //console.log("got forced disconnect, so wiping cookie storing lasthost");
+            //$.removeCookie('lasthost', { path: '/' }); // => true
+            console.log("closing websocket:", this.conn);
+            if (this.conn) {
+                this.conn.close();
+                $('.com-chilipeppr-widget-serialport-install').removeClass('hidden');
+            }
+        },
+        consoleToggle: function() {
+            var con = $('.com-chilipeppr-widget-serialport-console');
+            var coni = $('.com-chilipeppr-widget-serialport-consoleinput');
+            if (con.hasClass('hidden')) {
+                // the console is hidden, so let's show
+                con.removeClass('hidden');
+                coni.removeClass('hidden');
+                this.logIsShowing = true;
+            } else {
+                // it's showing, so they want to hide it
+                con.addClass('hidden');
+                coni.addClass('hidden');
+                this.logIsShowing = false;
+            }
+            
+        },
+        statusToggle: function() {
+            var stat = $('.com-chilipeppr-widget-serialport-status');
+            if (stat.hasClass('hidden')) {
+                // the status is hidden, so let's show
+                stat.removeClass('hidden');
+            } else {
+                // it's showing, so they want to hide it
+                stat.addClass('hidden');
+            }
+        },
+        history: [], // store history of commands so user can iterate back
+        historyLastShownIndex: null,    // store last shown index so iterate from call to call
+        pushOntoHistory: function(cmd) {
+            this.history.push(cmd);
+            
+            // push onto dropup menu
+            //var el = $('<li><a href="javascript:">' + cmd + '</a></li>');
+            //$('#com-chilipeppr-widget-spconsole-consoleform .dropdown-menu').append(el);
+            //el.click(cmd, this.onHistoryMenuClick.bind(this));
+        },
+        onHistoryMenuClick: function(evt) {
+            console.log("got onHistoryMenuClick. data:", evt.data);
+            $("#com-chilipeppr-widget-spconsole-consoleform input").val(evt.data);
+            //return true;
+        },
+        consoleSetup: function () {
+            // subscribe to websocket events
+            chilipeppr.subscribe("/" + this.id + "/ws/recv", this, function (msg) {
+                var msg = $("<div/>").text(msg);
+                this.appendLog(msg);
+            });
+
+            var that = this;
+            $("#com-chilipeppr-widget-serialport-consoleform").submit(function (evt) {
+                evt.preventDefault();
+                
+                console.log("got submit on form");
+                if (!that.isWsConnected) {
+                    return false;
+                }
+                var msg = $('#com-chilipeppr-widget-serialport-consoleform input');
+                if (!msg.val()) {
+                    return false;
+                }
+                
+                // push onto history stack
+                if (msg.val().length > 0) {
+                    //console.log("pushing msg to history. msg:", msg.val());
+                    that.pushOntoHistory(msg.val());
+                    
+                }
+
+                //that.wsSend(msg.val() + "\n");
+                //that.send(msg.val() + "\n");
+                //that.sendBuffered(msg.val() + "\n");
+                that.sendFromConsole(msg.val() + "\n");
+                that.appendLogEchoCmd(msg.val());
+                msg.val("");
+                
+                // reset history on submit
+                that.historyLastShownIndex = null;
+
+                return false;
+            });
+            
+            // show history by letting user do up/down arrows
+            $("#com-chilipeppr-widget-serialport-consoleform").keydown(function(evt) {
+                //console.log("got keydown. evt.which:", evt.which, "evt:", evt);
+                if (evt.which == 38) {
+                    // up arrow
+                    if (that.historyLastShownIndex == null)
+                        that.historyLastShownIndex = that.history.length;
+                    that.historyLastShownIndex--;
+                    if (that.historyLastShownIndex < 0) {
+                        console.log("out of history to show. up arrow.");
+                        that.historyLastShownIndex = 0;
+                        return;
+                    }
+                    $("#com-chilipeppr-widget-serialport-consoleform input").val(that.history[that.historyLastShownIndex]);
+                } else if (evt.which == 40) {
+                    if (that.historyLastShownIndex == null)
+                        return;
+                        //that.historyLastShownIndex = -1;
+                    that.historyLastShownIndex++;
+                    if (that.historyLastShownIndex >= that.history.length) {
+                        console.log("out of history to show. down arrow.");
+                        that.historyLastShownIndex = that.history.length;
+                        $("#com-chilipeppr-widget-serialport-consoleform input").val("");
+                        return;
+                    }
+                    $("#com-chilipeppr-widget-serialport-consoleform input").val(that.history[that.historyLastShownIndex]);
+                }
+            });
+
+
+        },
+        log: null,
+        logIsShowing: false,
+        appendLogOld: function (msg) {
+            // don't do this if log not showing
+            if (!this.logIsShowing) {
+                //console.log("being asked to append, but log is not showing. exiting.");
+                return;
+            }
+            
+            if (this.log == null) this.log = $('.com-chilipeppr-widget-serialport-console-log');
+            var log = this.log;
+            var d = log[0];
+            var doScroll = d.scrollTop == d.scrollHeight - d.clientHeight;
+            // see if log is too long
+            if (log.text().length > 5000) {
+                // truncating log
+                console.log("Truncating log.");
+                log.text(log.text().substring(log.text().length-2500));
+            }
+            msg.appendTo(log);
+            if (doScroll) {
+                d.scrollTop = d.scrollHeight - d.clientHeight;
+            }
+        },
+        appendLogEchoCmd: function(msg) {
+            //console.log("appendLogEchoCmd. msg:", msg);
+            var msg2 = $("<div class=\"out\"/>").text("" + msg);
+            //console.log(msg2);
+            this.appendLog(msg2);
+        },
+        logEls: {
+            log: null,
+            logOuter: null,
+        },
+        appendLog: function (msg) {
+            // don't do this if log not showing
+            if (!this.logIsShowing) {
+                //console.log("being asked to append, but log is not showing. exiting.");
+                return;
+            }
+            //console.log("appendLog. msg:", msg);
+            if (this.logEls.log == null) {
+                console.log("lazy loading logEls. logEls:", this.logEls);
+                this.logEls.log = $('.com-chilipeppr-widget-serialport-console-log pre');
+                this.logEls.logOuter = $('.com-chilipeppr-widget-serialport-console-log');
+            }
+            //console.log("logEls:", this.logEls);
+            //console.log(this.logEls.logOuter);
+            var d = this.logEls.logOuter[0];
+            var doScroll = d.scrollTop == d.scrollHeight - d.clientHeight;
+            var log = this.logEls.log;
+            if (log.html().length > 50000) {
+                // truncating log
+                console.log("Truncating log.");
+                /*
+                var logHtml = log.html().split(/\n/);
+                var sliceStart = logHtml.length - 200;
+                if (sliceStart < 0) sliceStart = 0;
+                log.html(logHtml.slice(sliceStart).join("\n"));
+                */
+                var loghtml = log.html();
+                log.html("--truncated--" + loghtml.substring(loghtml.length - 2500));
+            }
+            if (msg.appendTo)
+                msg.appendTo(log);
+            else
+                log.html(log.html() + msg);
+            
+            //if (doScroll) {
+                d.scrollTop = d.scrollHeight - d.clientHeight;
+            //}
+        },
+        // TODO: Make all buffered sending work on multiple ports. For now it's just single select port.
+        sendbuf: [],
+        isSendBufWaiting: false, // true if we're waiting for "Queue" response
+        sendBuffered: function(msg) {
+            
+            // in this method we'll queue to an array and then work the array when we see a WriteQueuedBuffered back
+            console.log("inside sendBuffered. msg:", msg);
+            
+            // push msg onto stack
+            this.sendbuf.push(msg);
+            
+            // only trigger buffer send if we aren't waiting
+            setTimeout(this.sendBufferedDoNext.bind(this), 1);
+            
+        },
+        sendBufferedDoNext: function() {
+            
+            if (this.sendbuf.length == 0) {
+                console.log("no more items on buffer so exiting and not queuing for next");
+                this.appendLog("(No more items on buffer.)");
+                return;
+            }
+            
+            if (this.isSendBufWaiting) {
+                console.log("isSendBufWaiting is true, so returning.");
+                return;
+            }
+
+            var msg = this.sendbuf.join("");
+            this.sendbuf = []; // clear buffer to empty array
+            console.log("sendBufferedDoNext. full join of buf. msg:", msg);
+            /*
+            // shift off of the sendbuf queue
+            var msg = this.sendbuf.shift();
+            console.log("sendBufferedDoNext. msg:", msg);
+            */
+            
+            if (this.isSingleSelectMode) {
+                if (this.singleSelectPort != null && this.singleSelectPort.length > 1) {
+                    
+                    console.log("setting isSendBufWaiting to true. sending to port:", this.singleSelectPort, "msg:", msg);
+                    msg = "send " + this.singleSelectPort + " " + msg;
+                    this.isSendBufWaiting = true; // make sure we wait
+                    this.wsSend(msg);
+                    
+                } else {
+                    this.publishSysMsg("Tried to send a serial port message, but there is no port selected.");
+                }
+            } else {
+                this.publishSysMsg("Not in single select mode so don't know what port to send to.");
+            }
+            
+            // subscribe to /recv pubsub response to wait until we see a queue buffered response
+            
+            // otherwise send off
+            //this.send(msg);
+            
+            // then call next item without using stack and tiny yield
+            //setTimeout(this.sendBufferedDoNext.bind(this), 1); // 1 ms
+        },
+        sendBufferedOnWsRecv: function(data) {
+            console.log("got sendBufferedOnWsRecv. setting isSendBufWaiting to false. data:", data);
+            this.isSendBufWaiting = false; // mark to false cuz if we're queued we can now move forward
+            setTimeout(this.sendBufferedDoNext.bind(this), 1); // 1 ms
+        },
+        // TODO: Make all json buffered sending work on multiple ports. For now it's just single select port.
+        sendbufjson: [],
+        isSendBufWaitingJson: false, // true if we're waiting for "Queue" response
+        clearBuffer: function() {
+            this.sendbufjson = [];
+            this.isSendBufWaitingJson = false;
+        },
+        sendBufferedJson: function(msg) {
+            
+            // in this method we'll queue to an array and then work the array when we see a WriteQueuedBuffered back
+            console.log("inside sendBufferedJson. msg:", msg);
+            
+            // push msg onto stack
+            this.sendbufjson.push(msg);
+            
+            // only trigger buffer send if we aren't waiting
+            setTimeout(this.sendBufferedDoNextJson.bind(this), 1);
+            
+        },
+        sendBufferedDoNextJson: function() {
+            //console.group("serial port widget - sendBufferedDoNextJson");
+            if (this.sendbufjson.length == 0) {
+                //console.log("no more items on json buffer so exiting and not queuing for next");
+                this.appendLog("(No more items on json buffer.)");
+                //console.groupEnd();
+                return;
+            }
+            
+            if (this.isSendBufWaitingJson) {
+                //console.log("isSendBufWaitingJson is true, so returning.");
+                //console.groupEnd();
+                return;
+            }
+
+            //var msg = this.sendbufjson.join("");
+            //console.log("sendBufferedDoNextJson. full join of buf. msg:", msg);
+            
+            if (this.isSingleSelectMode) {
+                if (this.singleSelectPort != null && this.singleSelectPort.length > 1) {
+                    
+                    //console.log("setting isSendBufWaitingJson to true. sending to port:", this.singleSelectPort);
+                    
+                    var payload = {
+                        P: this.singleSelectPort,
+                        Data: this.sendbufjson
+                    }
+                    // TODO: GET IN CORRECT FORMAT
+                    msg = "sendjson " + JSON.stringify(payload);
+                    this.isSendBufWaitingJson = true; // make sure we wait
+                    this.wsSend(msg);
+                    
+                } else {
+                    this.publishSysMsg("Tried to send a serial port message, but there is no port selected.");
+                }
+            } else {
+                this.publishSysMsg("Not in single select mode so don't know what port to send to.");
+            }
+            
+            this.sendbufjson = []; // clear buffer to empty array
+            //console.groupEnd();
+        },
+        sendBufferedOnWsRecvJson: function(data) {
+            //console.log("got sendBufferedOnWsRecvJson. setting isSendBufWaitingJson to false. data:", data);
+            this.isSendBufWaitingJson = false; // mark to false cuz if we're queued we can now move forward
+            setTimeout(this.sendBufferedDoNextJson.bind(this), 1); // 1 ms
+        },
+        sendFromConsole: function(msg) {
+            this.wsSend(msg);
+        },
+        sendViaJson: function(json) {
+            //console.group("serial port widget - sendViaJson");
+            
+            // we should be passed json that looks like
+            //  {"D": "G0 X1\n", "Id":"123"} 
+            // ensure it can be parsed
+            if ("D" in json) {
+                // we are good
+                // push msg onto stack
+                this.sendbufjson.push(json);
+                
+                // only trigger buffer send if we aren't waiting
+                setTimeout(this.sendBufferedDoNextJson.bind(this), 1);
+            } else if (Array.isArray(json)) {
+                // its an array of commands
+                this.sendbufjson = this.sendbufjson.concat(json);
+                // only trigger buffer send if we aren't waiting
+                setTimeout(this.sendBufferedDoNextJson.bind(this), 1);                
+            } else {
+                console.error("Sent incorrectly formatted object. You must provide the D parameter in your object to send commands to the serial port via JSON.");
+                
+            }
+            
+            //console.groupEnd();
+        },
+        onQueuedJson: function(data) {
+            // we got a queued msg. good. fire off event
+            //console.group("serial port widget - onQueuedJson");
+            
+            // tell the json buffer it can send the next command
+            this.sendBufferedOnWsRecvJson();
+            
+            //console.log("data:", data);
+            //var json = $.parseJSON(data);
+            //console.log("parsed:", json);
+            for (var ctr = 0; ctr < data.Data.length; ctr++) {
+                var payload = { 
+                    Id: data.Data[ctr].Id, 
+                    Buf: data.Data[ctr].Buf
+                    //Parts: data.Data[ctr].Parts 
+                };
+                if ('D' in data.Data[ctr]) payload["D"] = data.Data[ctr].D;
+                chilipeppr.publish("/" + this.id + "/onQueue", payload);                
+            }
+            //console.groupEnd();
+        },
+        onQueuedText: function(data) {
+            // we got a queued msg. good. fire off event
+            console.group("serial port widget - onQueuedText");
+            
+            // tell the buffer it can send the next command
+            this.sendBufferedOnWsRecv();
+            
+            if (this.versionFloat >= 1.7) {
+                
+                console.log("data:", data);
+                //var json = $.parseJSON(data);
+                //console.log("parsed:", json);
+                for (var ctr = 0; ctr < data.Ids.length; ctr++) {
+                    var payload = { 
+                        Id: data.Ids[ctr],
+                        //Buf: data.Type[ctr],
+                        QCnt: data.QCnt,
+                        Port: data.Port
+                    }
+                    if ('D' in data) payload["D"] = data.D[ctr];
+                    chilipeppr.publish("/" + this.id + "/onQueue", payload);                
+                }
+            } else {
+                console.log("not running 1.7 or later of SPJS. your version:", this.versionFloat);
+            }
+            console.groupEnd();
+        },
+        onWriteJson: function(data) {
+            // we got a write msg. good. fire off event
+            //console.group("onWriteJson");
+            console.log("onWriteJson. data:", data);
+            var payload = { Id: data.Id, QCnt: data.QCnt, Port: data.P };
+            chilipeppr.publish("/" + this.id + "/onWrite", payload);                
+            //console.groupEnd();
+        },
+        onCompleteJson: function(data) {
+            // we got a complete msg. good. fire off event
+            //console.group("onCompleteJson");
+            console.log("onCompleteJson. data:", data);
+            var payload = { Id: data.Id };
+            chilipeppr.publish("/" + this.id + "/onComplete", payload);                
+            //console.groupEnd();
+        },
+        onErrorJson: function(data){
+            // we got an error message from cnc controller. bad. notify widgets
+            //console.group("onCompleteJson");
+            //console.log("data:", data);
+            var payload = { Id: data.Id };
+            chilipeppr.publish("/" + this.id + "/onError", payload);                
+            //console.groupEnd();
+        },
+        send: function(msg) {
+            // this method is called when we get a publish on our pubsub channel of /send
+            /*
+            if (this.version != null && this.versionFloat >= 1.7) {
+                // we have a modern spjs that supports buffering
+                //console.log("using new sendBuffered")
+                this.sendBufferedJson(msg);
+            } else if (this.version != null && this.versionFloat >= 1.4) {
+            */
+            if (this.version != null && this.versionFloat >= 1.4) {
+                // we have a modern spjs that supports buffering
+                //console.log("using new sendBuffered")
+                this.sendBuffered(msg);
+            } else {
+                // we have old server, send as before
+                //console.log("using old sendNoBuf(). msg:", msg);
+                this.sendNoBuf(msg);
+            }
+        },
+        sendNoBuf: function(msg) {
+            // this was called send() before, but rewrote it to branch if we have a later version of
+            // serial port json server that allows buffering
+            
+            // we have to figure out what port to send to which depends on whether we're in multi mode or single mode
+            var listOfPortsToSendTo = [];
+            
+            if (this.isSingleSelectMode) {
+                if (this.singleSelectPort != null && this.singleSelectPort.length > 1) 
+                    listOfPortsToSendTo.push(this.singleSelectPort);
+                else
+                    this.publishSysMsg("Tried to send a serial port message, but there is no port selected.");
+
+            } else {
+                // TODO push open ports onto array instead
+            }
+            var that = this;
+            $.each(listOfPortsToSendTo, function(i, port) {
+                console.log("sending to port:", port, "msg:", msg);
+                msg = "send " + port + " " + msg;
+                that.wsSend(msg);
+            });
+
+        },
+        wsSend: function (msg) {
+            if (this.isWsConnected) {
+                this.conn.send(msg);
+            } else {
+                this.publishSysMsg("Tried to send message, but we are not connected to serial port ajax server.");
+            }
+        },
+        serialSaveCookie: function(portname, baud, isrts, isdtr, buffer) {
+            /*var settings = '{ "baud" : ' + baud + ',' +
+                ' "isRts" : ' + isrts + ',' +
+                ' "isDtr" : ' + isdtr + ' }';*/
+            var settings = JSON.stringify({ baud:baud, isRts:isrts, isDtr:isdtr, buffer:buffer });
+            
+            // store our port/baud settings in cookie for convenience
+            $.cookie('port-' + portname, settings, {
+                expires: 365,
+                path: '/'
+            });
+
+        },
+        serialGetCookie: function(portname) {
+            // get cookies that may have been stored for the previous settings
+            // of the baud, rts, dtr settings
+            // make sure we loaded jquery.cookie plugin
+            var settings = $.cookie('port-' + portname);
+            //console.log("getCookie:", settings);
+            if (settings) {
+                settings = $.parseJSON(settings);
+                //console.log("just evaled settings: ", settings);
+            }
+            return settings;
+        },
+        serialConnect: function (portname, baud, buffer) {
+
+            // reset the sendBuffer waiting flag cuz state unknown now
+            this.isSendBufWaiting = false;
+            this.isSendBufWaitingJson = false;
+            
+            // save the cookie for future convenience so we can load the baud and other stuff
+            // so the user can be lazy
+            this.serialSaveCookie(portname, baud, null, null, buffer);
+            
+            // if we are not ajax server connected, try to reconnect
+            var that = this;
+            var buf = "";
+            if (buffer != null && buffer.length > 0)
+                buf = " " + buffer;
+
+            /*
+            if (that.buffertype == null) 
+                buf = "";
+            else
+                buf = " " + that.buffertype; // add space for after baud
+            */
+            
+            if (!this.isWsConnected) {
+                this.wsConnect(function () {
+                    chilipeppr.publish("/" + that.id + "/ws/send",
+                        "open " + portname + " " + baud + buf);
+                });
+            } else {
+                chilipeppr.publish("/" + this.id + "/ws/send",
+                    "open " + portname + " " + baud + buf);
+            }
+        },
+        serialDisconnect: function (portname) {
+
+            // if we are not ajax server connected, try to reconnect
+            var that = this;
+            if (!this.isWsConnected) {
+                this.wsConnect(function () {
+                    chilipeppr.publish("/" + that.id + "/ws/send",
+                        "close " + portname);
+                });
+            } else {
+                chilipeppr.publish("/" + this.id + "/ws/send",
+                    "close " + portname);
+            }
+        },
+        reconMsgShow: function() {
+            $('.com-chilipeppr-widget-serialport-disconnected').removeClass('hidden');
+            // undisable the reconnect btn
+            $('.com-chilipeppr-widget-serialport-disconnected .refresh').prop('disabled', false);
+        },
+        reconMsgHide: function() {
+            $('.com-chilipeppr-widget-serialport-disconnected').addClass('hidden');
+        },
+        wsWasEverConnected: false,
+        wsConnect: function (hostname, onsuccess, onfail) {
+            
+            // make sure other sockets are disconnected. this was extra important because if you port
+            // scanned and got a bunch of server results and clicked a bunch quickly, you'd get multiple
+            // socket connections going
+            if (this.conn) this.conn.close();
+            
+            // since we are newly connecting, hide version UI (it will reshow after connect)
+            this.resetVersion();
+            // since newly connecting, hide the hostname
+            this.resetSpjsName();
+            
+            // reset the sendBuffer waiting flag cuz state unknown now
+            this.isSendBufWaiting = false;
+            
+            if (window["WebSocket"]) {
+                var host = hostname;
+                if (!host) {
+                    // see if cookie
+                    if ($.cookie('lasthost')) {
+                        console.log("there is a previous hostname. use it.", $.cookie('lasthost'));
+                        host = $.cookie('lasthost');
+                    } else {
+                        host = "localhost";
+                    }
+                }
+                var fullurl;
+                if (host.match(/^ws/))
+                    fullurl = host;
+                else if (host.match(/:\d+$/))
+                    fullurl = "ws://" + host + "/ws";
+                else
+                    fullurl = "ws://" + host + ":8989/ws";
+                this.conn = new WebSocket(fullurl);
+                console.log(this.conn);
+                var that = this;
+                that.conn.onopen = function (evt) {
+                    that.wsWasEverConnected = true;
+                    that.reconMsgHide();
+                    that.onWsConnect(evt);
+                    $.cookie('lasthost', that.conn.url, {
+                        expires: 365,
+                        path: '/'
+                    });
+                    if (onsuccess) onsuccess.apply(that);
+                };
+                that.conn.onerror = function (evt) {
+                    console.log(evt);
+                    that.publishSysMsg("Serial port ajax error.");
+                    if (onfail) onfail.apply(that);
+                };
+                that.conn.onclose = function (evt) {
+                    if (that.wsWasEverConnected) that.reconMsgShow();
+                    that.onWsDisconnect(evt);
+                }
+                that.conn.onmessage = function (evt) {
+                    that.publishMsg(evt.data);
+                };
+            } else {
+                this.publishSysMsg("Your browser does not support WebSockets.");
+            }
+        },
+        wsScan: function (callback, subnet) {
+            // this method will scan your local subnet
+            // for hosts
+            if (window["WebSocket"]) {
+                console.log("starting scan of network for serial port servers...");
+                var validAddrs = [];
+                var that = this;
+                if (subnet)
+                    subnet = subnet.replace("*", "");
+                else
+                    subnet = "192.168.1.";
+                var scancntsuccess = 0;
+                var scancnterr = 0;
+                var cnt = $('#com-chilipeppr-widget-serialport-scanresultcnt');
+                cnt.text("Starting scan of " + subnet + "*");
+                $('#com-chilipeppr-widget-serialport-scanresult').html("");
+                for (var ctr = 1; ctr < 255; ctr++) {
+                    var conn = new WebSocket("ws://" + subnet + ctr + ":8989/ws");
+                    conn.onopen = function (evt) {
+                        scancntsuccess++;
+                        console.log("found a server. ip:", evt.target.url, "evt:", evt, "this:", this);
+                        validAddrs.push(evt.target);
+                        console.log("found one:", validAddrs);
+                        var server = $("<div><a href=\"javascript:\">" + evt.target.url + "</a></div>");
+                        server.click(evt.target.url, function(evt) {
+                            console.log("got click. evt:", evt, "data:", evt.data);
+                            that.wsConnect(evt.data);
+                        });
+                        $('#com-chilipeppr-widget-serialport-scanresult').append(server);
+                        this.el = server;
+                        var that2 = this;
+                        setTimeout(function() { 
+                            // close this websocket 2 seconds later
+                            that2.close();
+                            //that.el.append(" *");
+                        }, 2000);
+                    };
+                    conn.onmessage = function (evt) {
+                        // see what version and what hostname
+                        console.log("msg from scan of ws:", evt.data);
+                        if (evt.data.match(/^{/)) {
+                            // it's json
+                            var d = $.parseJSON(evt.data);
+                            if ('Version' in d) {
+                                this.el.append("&nbsp;<span>v" + d.Version + "</span>");
+                            } else if ('Hostname' in d) {
+                                this.el.append("&nbsp;<span>" + d.Hostname + "</span>");
+                            }
+                        }
+                    };
+                    conn.onerror = function(evt) {
+                        scancnterr++;
+                        //console.log("error opening url:", evt.target.url, evt);
+                        
+                        cnt.text("Found " + scancntsuccess + ", Scanned " + (scancntsuccess + scancnterr));
+                    };
+                };
+                //console.log("done scanning network. found:", validAddrs);
+                return validAddrs;
+            }                
+        },
+        lastMsg: null,
+        lastMsgTime: 0,
+        publishSysMsg: function (msg) {
+            chilipeppr.publish("/" + this.id + "/ws/sys", msg);
+            var now = Date.now();
+            if (this.lastMsg == msg && now - this.lastMsgTime < 20000) {
+                // skip publish
+                console.log("skipping publish. same msg or too fast.");
+            } else {
+                chilipeppr.publish("/com-chilipeppr-elem-flashmsg/flashmsg", "Serial Port System Message", msg);
+                this.lastMsg = msg;
+                this.lastMsgTime = now;
+            }
+        },
+        publishMsg: function (msg) {
+            chilipeppr.publish("/" + this.id + "/ws/recv", msg);
+        },
+        dataBuffer: {},
+        onWsMessage: function (msg) {
+            //console.log("inside onWsMessage. msg: " + msg);
+            if (msg.match(/^\{/)) {
+                // it's json
+                //console.log("it is json");
+                var data = null;
+                //try {
+                    data = $.parseJSON(msg);
+                /*
+                } catch (e) {
+                    // error
+                    console.log("got error parsing json from CNC controller. msg:", msg);
+                    // try some cleanup based on some anomalies we've seen
+                    msg = msg.replace(/\{"sr"\{"sr"\:/, '{"sr":');
+                    msg = msg.replace(/\{"r"\{"sr"\:/, '{"sr":');
+                    data = $.parseJSON(msg);
+                }
+                */
+                if (data && data.Cmd && data.Cmd == "OpenFail") {
+                    // we tried to open the serial port, but it failed. usually access denied.
+                    this.onPortOpenFail(data);
+                } else if (data && data.Cmd && data.Cmd == "Open") {
+                    // the port was opened, possibly by other browser or even locally from sys tray
+                    this.onPortOpen(data);
+                } else if (data && data.Cmd && data.Cmd == "Close") {
+                    // the port was closed, possibly by other browser or even locally from sys tray
+                    this.onPortClose(data);
+                } else if (data && data.Cmd && data.Cmd == "Queued") {
+                    // we need to watch for queues being done so we know to send next
+                    // is it a json queued response or text mode queued response
+                    if ("Data" in data) {
+                        // it is a json mode response
+                        this.onQueuedJson(data);
+                    } else {
+                        this.onQueuedText(data); 
+                        //this.sendBufferedOnWsRecv(data);
+                    }
+                    // update prog bar of buffer
+                    this.onUpdateQueueCnt(data);
+                } else if (data && data.Cmd && data.Cmd == "Write") {
+                    // update prog bar of buffer. this would decrement prog bar cuz a dequeue happened
+                    // see if we have an Id resposne, if so it is from
+                    // a json send and we need to see the response
+                    if ("Id" in data) {
+                        this.onWriteJson(data);
+                    }
+                    this.onUpdateQueueCnt(data);
+                } else if (data && data.Cmd && (data.Cmd == "Complete" || data.Cmd == "CompleteFake")) {
+                    this.onCompleteJson(data);
+                } else if (data && data.Cmd && data.Cmd == "Error") {   
+                    //if cnc returns error, publish error signal.
+                    this.onErrorJson(data);
+                } else if (data && data.SerialPorts) {
+                    // we got a serial port list
+                    console.log("got serial port list");
+                    console.log(data);
+                    this.onPortList(data.SerialPorts);
+                } else if (data && data.Version) {
+                    this.onVersion(data.Version);
+                } else if (data && data.Hostname) {
+                    this.onSpjsName(data.Hostname);
+                } else if (data && data.P && data.D) {
+                    
+                    // we got actual raw serial port data
+                    // we need to parse into newlines and buffer
+                    // for the next time we get here and only fire off
+                    // a publish per newline
+                    
+                    if (this.isSingleSelectMode && this.singleSelectPort == data.P) {
+                        
+                        //console.log("this:", this);
+                        //console.log("dataBuffer:", this.dataBuffer);
+                        //console.log("p:", data.P, "d:", data.D);
+                        //console.log(this.dataBuffer[data.P]);
+                        if(!(data.P in this.dataBuffer))
+                            this.dataBuffer[data.P] = data.D;
+                        else
+                            this.dataBuffer[data.P] += data.D;
+                        //console.log(this.dataBuffer[data.P]);
+                        //console.log("dataBuffer:", this.dataBuffer);
+                        
+                        //var portBuf = this.dataBuffer[data.P];
+                        
+                        // see if we got newline
+                        while (this.dataBuffer[data.P].match(/\n/)) {
+                            //console.log("we have a newline.");
+                            var tokens = this.dataBuffer[data.P].split(/\n/);
+                            var line = tokens.shift() + "\n";
+                            this.dataBuffer[data.P] = tokens.join("\n");
+                            //console.log("publishing line:", line);
+                            //console.log("new buffer:", this.dataBuffer[data.P], "len:", this.dataBuffer[data.P].length);
+                            
+                            // do some last minute cleanup
+                            // THIS IS NOT GOOD, BUT SEEING TINYG SHOWING BAD DATA
+                            // THIS IS ALSO NOT THE RIGHT SPOT SINCE THIS SERIAL PORT WIDGET IS SUPPOSED
+                            // TO BE GENERIC. Remove when TinyG has no problems.
+                            line = line.replace(/\{"sr"\{"sr"\:/, '{"sr":');
+                            line = line.replace(/\{"r"\{"sr"\:/, '{"sr":');
+                            
+                            chilipeppr.publish("/" + this.id + "/recvline", {
+                                ws: this.conn.url,
+                                port: data.P,
+                                dataline: line
+                            });
+                            
+                        }
+                    } else {
+                        console.log("have a /recvline to publish, but since in single select mode we don't have a match to the selected port so ignoring.");
+                    }
+                    
+                }
+                
+            } else if (msg.match(/We could not find the serial port/)) {
+                // kind of a hack to send publishSysMsg when we get this
+                // the serial-port-json-server should be changed to send this as json
+                this.publishSysMsg(msg);
+            }
+        },
+        configSendCtr: 0,
+        onPortOpen: function(data) {
+            console.group("onPortOpen");
+            console.log("Open a port: ", data, data.Port);
+            var portname = data.Port;
+            // swap back weird characters
+            portname = this.toSafePortName(portname);
+            console.log("got onPortOpen. portname to use for dom lookups:", portname);
+            $('#' + portname + "Cb").prop('checked', true);
+            $('#' + portname + "Row .glyphicon-exclamation-sign").addClass("hidden");
+            if (this.isSingleSelectMode) {
+                console.log("got port open but in single select mode.");
+                // hilite this port
+                $('.com-chilipeppr-widget-serialport-portlist > tbody > tr').removeClass("success");
+                $('#' + portname + "Row").addClass("success");
+                this.singleSelectPort = data.Port;
+                // save cookie, but let path be to this workspace so other workspaces using this
+                // widget leave their own default last singleSelectPort
+                $.cookie("singleSelectPort", data.Port, { expires: 365 * 10 });
+            }
+            
+            // publish /ws/onconnect
+            chilipeppr.publish('/' + this.id + '/ws/onconnect', data);
+            
+            // publish /onportopen
+            chilipeppr.publish('/' + this.id + '/onportopen', data);
+            
+            // if user has a startup script for this port, let's run it here
+            console.log("seeing if we should run a startup script. data:", data);
+            var portid = data.Port;
+            var url = this.conn.url;
+            var key = "portid:" + portid + ",url:" + url;
+            var script = localStorage.getItem(key, $('#com-chilipeppr-serialport-modalconfig textarea').val());
+            console.log("the script key:", key, "val is:", script);
+            
+            // only send this config info like 1 second later
+            var that = this;
+            setTimeout(function() {
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {Id:"startup" +  that.configSendCtr++, D:script});
+            }, 3000);
+            
+            console.groupEnd();
+
+        },
+        onPortClose: function(data) {
+            console.log("Close a port: ", data, data.Port);
+            var portname = data.Port;
+            portname = this.toSafePortName(portname);
+            $('#' + portname + "Cb").prop('checked', false);
+            $('#' + portname + "Row .glyphicon-exclamation-sign").addClass("hidden");
+            
+            // publish /onportclose
+            chilipeppr.publish('/' + this.id + '/onportclose', data);
+        },
+        onPortOpenFail: function(data) {
+            console.log("Opening a port failed: ", data, data.Port);
+            var portname = data.Port;
+            portname = this.toSafePortName(portname);
+            $('#' + portname + "Cb").prop('checked', false);
+            //$('#' + portname + "Row .glyphicon-exclamation-sign").prop("title", data.Desc);
+            $('#' + portname + "Row .glyphicon-exclamation-sign").removeClass("hidden");
+            $('#' + portname + "Row .glyphicon-exclamation-sign").tooltip({
+                title: data.Desc,
+                animation: true,
+                delay: 100,
+                container: 'body'
+            });
+            // publish /onportopenfail
+            chilipeppr.publish('/' + this.id + '/onportopenfail', data);
+        },
+        toSafePortName: function(portname) {
+            // we need to convert vals that could show up in the port name
+            // with vals that are safe to use in the DOM as id's
+            portname = portname.replace(/\//g, "-fslash-");
+            portname = portname.replace(/\./g, "-dot-");
+            return portname;
+        },
+        fromSafePortName: function(safeportname) {
+            safeportname = safeportname.replace(/-fslash-/g, "/");
+            safeportname = safeportname.replace(/-dot-/g, ".");
+            return safeportname;
+        },
+        onPlannerResumeSetup: function() {
+            chilipeppr.subscribe('/com-chilipeppr-interface-cnccontroller/plannerresume', this.onPlannerResume.bind(this));
+        },
+        // called when we see '/com-chilipeppr-interface-cnccontroller/plannerresume'
+        onPlannerResume: function() {
+            this.isPlannerPaused = false;
+        },
+        queueMax: {}, // stores max vals we've seen
+        queueEls: {}, // stores dom elements so don't have to look up each time
+        sendPauseAt: 20000, // we will ask the Gcode widget to pause send if our buffer gets this high
+        sendResumeAt: 15000, // we will send resume when buffer gets back here
+        isPlannerPaused: false,
+        onUpdateQueueCnt: function(data) {
+            // we'll get json like this so we know our buffer state in spjs
+            // {"Cmd":"Queued","QCnt":6,"Type":["Buf","Buf","Buf","Buf","Buf"],...,"Port":"COM22"}
+            
+            console.log("got onUpdateQueueCnt. data:", data);
+            var port = data.Port;
+            if ('P' in data) port = data.P;
+            var i = this.toSafePortName(port);
+            if (data.Cmd == "Queued" || data.Cmd == "Write") {
+                var val = data.QCnt;
+                
+                // fire off a pubsub for QCnt
+                //chilipeppr.publish("/" + this.id + "/qcnt", val);
+                
+                // see if we need to pause or resume
+                if (this.isPlannerPaused) {
+                    if (val < this.sendResumeAt) {
+                        // send resume
+                        chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerresume');
+                        this.isPlannerPaused = false;
+                    }
+                } else {
+                    if (val > this.sendPauseAt) {
+                        this.isPlannerPaused = true;
+                        chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerpause');
+                    }
+                }
+                
+                // recalc max value
+                if (!(i in this.queueMax) || this.queueMax[i] < val) {
+                    this.queueMax[i] = val;
+                    $('#' + i + "BufferProgBar").attr('aria-valuemax', val);
+                } 
+                var valpct = (val / this.queueMax[i]) * 100;
+                $('#' + i + "BufferProgBar").css('width', valpct+'%').attr('aria-valuenow', val).parent().removeClass("hidden");
+                var color = "white";
+                if (valpct < 30.0) color = "black";
+                $('#' + i + "BufferProgBar span").text(val).css('color', color);
+            }
+        },
+        isInitting: true, // the first time thru onPortList assume we are in initting mode because SPJS may already be connected to a port and if so we want to publish signals to other widgets indicating so
+        onPortList: function (portlist) {
+            console.group("serial port widget onPortList");
+            //console.log("inside onPortList");
+            var html = "";
+            var htmlFirst = ""; // show the connected ports first in the HTML
+            var that = this;
+            this.portlist = portlist;
+            // publish the port list for other listeners
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/list", portlist);
+            // now build the UI
+            if (portlist.length > 0) {
+                $.each(portlist, function (i, item) {
+                    console.log("looping thru ports. item:", item);
+                    var rowClass = "";
+                    if (item.Name == that.singleSelectPort) {
+                        rowClass = "success";
+                    }
+                    var i = item.Name;
+                    i = that.toSafePortName(i);
+                    console.log("the port name we will use is:", i);
+                    
+                    // create available algorithms dropdown
+                    var availArgsHtml = "";
+                    if ('AvailableBufferAlgorithms' in item) {
+                        // we are on a version of the server that gives us this
+                        availArgsHtml = "<td><select id=\"" + i + "Buffer\" class=\"com-chilipeppr-widget-serialport-buffer\" class=\"form-control\">";
+                        //availArgsHtml += "<option></option>"
+                        item.AvailableBufferAlgorithms.forEach(function(alg) {
+                            //console.log("algorithm:", alg);
+                            availArgsHtml += "<option value=\"" + alg + "\">" + alg + "</option>";
+                        });
+                        availArgsHtml += "</select></td>";
+                    }
+                    
+                    var row = "<tr id=\"" + i + "Row\" class=\"" + rowClass + "\"><td>" +
+                        "<input id=\"" + i + "Cb\" type=\"checkbox\" /> <span class=\"glyphicon glyphicon-exclamation-sign text-danger hidden\" data-toggle=\"tooltip\" data-placement=\"auto\"></span>" +
+                        "</td><td id=\"" + i + "Friendly\" style=\"cursor:pointer;\">" + item.Friendly + "</td>" +
+                        availArgsHtml +
+                        "<td><select id=\"" + i + "Baud\" class=\"com-chilipeppr-widget-serialport-baud\" class=\"form-control\">" +
+                        that.getBaudRates() +
+                        "</select></td>" +
+                        
+                        "<td><button id=\"" + i + "Config\" class=\"btn btn-xs btn-default\"><span class=\"glyphicon glyphicon-cog\"></span></button></td>" +
+                        
+                        "</tr>";
+                    if ('IsOpen' in item && item.IsOpen == true)
+                        htmlFirst += row;
+                    else
+                        html += row;
+                });
+            } else {
+                // no serial ports in list
+                html = '<div class="alert alert-danger" style="margin-bottom:0;">No serial ports found on your Serial Port JSON Server.</div>';
+            }
+            html = htmlFirst + html;
+            $('.table.com-chilipeppr-widget-serialport-portlist tbody').html(html);
+            
+            $.each(portlist, function (i, item) {
+                // now set the values from the cookie so we make their life easier
+                var cookie = that.serialGetCookie(item.Name);
+                //console.log("got cookie for ", item.Name, " cookie:", cookie);
+                //console.log(cookie.baud);
+                
+                var i = that.toSafePortName(item.Name);
+                
+                //debugger;
+                
+                // do baud
+                if (cookie && cookie.baud) {
+                    // choose baud stored in the cookie
+                    $('#' + i + "Baud").val(cookie.baud);
+                } else {
+                    // if no cookie then fallback to default
+                    // for the workspace type we're in
+                    if (that.defaultBaud) {
+                        $('#' + i + "Baud").val(that.defaultBaud);
+                    }
+                }
+                
+                // now set the values for the bufferflow
+                if (cookie && cookie.buffer) {
+                    // choose baud stored in the cookie
+                    $('#' + i + "Buffer").val(cookie.buffer);
+                    
+                } else {
+                    // if no cookie, fallback to default
+                    if ('buffertype' in that && that.buffertype && that.buffertype.length > 0) {
+                        $('#' + i + "Buffer").val(that.buffertype);
+                    }
+                }
+                
+                // we may have set the default vals from the cookie, but now override
+                // based on what the serial port server has open and what those settings are
+                if (item.IsOpen) {
+                    $('#' + i + "Cb").prop('checked', item.IsOpen);
+                    // choose baud it was opened at
+                    $('#' + i + "Baud").val(item.Baud);
+                    // choose buffer it was opened as
+                    $('#' + i + "Buffer").val(item.BufferAlgorithm);
+                    // lock pulldown
+                    $('#' + i + "Buffer").prop("disabled", true);
+                    //debugger;
+                    // see if open as a true buffer and then add a buffer bar
+                    if (that.versionFloat >= 1.4) {
+                        console.log("adding buffer bar");
+                        $('#' + i + "Buffer").parent().append(
+                            '<div class="progress hidden">' +
+                            '<div id="' + i + 'BufferProgBar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="10" style="width: 80%;">' +
+                            '    <span class="" style="min-width:20px;padding-left:3px;">Unknown</span>' +
+                            '</div>' +
+                            '</div>');
+                    }
+                    
+                    // if isInitting then fire off fake onportopen signals
+                    // as if user just opened this port
+                    if (that.isInitting) {
+                        chilipeppr.publish("/com-chilipeppr-widget-serialport/onportopen", item);
+                    }
+                }
+                
+                // set default buffer based on what was set (if anything) in this.bufferType
+                // but only do it if item is not open and there's no cookie
+                if (item.IsOpen == false && cookie && !('buffer' in cookie) && that.buffertype != null) {
+                    console.log("setting default buffer type cuz item not open, no cookie, and is a default buf type. item:", item);
+                    $('#' + i + "Buffer").val(that.buffertype);
+                }
+
+                // pass my item inside the data val on the click event
+                $('#' + i + "Cb").click({that:that,port:item}, that.onPortCbClicked);
+                $('#' + i + "Friendly").click({that:that,port:item}, that.onPortFriendlyClicked);
+                
+                // if they click the config button
+                $('#' + i + "Config").click({that:that,port:item}, that.onPortConfigClicked.bind(that));
+            });
+
+            // set isInitting to false, that means only the 1st time
+            // thru this method will we do any isInitting code
+            if (that.isInitting) {
+                console.log("setting isInitting to false so don't run init code again on port list");
+                that.isInitting = false;
+            }
+            console.groupEnd();
+            
+        },
+        onPortConfigClicked: function(evt) {
+            console.log("config got clicked for evt.data:", evt.data, "this.conn:", this.conn);
+            var port = evt.data.port.Friendly;
+            var portid = evt.data.port.Name;
+            var url = this.conn.url;
+            var key = "portid:" + portid + ",url:" + url;
+            var script = localStorage.getItem(key, $('#com-chilipeppr-serialport-modalconfig textarea').val());
+            
+            $('#com-chilipeppr-serialport-modalconfig textarea').val(script);
+            
+            $('#com-chilipeppr-serialport-modalconfig .modalconfig-port').text(port);
+            $('#com-chilipeppr-serialport-modalconfig .modalconfig-url').text(this.conn.url);
+            $('#com-chilipeppr-serialport-modalconfig .modalconfig-portid').text(portid);
+            $('#com-chilipeppr-serialport-modalconfig .modalconfig-save-btn').data('id', portid);
+            // unbind all previous click events
+            $('#com-chilipeppr-serialport-modalconfig .modalconfig-save-btn').off("click");
+            /// rebind new click event
+            $('#com-chilipeppr-serialport-modalconfig .modalconfig-save-btn').click(evt.data, this.onPortConfigModalSave.bind(this));
+
+            $('#com-chilipeppr-serialport-modalconfig').modal('show');
+        },
+        onPortConfigModalSave: function(evt) {
+            console.log("got save on port config modal. evt.data:", evt.data);
+            
+            // save to local config
+            var portid = evt.data.port.Name;
+            var url = this.conn.url;
+            var key = "portid:" + portid + ",url:" + url;
+            var val = $('#com-chilipeppr-serialport-modalconfig textarea').val();
+            // ensure newline at end
+            if (val.match(/\n$/)) {
+                console.log("there was newline at end. good.");
+            } else {
+                val += "\n";
+                console.log("there was no newline, so added one.");
+            }
+            console.log("saving config for port key:", key, "val:", val, {key:key, val:val});
+            localStorage.setItem(key, val);
+            $('#com-chilipeppr-serialport-modalconfig').modal('hide');
+            
+            chilipeppr.publish("/com-chilipeppr-elem-flashmsg/flashmsg", "Saved Startup Script for " + portid, "Saved your startup script. It will be run when you connect to the port.");
+        },
+        onPortFriendlyClicked: function(evt) {
+            console.log("got onPortFriendlyClicked: ", evt);
+            var item = evt.data.port;
+            var that = evt.data.that;
+            var isSelected = false;
+            var i = that.toSafePortName(item.Name);
+            if ($('#' + i + "Cb").is(":checked")) isSelected = true;
+            if (isSelected) {
+                // then we want to close, so uncheck
+                $('#' + i + "Cb").prop('checked', false);
+            } else {
+                $('#' + i + "Cb").prop('checked', true);
+            }
+            // call the checkbox click event as if we had clicked it
+            that.onPortCbClicked(evt);
+        },
+        onPortCbClicked: function(evt) {
+            console.log("got onPortClicked: ", evt);
+            var item = evt.data.port;
+            var that = evt.data.that;
+            console.log(item);
+            // see if selected/unselected to know if close/open
+            var isSelected = false;
+            var i = that.toSafePortName(item.Name);
+            if ($('#' + i + "Cb").is(":checked")) isSelected = true;
+            
+            //console.log("isSelected:", isSelected);
+            if (isSelected) {
+                // open the port
+                // get baud rate picked
+                var baud = $('#' + i + "Baud").val();
+                var buffer = $('#' + i + "Buffer").val();
+                that.serialConnect(item.Name, baud, buffer);
+                //that.publishSysMsg("Serial port " + port.Friendly + " opened with baud rate " + baud);
+            } else {
+                // close the port
+                $('#' + i + "Buffer").prop("disabled", false);
+
+                that.serialDisconnect(item.Name);
+                //that.publishSysMsg("Serial port " + port.Friendly + " closed");
+            }
+        },
+        bufferAlgorithms: null,
+        getBufferAlgorithms: function() {
+            if (bufferAlgorithms == null) {
+                console.log("Need to load algorithms from serial port json server");
+                this.wsSend("bufferalgorithms");
+                
+            }
+        },
+        getBaudRates : function() {
+            var bauds = ["2,400", "4,800", "9,600", "19,200", "38,400", "57,600", "115,200", "230,400"];
+            var baudHtml = "";
+            $.each(bauds, function(i, item) {
+                var clean = item.replace(/,/, "");
+                baudHtml += "<option value=\"" + clean + "\">" + item + "</option>";
+            });
+            return baudHtml;
+        },
+        onWsConnect: function (event) {
+            this.isWsConnected = true;
+            //console.log(this.conn);
+            //console.log(event);
+            chilipeppr.publish("/" + this.id + "/ws/onconnect", "connected");
+            //this.publishSysMsg("Serial port ajax connection opened at " + this.conn.url + ", readyState: " + this.conn.readyState);
+            
+            // no longer hiding cuz in its own tab
+            //$('.com-chilipeppr-widget-serialport-install').addClass('hidden');
+            
+            // 
+            
+            // because we're hiding a large mess of text, we should trigger
+            // a resize to make sure other widgets reflow since the scroll bar
+            // or other stuff may need repositioned
+            $(window).trigger('resize'); 
+            
+            // show the "Port List" tab
+            $('a[href=#com-chilipeppr-widget-serialport-portstab]').tab('show');
+            
+        },
+        onWsDisconnect: function (event) {
+            this.hideVersion();
+            this.resetSpjsName();
+            this.isWsConnected = false;
+            chilipeppr.publish("/" + this.id + "/ws/ondisconnect", "disconnected");
+            this.publishSysMsg("Serial port ajax connection closed. " +
+                "readyState: " + this.conn.readyState);
+        },
+        statusWatcher: function () {
+            // This method subscribes to "/ws/sys" and updates the UI with
+            // the latest msg
+            chilipeppr.subscribe("/" + this.id + "/ws/sys", this, function (msg) {
+                $('.com-chilipeppr-widget-serialport-status .well.well-sm').text(msg);
+            });
+        },
+        initBody: function(evt) {
+            $('#' + this.id + ' .hidebody').click(this.toggleBody.bind(this));
+            var config = localStorage.getItem("/" + this.id + "/body");
+            if (config == "visible")
+                this.showBody();
+            else
+                this.hideBody();
+        },
+        toggleBody: function(evt) {
+            if ($('.' + this.id + '-body').hasClass('hidden'))
+                this.showBody(evt);
+            else
+                this.hideBody(evt);
+        },
+        showBody: function(evt) {
+            $('.' + this.id + '-body').removeClass('hidden');
+            $('.' + this.id + '-ftr').removeClass('hidden');
+            $('#' + this.id + ' .hidebody span').addClass('glyphicon-chevron-up');
+            $('#' + this.id + ' .hidebody span').removeClass('glyphicon-chevron-down');
+            if (!(evt == null)) localStorage.setItem("/" + this.id + "/body", "visible");
+            $(window).trigger('resize');
+        },
+        hideBody: function(evt) {
+            $('.' + this.id + '-body').addClass('hidden');
+            $('.' + this.id + '-ftr').addClass('hidden');
+            $('#' + this.id + ' .hidebody span').removeClass('glyphicon-chevron-up');
+            $('#' + this.id + ' .hidebody span').addClass('glyphicon-chevron-down');
+            if (!(evt == null)) localStorage.setItem("/" + this.id + "/body", "hidden");
+        },
+        forkSetup: function () {
+            var topCssSelector = '.com-chilipeppr-widget-serialport';
+            //$(topCssSelector + ' .fork').prop('href', this.fiddleurl);
+            //$(topCssSelector + ' .standalone').prop('href', this.url);
+            //$(topCssSelector + ' .fork-name').html(this.id);
+            $(topCssSelector + ' .panel-title').popover({
+                title: this.name,
+                content: this.desc,
+                html: true,
+                delay: 200,
+                animation: true,
+                trigger: 'hover',
+                placement: 'auto'
+            });
+
+            // load the pubsub viewer / fork element which decorates our upper right pulldown
+            // menu with the ability to see the pubsubs from this widget and the forking links
+            var that = this;
+            chilipeppr.load("http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/", function () {
+                require(['inline:com-chilipeppr-elem-pubsubviewer'], function (pubsubviewer) {
+                    pubsubviewer.attachTo($('.com-chilipeppr-widget-serialport .panel-heading .dropdown-menu'), that);
+                });
+            });
+        },
+
+    }
+});
+//]]>  
+
+</script>
+
+
+</body>
+
+
+</html>
+
+
+<!-- end chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/vetj5fvx/show/light/ -->
