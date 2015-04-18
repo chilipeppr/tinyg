@@ -224,3 +224,7 @@ $("#save-png-file").click(function() {
     // to PNG
     window.open(canvas.toDataURL('png'));
 });
+
+$("#export-svg-file-jscut").click(function() {
+    window.open("../jscut_standalone/jscut.html");
+});
