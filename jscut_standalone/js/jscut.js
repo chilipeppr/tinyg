@@ -87,6 +87,19 @@ function loadScript(path, loadedCallback, errorCallback) {
     script.onerror = handleError;
     script.src = path;
     document.body.appendChild(script);
+	
+	(function () {
+		var svgString = localStorage.getItem("svgFile");
+		if (svgString != "")
+		{
+			svg = Snap.parse(svgString);
+			contentGroup.append(svg);
+			updateSvgSize();
+			showAlert("loaded svg file from canvas", "alert-success");
+			tutorial(2, 'Click 1 or more objects.');
+			localStorage.setItem("svgFile", "");
+		}
+	})();
 }
 
 var downloadCppStarted = false;
