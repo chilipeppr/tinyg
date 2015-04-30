@@ -757,6 +757,21 @@ cprequire(["chilipeppr_ready"], function () {
         });
     });
 
+    // canvas
+    // http://jsfiddle.net/chilipeppr/a8drdr9c/
+    chilipeppr.load(
+        "com-chilipeppr-canvas",
+        "http://fiddle.jshell.net/chilipeppr/a8drdr9c/show/light/",
+
+    function () {
+        cprequire(
+        ["inline:com-chilipeppr-widget-canvas"],
+
+        function (canvas) {
+            canvas.init();
+        });
+    });
+
     // TinyG
     // http://jsfiddle.net/chilipeppr/XxEBZ/
     // com-chilipeppr-tinyg
@@ -905,6 +920,8 @@ cprequire(["chilipeppr_ready"], function () {
             <div class="col-xs-3 nopadding">
                 <!-- XYZ -->
                 <div id="com-chilipeppr-xyz" class="">Load XYZ Here</div>
+                <!-- Canvas -->
+                <div id="com-chilipeppr-canvas" class="">Load Canvas Here</div>
                 <!-- Tinyg -->
                 <div id="com-chilipeppr-tinyg" class="">Load TinyG Here</div>
                 <!-- WebRTC Client -->

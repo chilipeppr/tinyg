@@ -224,3 +224,14 @@ $("#save-png-file").click(function() {
     // to PNG
     window.open(canvas.toDataURL('png'));
 });
+
+$("#export-svg-file-jscut").click(function() {
+	if(typeof(Storage) !== "undefined") {
+		// Code for localStorage/sessionStorage.
+		localStorage.setItem("svgFile", canvas.toSVG());
+		window.open("../jscut_standalone/jscut.html");
+	} else {
+		// Sorry! No Web Storage support..
+		alert("Sorry! No Web Storage support. Unable to export SVG file.");
+	}
+});
