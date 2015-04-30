@@ -1,0 +1,1728 @@
+<!-- start chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/9e3ok4vq/show/light/ -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  
+  
+  <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/fabric.js/1.4.0/fabric.min.js'></script>
+  
+  
+  
+  
+  
+  
+    
+      <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    
+  
+    
+      
+    
+  
+    
+      <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+  <style type='text/css'>
+    #com-chilipeppr-widget-tinyg-body {
+    /* padding:0; */
+}
+.com-chilipeppr-interface-cnccontroller-stat .col {
+    padding:0 10px 0 0;
+}
+.com-chilipeppr-interface-cnccontroller-stat .col:last-child {
+    padding:0;
+}
+.com-chilipeppr-interface-cnccontroller-stat .progress {
+    margin-bottom:0;
+}
+.com-chilipeppr-interface-cnccontroller-stat .stat-row {
+    padding-top:2px;
+}
+.com-chilipeppr-interface-cnccontroller-stat div.col.lblpad {
+    padding-left:10px;
+}
+.com-chilipeppr-interface-cnccontroller-stat .stat-unit {
+    font-size:9px;
+    display:none;
+}
+.com-chilipeppr-interface-cnccontroller-stat div.col.well {
+    margin-bottom:0px;
+    padding-left:5px;
+}
+.com-chilipeppr-interface-cnccontroller-stat .stat-sm {
+    font-size:10px;
+}
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.navbar {
+    margin-bottom: 20px;
+}
+  </style>
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+
+// Test this element. This code is auto-removed by the chilipeppr.load()
+cprequire_test(["inline:com-chilipeppr-widget-canvas2"], function (canvas2) {
+    console.log("test running of " + canvas2.id);
+    canvas2.init();
+
+    // create a typical test of planner buffer
+    // you never want planner buffer with more than 12 items queued, 4 are reserved for pulling
+    // from serial buffer, so you want qr to be no less than 12
+    var buf = [27, 26, 25, 18, 14, 15, 16, 18, 17, 16, 12, 11, 10, 14, 17, 16, 15, 10, 22, 28];
+    var delay = 1000;
+    var delayPlus = 500;
+    chilipeppr.currentCtr = -1;
+    /*
+    for (var ctr = 0; ctr < buf.length; ctr++) {
+        
+        setTimeout(function () {
+            chilipeppr.currentCtr++;
+            //console.log("chilipeppr.currentCtr:", chilipeppr.currentCtr);
+            var cmd = '{"qr":' + buf[chilipeppr.currentCtr] + '}';
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {dataline: cmd});
+            //chilipeppr.currentCtr = chilipeppr.currentCtr + 1;
+        }, delay);
+        delay = delay + delayPlus;
+    }    
+    */
+
+    // manual test of coordinates and how we publish them to the generic interface
+    var testRecvline = function () {
+        // {"r":{"qr":28},"f":[1,0,10,8758]}
+        // {"r":{"fb":435.10},"f":[1,0,10,2670]}
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
+                dataline: '{"r":{"qr":28},"f":[1,0,10,8758]}'
+            });
+        }, 900);
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
+                dataline: '{"r":{"fb":380.08},"f":[1,0,10,2670]}'
+            });
+        }, 1500);
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
+                dataline: '{"r":{"qr":23},"f":[1,0,10,8758]}'
+            });
+        }, 2900);
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
+                dataline: '{"r":{"qr":21},"f":[1,0,10,8758]}'
+            });
+        }, 3900);
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
+                dataline: '{"sr":{"vel":0.02,"mpox":10.474,"dist":1,"stat":1}}'
+            });
+        }, 1000);
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
+                dataline: '{"sr":{"vel":0.02,"mpox":0.574,"mpoy":32.424,"mpoz":-3.424,"dist":1,"stat":2}}'
+            });
+        }, 2000);
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
+                dataline: '{"sr":{"vel":0.02,"mpox":940.5744,"mpoz":1.12,"dist":1,"stat":5}}'
+            });
+        }, 3000);
+
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
+                dataline: '{"sr":{"vel":0.02,"mpox":-3288.73,"mpoy":-0.000,"mpoz":1.12,"dist":1,"stat":5}}'
+            });
+        }, 4000);
+        setTimeout(function () {
+            chilipeppr.publish(
+                "/com-chilipeppr-widget-serialport/recvline", {
+                dataline: '{"r":{"sr":{"line":0,"vel":180.00,"mpox":0.005,"mpoy":10.460,"mpoz":0.304,"mpoa":0.000,"coor":1,"ofsa":0.000,"ofsx":0.000,"ofsy":0.000,"ofsz":0.000,"dist":0,"unit":0,"stat":3,"homz":0,"homy":0,"homx":0,"momo":1},"f":[1,0,10,5440]}}'
+            });
+        }, 5000);
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/recvline", {
+                dataline: '{"r":{"mt":10.00},"f":[1,0,10,449]}'
+            });
+        }, 5500);
+        setTimeout(function () {
+            chilipeppr.publish(
+                "/com-chilipeppr-widget-serialport/recvline", {
+                dataline: '{"r":{"sr":{"line":9,"posx":192.000,"posy":0.028,"posz":0.010,"posa":0.000,"feed":300.00,"vel":4.00,"unit":1,"coor":2,"dist":0,"frmo":0,"momo":1,"stat":4},"f":[1,0,10,4683]}}'
+            });
+        }, 6000);
+    }
+
+    var testCoords = function () {
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/requestCoords");
+        }, 9000);
+        setTimeout(function () {
+            chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/requestCoords");
+        }, 1000);
+    }
+    //testCoords();
+
+    //testRecvline();
+
+} /*end_test*/ );
+
+cpdefine("inline:com-chilipeppr-widget-canvas2", ["chilipeppr_ready", "jquerycookie"], function () {
+    return {
+        id: "com-chilipeppr-widget-canvas2",
+        implements: {
+            "com-chilipeppr-interface-cnccontroller": "The CNC Controller interface is a loosely defined set of publish/subscribe signals. The notion of an interface is taken from object-oriented programming like Java where an interface is defined and then specific implementations of the interface are created. For the sake of a Javascript mashup like what ChiliPeppr is, the interface is just a rule to follow to publish signals and subscribe to signals by different top-level names than the ID of the widget or element implementing the interface. Most widgets/elements will publish and subscribe on their own ID. In this widget we are publishing/subscribing on an interface name. If another controller like Grbl is defined by a member of the community beyond this widget for TinyG, this widget can be forked and used without other widgets needing to be changed and the user could pick a Grbl or TinyG implementation of the interface."
+        },
+        url: "http://fiddle.jshell.net/chilipeppr/9e3ok4vq/show/light/",
+        fiddleurl: "http://jsfiddle.net/chilipeppr/9e3ok4vq/",
+        name: "Widget / Canvas2",
+        desc: "This widget shows the TinyG planner buffer so other widgets can limit their flow of sending commands and other specific TinyG features.",
+        publish: {
+            '/com-chilipeppr-interface-cnccontroller/feedhold': "Feedhold (Emergency Stop). This signal is published when user hits the Feedhold button for an emergency stop of the TinyG. Other widgets should see this and stop sending all commands such that even when the plannerresume signal is received when the user clears the queue or cycle starts again, they have to manually start sending code again. So, for example, a Gcode sender widget should place a pause on the sending but allow user to unpause.",
+                '/com-chilipeppr-interface-cnccontroller/plannerpause': "This widget will publish this signal when it determines that the planner buffer is too full on the TinyG and all other elements/widgets need to stop sending data. You will be sent a /plannerresume when this widget determines you can start sending again. The TinyG has a buffer of 28 slots for data. You want to fill it up with around 12 commands to give the planner enough data to work on for optimizing velocities of movement. However, you can't overfill the TinyG or it will go nuts with buffer overflows. This signal helps you fire off your data and not worry about it, but simply pause the sending of the data when you see this signal. This signal does rely on the TinyG being in {qv:2} mode which means it will auto-send us a report on the planner every time it changes. This widget watches for those changes to generate the signal. The default setting is when we hit 12 remaining planner buffer slots we will publish this signal.",
+                '/com-chilipeppr-interface-cnccontroller/plannerresume': "This widget will send this signal when it is ok to send data to the TinyG again. This widget watches the {qr:[val]} status report from the TinyG to determine when the planner buffer has enough room in it to send more data. You may not always get a 1 to 1 /plannerresume for every /plannerpause sent because we will keep sending /plannerpause signals if we're below threshold, but once back above threshold we'll only send you one /plannerresume. The default setting is to send this signal when we get back to 16 available planner buffer slots.",
+                '/com-chilipeppr-interface-cnccontroller/axes': "This widget will normalize the TinyG status report of axis coordinates to send off to other widgets like the XYZ widget. The axes publish payload contains {x:float, y:float, z:float, a:float} If a different CNC controller is implemented, it should normalize the coordinate status reports like this model. The goal of this is to abstract away the specific controller implementation from generic CNC widgets.",
+                '/com-chilipeppr-interface-cnccontroller/units': "This widget will normalize the TinyG units to the interface object of units {units: \"mm\"} or {units: \"inch\"}. This signal will be published on load or when this widget detects a change in units so other widgets like the XYZ widget can display the units for the coordinates it is displaying.",
+                '/com-chilipeppr-interface-cnccontroller/coords': "This widget will broadcast out any change in the coordinate system. The value is {coord:\"g55\", coordNum: 55} or for G92 {coord:\"g92\", coordNum: 92} or for machine {coord:\"g53\", coordNum: 53}",
+                '/com-chilipeppr-interface-cnccontroller/firmware': "This widget will broadcast out a firmware build/version number when it sees it come in from the CNC controller to help other widgets pivot off of that data. The firmware build number is requested when the /onconnect is seen. Your widget must be loaded to see this signal as there is no request/recv signal implemented (please ask if you need one)."
+        },
+        subscribe: {
+            '/com-chilipeppr-interface-cnccontroller/jogdone': 'We subscribe to a jogdone event so that we can fire off an exclamation point (!) to the TinyG to force it to drop all planner buffer items to stop the jog immediately.',
+                '/com-chilipeppr-interface-cnccontroller/energizeMotors': 'Send in this signal to fully energize motors so you can do things like a tool change without moving your axis accidentally. This widget will send the correct command to the serial port for your CNC controller.',
+                '/com-chilipeppr-interface-cnccontroller/unEnergizeMotors': 'Send in this signal to turn off the full power to the motors. Puts motors back into your configured motor settings. This widget will send the correct command to the serial port for your CNC controller.',
+                '/com-chilipeppr-interface-cnccontroller/requestCoords': 'Send in this signal to request a callback signal of "/com-chilipeppr-interface-cnccontroller/coords" to be sent back. You wil be sent whatever value this widget currently has stored as the last coordinates.',
+        },
+        foreignPublish: {
+            "/com-chilipeppr-widget-serialport/send": "We send to the serial port certain commands like the initial configuration commands for the TinyG to be in the correct mode and to get initial statuses like planner buffers and XYZ coords. We also send the Emergency Stop and Resume of ! and ~"
+        },
+        foreignSubscribe: {
+            "/com-chilipeppr-widget-serialport/ws/onconnect": "When we see a new connect, query for status.",
+                "/com-chilipeppr-widget-serialport/recvline": "When we get a dataline from serialport, process it and fire off generic CNC controller signals to the /com-chilipeppr-interface-cnccontroller channel."
+        },
+        plannerPauseAt: 2, // if planner buffer gets to this number, then send pause
+        plannerResumeAt: 3, // when planner buffer gets back to this number, send a resume
+        init: function () {
+
+            this.setupUiFromCookie();
+            this.btnSetup();
+
+            this.forkSetup();
+
+            // if user asks us for coordinates to be published off
+            var that = this;
+            chilipeppr.subscribe("/com-chilipeppr-interface-cnccontroller/requestCoords", function () {
+                chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/coords", that.lastCoords);
+            });
+
+            // setup onconnect pubsub event
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/ws/onconnect", this, function (msg) {
+                console.log("got onconnect so will query for status");
+                this.queryControllerForStatus();
+            });
+
+            // setup recv pubsub event
+            // this is when we receive data in a per line format from the serial port
+            // notice we are subscribing at high priority. that means we'll get the recvline
+            // first before any other widget. this is important for flow control as we need
+            // to be as responsive as possible to pause other widgets. pubsub is synchronous
+            // inside chilipeppr. so all functions we call after getting this event are called
+            // first and only after we return from our functions do the other widgets get
+            // their pubsub listeners for this event.
+            chilipeppr.subscribe("/com-chilipeppr-widget-serialport/recvline", this, function (msg) {
+                this.onRecvCmd(msg);
+            }, 1 /* priority of 1 to beat other widgets */ );
+
+            // subscribe to jogdone so we can stop the planner buffer immediately
+            chilipeppr.subscribe("/com-chilipeppr-interface-cnccontroller/jogdone", this, function (msg) {
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/send", '!%\n{"qr":""}\n');
+                setTimeout(function () {
+                    chilipeppr.publish("/com-chilipeppr-widget-serialport/send", '!%\n{"qr":""}\n');
+                }, 500);
+                setTimeout(function () {
+                    chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerresume', "");
+                }, 100);
+                setTimeout(function () {
+                    chilipeppr.publish("/com-chilipeppr-widget-serialport/send", '{"qr":""}\n');
+                }, 1500);
+            });
+
+            // subscribe to motor energize/unenergize
+            chilipeppr.subscribe("/com-chilipeppr-interface-cnccontroller/energizeMotors", this, this.energizeMotors);
+            chilipeppr.subscribe("/com-chilipeppr-interface-cnccontroller/unEnergizeMotors", this, this.unEnergizeMotors);
+
+            // query for status as well as put TinyG in correct reporting mode
+            this.queryControllerForStatus();
+
+            // riley wanted a warning before leaving
+            this.warnBeforeLeavingPage();
+
+            // Setup Kevin Hauser's config dialog
+            this.setupConfig();
+
+            console.log(this.name + " done loading.");
+        },
+        configtinyg: null, // holds the reference to Kevin Hauser's config widget
+        setupConfig: function () {
+            $('.com-chilipeppr-kevinhauser-widget-configtinyg').click(this.popupConfigDialog.bind(this));
+        },
+        popupConfigDialog: function () {
+
+            // See if our widget is dynamically loaded or not
+            if (this.configtinyg != null) {
+                // We must have loaded it already
+                this.configtinyg.show();
+            } else {
+                // Dynamically inject Kevin Hauser's TinyG Config widget
+
+                // Load Kevin's widget into the placeholder DIV we put in our
+                // HTML at the end of the TinyG widget (just below the footer in
+                // a hidden DIV).
+                var that = this;
+                chilipeppr.load("#com-chilipeppr-widget-tinyg-holderAreaForConfigWidget", 'http://fiddle.jshell.net/khauser/vc1vd3n5/show/light', function () {
+                    require(["inline:com-chilipeppr-widget-configtinyg"], function (configtinyg) {
+
+                        // We get here after the widget is loaded and instantiated
+                        console.log("configtinyg:", configtinyg);
+                        configtinyg.init();
+                        // store a reference
+                        that.configtinyg = configtinyg;
+                        console.log("Kevin Hauser's TinyG config widget loaded.");
+                    });
+                });
+            }
+
+        },
+        warnBeforeLeavingPage: function () {
+            //window.onbeforeunload = function(){
+            //   return 'Are you sure you want to leave?';
+            //};
+            $(document).keydown(function (e) {
+                var elid = $(document.activeElement).is("input:focus, textarea:focus");
+                if (e.keyCode === 8 && !elid) {
+                    return false;
+                };
+            });
+        },
+        options: null,
+        setupUiFromCookie: function () {
+            // read vals from cookies
+            var options = $.cookie('com-chilipeppr-widget-tinyg-options');
+
+            if (true && options) {
+                options = $.parseJSON(options);
+                console.log("just evaled options: ", options);
+            } else {
+                options = {
+                    showBody: true
+                };
+            }
+            this.options = options;
+            console.log("options:", options);
+
+            // show/hide body
+            if (options.showBody) {
+                this.showBody();
+            } else {
+                this.hideBody();
+            }
+        },
+        saveOptionsCookie: function () {
+            var options = {
+                showBody: this.options.showBody
+            };
+            var optionsStr = JSON.stringify(options);
+            console.log("saving options:", options, "json.stringify:", optionsStr);
+            // store cookie
+            $.cookie('com-chilipeppr-widget-tinyg-options', optionsStr, {
+                expires: 365 * 10,
+                path: '/'
+            });
+        },
+        showBody: function (evt) {
+            //$('#com-chilipeppr-widget-tinyg .panel-body .stat-row').removeClass('hidden');
+            $('#com-chilipeppr-widget-canvas2 .panel-body').removeClass('hidden');
+            $('#com-chilipeppr-widget-canvas2 .hidebody span').addClass('glyphicon-chevron-up');
+            $('#com-chilipeppr-widget-canvas2 .hidebody span').removeClass('glyphicon-chevron-down');
+            if (!(evt == null)) {
+                this.options.showBody = true;
+                this.saveOptionsCookie();
+            }
+        },
+        hideBody: function (evt) {
+            //$('#com-chilipeppr-widget-tinyg .panel-body .stat-row').addClass('hidden');
+            $('#com-chilipeppr-widget-canvas2 .panel-body').addClass('hidden');
+            $('#com-chilipeppr-widget-canvas2 .hidebody span').removeClass('glyphicon-chevron-up');
+            $('#com-chilipeppr-widget-canvas2 .hidebody span').addClass('glyphicon-chevron-down');
+            if (!(evt == null)) {
+                this.options.showBody = false;
+                this.saveOptionsCookie();
+            }
+        },
+        resetTinyG: function () {
+            var gcode = String.fromCharCode(24) + "\n";
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+                D: gcode,
+                Id: "tinygReset"
+            });
+        },
+        btnSetup: function () {
+
+            // ctrl-x
+            $('#com-chilipeppr-widget-tinyg .tinyg-ctrlx').click(this.resetTinyG.bind(this));
+
+            // chevron hide body
+            var that = this;
+            $('#com-chilipeppr-widget-canvas2 .hidebody').click(function (evt) {
+                console.log("hide/unhide body");
+                //if ($('#com-chilipeppr-widget-tinyg .panel-body .stat-row').hasClass('hidden')) {
+                if ($('#com-chilipeppr-widget-canvas2 .panel-body').hasClass('hidden')) {
+                    // it's hidden, unhide
+                    that.showBody(evt);
+                } else {
+                    // hide
+                    that.hideBody(evt);
+                }
+            });
+
+            // Feedhold !
+            $('#com-chilipeppr-widget-tinyg .tinyg-feedhold').click(function () {
+                console.log("tinyg-feedhold emergency stop");
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/send", "!\n");
+                // announce to other widgets that user hit e-stop
+                chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerpause', "");
+                chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/feedhold", "");
+
+                // update button and others to indicate what's next
+                //$('#com-chilipeppr-widget-tinyg .tinyg-feedhold span').css('opacity', '0.5');
+                $('#com-chilipeppr-widget-tinyg .tinyg-feedhold span').addClass('hidden');
+                $('#com-chilipeppr-widget-tinyg .tinyg-cyclestart').addClass('btn-success');
+                $('#com-chilipeppr-widget-tinyg .tinyg-cyclestart').text("Resume ~");
+                $('#com-chilipeppr-widget-tinyg .tinyg-queueflush').text("Wipe %");
+            });
+
+            // Cycle resume ~
+            $('#com-chilipeppr-widget-tinyg .tinyg-cyclestart').click(function () {
+                console.log("tinyg-cyclestart");
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/send", '~\n{"qr":""}\n');
+                chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerresume', "");
+                // update button and others to indicate what's next
+                //$('#com-chilipeppr-widget-tinyg .tinyg-feedhold span').css('opacity', 'initial');
+                $('#com-chilipeppr-widget-tinyg .tinyg-feedhold span').removeClass('hidden');
+                $('#com-chilipeppr-widget-tinyg .tinyg-cyclestart').removeClass('btn-success');
+                $('#com-chilipeppr-widget-tinyg .tinyg-cyclestart').text("~");
+                $('#com-chilipeppr-widget-tinyg .tinyg-queueflush').text("%");
+            });
+            $('#com-chilipeppr-widget-tinyg .tinyg-queueflush').click(function () {
+                console.log("tinyg-queueflush");
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/send", '%\n{"qr":""}\n');
+                chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerresume', "");
+
+                // update button and others to indicate what's next
+                $('#com-chilipeppr-widget-tinyg .tinyg-feedhold span').removeClass('hidden');
+                $('#com-chilipeppr-widget-tinyg .tinyg-cyclestart').removeClass('btn-success');
+                $('#com-chilipeppr-widget-tinyg .tinyg-cyclestart').text("~");
+                $('#com-chilipeppr-widget-tinyg .tinyg-queueflush').text("%");
+            });
+
+            $('#com-chilipeppr-widget-tinyg .btn-toolbar .btn').popover({
+                delay: 500,
+                animation: true,
+                placement: "auto",
+                trigger: "hover",
+                container: 'body'
+            });
+
+            // energize motors
+            $('#com-chilipeppr-widget-tinyg .tinyg-motors-energize').click(function () {
+                console.log("tinyg-motors-energize");
+                that.energizeMotors();
+                // update button and others to indicate what's next
+                //$('#com-chilipeppr-widget-tinyg .tinyg-feedhold span').css('opacity', 'initial');
+                $('#com-chilipeppr-widget-tinyg .tinyg-motors-unenergize').addClass('btn-danger');
+            });
+            $('#com-chilipeppr-widget-tinyg .tinyg-motors-unenergize').click(function () {
+                console.log("tinyg-motors-unenergize");
+                that.unEnergizeMotors();
+                $('#com-chilipeppr-widget-tinyg .tinyg-motors-unenergize').removeClass('btn-danger');
+            });
+        },
+        energizeTimer: null,
+        energizeTimeoutTimer: null,
+        energizeMotors: function () {
+            if (this.energizeTimer == null) {
+                // To keep the motors energized indefinitely we need to setup a timer. 
+                // We can only do that correctly if we know what the timeout is ($mt) for 
+                // the motors. If we don’t. Just fall back to the old way if issuing one 
+                // "me" command. We will always issue an "me" command first as if we didn't
+                // we would have to wait for the timer to pop before the motors are energized.
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/send", '{"me":""}\n');
+                if (this.mt != null) {
+                    // Setup a timer for keeping the motors energized. this.mt is in seconds
+                    // and setInterval requires ms. We also need to shave off a half second
+                    // to provide some overlap. If we don't, then the motors will unenergize
+                    // themselves for a fraction of a second before being reenergized. My 
+                    // testing has shown that issuing overlapping "me" commands is not 
+                    // accumulative. Issuing a new "me" just appears to reset tinyg’s internal 
+                    // timer, not add to it.
+                    // Added a max timeout value so the motors would not run longer than 30 min.
+                    // 30min = 1,800,000ms
+                    this.energizeTimeoutTimer = setTimeout(this.energizeMotorTimeout, 1800000, this);
+                    this.energizeTimer = setInterval(function () {
+                        chilipeppr.publish("/com-chilipeppr-widget-serialport/send", '{"me":""}\n');
+                    }, (this.mt * 1000) - 500);
+                }
+            }
+        },
+        unEnergizeMotors: function () {
+            // If we have a valid timer running (may not if the button was pressed multiple
+            // times), then kill the timer.
+            if (this.energizeTimer != null) {
+                clearInterval(this.energizeTimer);
+                this.energizeTimer = null;
+            }
+            if (this.energizeTimeoutTimer != null) {
+                clearTimeout(this.energizeTimeoutTimer);
+                this.energizeTimeoutTimer = null;
+            }
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/send", '{"md":""}\n');
+        },
+        energizeMotorTimeout: function (that) {
+            // If we get here, then the motors have been on long enough. Let's kill the timer
+            // and give the motors a rest.
+            that.energizeTimeoutTimer = null;
+            if (that.energizeTimer != null) {
+                clearInterval(that.energizeTimer);
+                that.energizeTimer = null;
+            }
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/send", '{"md":""}\n');
+            $('#com-chilipeppr-widget-tinyg .tinyg-motors-unenergize').removeClass('btn-danger');
+        },
+        getUrlParameter: function (sParam) {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName.length > 0) {
+                    if (sParameterName[0] == sParam) {
+                        return sParameterName[1];
+                    }
+                }
+            }
+        },
+        urlParam: function (name) {
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            if (results == null) {
+                return null;
+            } else {
+                return results[1] || 0;
+            }
+        },
+        queryControllerForStatus: function (isWithDelay) {
+
+            var delay1 = isWithDelay ? 1000 : 1000;
+            var delay2 = isWithDelay ? 5000 : 3000;
+
+            // publish to see what the status of the planner buffer is of the cnc controller
+            // this code is specific to tinyg
+            // wait 1 and 5 seconds to do this though because the full load is such that
+            // we may not have everything good to go yet, i.e. other widgets looking for responses
+            // to these issued commands
+
+            // TODO: watch when we get an event from serial port to send this
+
+            // {"qv":2}
+            // also send {"qv":1} to put tinyg in planner buffer reporting mode just in case
+            // it's not in that mode
+
+            // {"sr":""}
+            // requests a status report which gives us xyz coords from TinyG
+
+            // {"sv":1}
+            // this command asks tinyg to turn on filtered automatic status reports. we will get
+            // a report every time there's relevant updates on position
+
+            // {"si":100}
+            // set minimum status report interval to 100 milliseconds so we don't get overwhelmed
+
+            // {"qr":""}
+            // requests a queue report to see how much room is in the planner buffer
+
+            // put back {"js":1}\n as 2nd command
+            // check if v9 param is in URL which means don't set anything
+            //var href = window.location.search.substring(1);
+            var href = window.location.href;
+            console.log("url href", href);
+            var isv9 = false;
+            if (href.match(/v9=true/)) {
+                isv9 = true;
+            }
+            var initCmds;
+            if (isv9) {
+                initCmds = '{"sr":""}\n{"qr":""}\n{"hp":""}\n{"fb":""}\n';
+            } else {
+                initCmds = '{"ej":1}\n{"js":1}\n{"sr":""}\n{"sv":1}\n{"si":250}\n{"qr":""}\n{"qv":2}\n{"ec":0}\n{"jv":1}\n{"hp":""}\n{"fb":""}\n{"mt":""}\n{"sr":{"line":true,"posx":true, "posy":true,"posz":true, "vel":true, "unit":true, "stat":true, "feed":true, "coor":true, "momo":true, "plan":true, "path":true, "gc":true, "dist":true}}\n';
+            }
+
+            setTimeout(function () {
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+                    D: initCmds,
+                    Id: "tinygInit"
+                });
+            }, delay1);
+
+            setTimeout(function () {
+                chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", {
+                    D: initCmds,
+                    Id: "tinygInit2"
+                });
+            }, delay2);
+
+
+        },
+        onRecvCmd: function (recvline) {
+            // get a per line command from the serial port server via pubsub
+            //console.log("onRecvCmd. recvline:", recvline);
+
+            // we want to process the qr reports for buffer planner
+            // sample: 
+            // {"qr":27}
+
+            if (!(recvline.dataline)) {
+                console.log("got recvline but it's not a dataline, so returning.");
+                return;
+            }
+            var msg = recvline.dataline;
+            if (msg.match(/^{/)) {
+                // it is json
+                d = $.parseJSON(msg);
+                //console.log("d:", d);
+                if (d.qr) {
+                    //console.log("it is a status report");
+                    this.processPlannerStatus(d.qr);
+                } else if (d.r && d.r.qr) {
+                    //console.log("it is a status report from a direct request");
+                    this.processPlannerStatus(d.r.qr);
+                } else if (d.r && d.r.sr) {
+                    // status report of position
+                    this.publishAxisStatus(d.r.sr);
+                } else if (d.sr) {
+                    this.publishAxisStatus(d.sr);
+                } else if (d.r && d.r.fb) {
+                    this.processFirmwareBuild(d.r.fb);
+                } else if (d.r && d.r.hp) {
+                    this.processHardwarePlatform(d.r.hp);
+                } else if (d.r && d.r.mt) {
+                    this.processMotorTimeout(d.r.mt);
+                }
+            }
+
+        },
+        mt: null, // motor timeout value
+        processMotorTimeout: function (mt) {
+            // Read in the motor's timeout value. If the value is below
+            // 1 second, then we will just consider it non-existant as
+            // the value will not work correctly when used above. My 
+            // testing has shown that issuing "me":"###" where ### is a
+            // fixed timout value does not work in the current TinyG
+            // firmware. If this is ever fixed, then we will not need to
+            // get the timeout value as we can just use our own timeout
+            // in the "me" command. This would be helpful if someone has
+            // a really short "mt" value.
+            var motorTimeout = parseFloat(mt);
+            // I could not figure out how to set the motor timeout to less
+            // than one second--this test may not be needed.
+            if (motorTimeout >= 1.0) this.mt = motorTimeout;
+        },
+        hp: null, // hardware platform version
+        processHardwarePlatform: function (hp) {
+            var hpver = parseFloat(hp);
+            this.hp = hpver;
+            if (hpver >= 3) {
+                // we're ok
+                $('#com-chilipeppr-widget-tinyg .fb-alert').addClass("hidden");
+            }
+        },
+        processFirmwareBuild: function (fb) {
+            //debugger;
+            var fbver = parseFloat(fb);
+
+            // publish off a signal so other widgets can pivot off this data too
+            var pubData = {
+                fbFloat: fbver,
+                fb: fb,
+                hp: this.hp
+            }
+            chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/firmware", pubData);
+
+            // check if we have a hardware platform
+            if (this.hp != null) {
+                // we do. now do additional check on alternate versions
+                if (this.hp >= 3) {
+                    // we're fine for now. any firmware on this hp is fine.
+                    $('#com-chilipeppr-widget-tinyg .fb-build').text(fb);
+                    $('#com-chilipeppr-widget-tinyg .fb-alert').addClass("hidden");
+                } else {
+                    if (fbver >= 435.10) {
+                        console.log("FB is safe. fbver:", fbver);
+                        $('#com-chilipeppr-widget-tinyg .fb-build').text(fb);
+                        $('#com-chilipeppr-widget-tinyg .fb-alert').addClass("hidden");
+                    } else {
+                        // they are below threshold
+                        $('#com-chilipeppr-widget-tinyg .fb-build').text(fb);
+                        $('#com-chilipeppr-widget-tinyg .fb-alert').removeClass("hidden");
+                    }
+                }
+
+            } else {
+
+                // if we have no hardware platform, assume hp = 1
+                if (fbver >= 435.10) {
+                    console.log("FB is safe. fbver:", fbver);
+                    $('#com-chilipeppr-widget-tinyg .fb-build').text(fb);
+                    $('#com-chilipeppr-widget-tinyg .fb-alert').addClass("hidden");
+                } else {
+                    // they are below threshold
+                    $('#com-chilipeppr-widget-tinyg .fb-build').text(fb);
+                    $('#com-chilipeppr-widget-tinyg .fb-alert').removeClass("hidden");
+                }
+            }
+        },
+        lastUnits: null,
+        isShowingStats: true,
+        lastCoords: {
+            coord: null,
+            coordNum: null
+        },
+        coor: ["G53", "G54", "G55", "G56", "G57", "G58", "G59"],
+        publishAxisStatus: function (sr) {
+            // build normalized interface object
+            var axes = {
+                x: sr.posx != undefined ? sr.posx : null,
+                y: sr.posy != undefined ? sr.posy : null,
+                z: sr.posz != undefined ? sr.posz : null,
+                a: sr.posa != undefined ? sr.posa : null,
+                type: "work"
+            }
+            // also check if it's the mpox/mpoy/mpoz form (machine coords instead of work coords)
+            if ("mpox" in sr || "mpoy" in sr || "mpoz" in sr || "mpoa" in sr) {
+                // we have machine coords
+                axes.x = "mpox" in sr ? sr.mpox : null;
+                axes.y = "mpoy" in sr ? sr.mpoy : null;
+                axes.z = "mpoz" in sr ? sr.mpoz : null;
+                axes.a = "mpoa" in sr ? sr.mpoa : null;
+                axes.type = "machine";
+            }
+
+            chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/axes", axes);
+
+            // also check if units are attached and are different from last units
+            // [unit] units_mode - 0=inch, 1=mm
+            if ("unit" in sr) {
+                var units = sr.unit == 0 ? "inch" : "mm";
+
+                // yes we have units. see if changed and thus why we should publish
+                if (this.lastUnits != units) {
+                    console.log("we have a unit change. publish it. units:", units);
+                    chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/units", units);
+                }
+            }
+
+            if ("coor" in sr) {
+                var layerNum = sr.coor + 53;
+                if (this.lastCoords.coordNum != layerNum) {
+
+                    var layer = this.coor[sr.coor];
+                    this.lastCoords = {
+                        coord: layer,
+                        coordNum: layerNum
+                    };
+                    console.log("we have a coordinate layer change. publish it. coord:", this.lastCoords);
+                    chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/coords", this.lastCoords);
+
+                }
+            }
+
+            // check other stats if user is showing full stats
+            if (this.isShowingStats) {
+                this.processStats(sr);
+            }
+
+        },
+        statEls: null,
+        processStats: function (sr) {
+            console.log("processStats. sr:", sr);
+            if (this.statEls == null) this.statGetDomElements(); // lazy load stat dom for speed
+            var e = this.statEls;
+            // sample stats
+            // '{"r":{"sr":{"line":0,"vel":0.00,"mpox":0.005,"mpoy":10.460,"mpoz":0.304,"mpoa":0.000,"coor":1,"ofsa":0.000,"ofsx":0.000,"ofsy":0.000,"ofsz":0.000,"dist":0,"unit":1,"stat":3,"homz":0,"homy":0,"homx":0,"momo":1},"f":[1,0,10,5440]}}'
+            // {"r":{"sr":{"line":0,"posx":0.000,"posy":0.028,"posz":0.000,"posa":0.000,"feed":0.00,"vel":0.00,"unit":1,"coor":1,"dist":0,"frmo":0,"momo":1,"stat":4},"f":[1,0,10,4683]}}
+            if ("line" in sr) {
+                // we got a gcode line number
+                e.line.text(sr.line);
+                // let's publish an onExecute command
+                chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/onExecute", {
+                    line: sr.line
+                });
+            }
+            if ("feed" in sr) e.feedrate.text(sr.feed);
+            if ("vel" in sr) e.velocity.text(sr.vel);
+            if ("dist" in sr) e.distance.text(sr.dist == 0 ? "Absolute" : "Incremental");
+            if ("unit" in sr) e.units.text(sr.unit == 0 ? "Inch" : "mm");
+            if ("stat" in sr) {
+                var state = ["Initializing", "Ready", "Shutdown", "Stop", "End", "Run", "Hold", "Homing"];
+                e.state.text(state[sr.stat]);
+            }
+            if ("momo" in sr) {
+                var motion = ["Traverse", "Straight", "CW Arc", "CCW Arc"];
+                e.motion.text(motion[sr.momo]);
+            }
+            if ("coor" in sr) {
+                //var coor = ["G53", "G54", "G55", "G56", "G57", "G58", "G59"];
+                e.coords.text(this.coor[sr.coor]);
+            }
+            if ("plan" in sr) {
+                var plane = ["XY", "XZ", "YZ"];
+                e.plane.text(plane[sr.plan]);
+            }
+            if ("path" in sr) {
+                var path = ["Exact Stop", "Exact Path", "Continuous"];
+                e.path.text(path[sr.path]);
+            }
+
+
+        },
+        statGetDomElements: function () {
+            console.log("statGetDomElements. this should only get called once.");
+            this.statEls = {
+                line: $('.com-chilipeppr-interface-cnccontroller-stat .stat-line'),
+                velocity: $('.com-chilipeppr-interface-cnccontroller-stat .stat-velocity'),
+                feedrate: $('.com-chilipeppr-interface-cnccontroller-stat .stat-feedrate'),
+                state: $('.com-chilipeppr-interface-cnccontroller-stat .stat-state'),
+                units: $('.com-chilipeppr-interface-cnccontroller-stat .stat-units'),
+                coords: $('.com-chilipeppr-interface-cnccontroller-stat .stat-coords'),
+                motion: $('.com-chilipeppr-interface-cnccontroller-stat .stat-motion'),
+                plane: $('.com-chilipeppr-interface-cnccontroller-stat .stat-plane'),
+                path: $('.com-chilipeppr-interface-cnccontroller-stat .stat-path'),
+                distance: $('.com-chilipeppr-interface-cnccontroller-stat .stat-distance')
+            }
+        },
+        plannerLastEvent: "resume",
+        processPlannerStatus: function (qr) {
+            //console.log("processPlannerStatus. qr:", qr);
+            // see if we're below our happy threshold of where we'll allow the planner to get
+            if (qr <= this.plannerPauseAt) {
+                // we need to send pause signal
+                if (this.plannerLastEvent == "resume") this.publishPlannerPause();
+            } else if (qr >= this.plannerResumeAt) {
+                // we need to send resume signal
+                // but only if our last send was pause
+                if (this.plannerLastEvent == "pause") this.publishPlannerResume();
+            }
+
+            // update ui
+            this.updatePlannerProgBar(qr);
+        },
+        publishPlannerPause: function () {
+            // tell other widgets to pause their sending because we're too far into
+            // filling up the planner buffer
+            this.plannerLastEvent = "pause";
+            chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/plannerpause", "");
+        },
+        publishPlannerResume: function () {
+            // tell other widgets they can send again
+            this.plannerLastEvent = "resume";
+            chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/plannerresume", "");
+        },
+        progBar: null,
+        progBarLbl: null,
+        plannerMin: null,
+        plannerMax: null,
+        updatePlannerProgBar: function (qr) {
+            if (this.progBar == null) {
+                this.progBar = $('#com-chilipeppr-widget-tinyg .progress-bar');
+                this.progBarLbl = this.progBar.find('span');
+                this.progBarMinMax = $('#com-chilipeppr-widget-tinyg .stat-plannerminmax');
+                // let click on min/max reset
+                var that = this;
+                this.progBarMinMax.click(function (evt) {
+                    console.log("resetting min/max for planner");
+                    that.plannerMin = null;
+                    that.plannerMax = null;
+                    that.updatePlannerMinMax();
+                });
+            }
+            // calc %
+            var pct = (qr / 28) * 100;
+            this.progBar.css('width', pct + "%");
+            this.progBarLbl.text(qr);
+
+            // color code based on planner fullness
+            if (qr < this.plannerPauseAt) {
+                this.progBar.addClass('progress-bar-danger');
+                this.progBar.removeClass('progress-bar-warning');
+            } else if (qr <= this.plannerResumeAt) {
+                this.progBar.addClass('progress-bar-warning');
+                this.progBar.removeClass('progress-bar-danger');
+            } else {
+                this.progBar.removeClass('progress-bar-warning');
+                this.progBar.removeClass('progress-bar-danger');
+            }
+
+            // update max min
+            var updatePlannerMinMax = false;
+            if (this.plannerMin == null || qr < this.plannerMin) {
+                this.plannerMin = qr;
+                updatePlannerMinMax = true;
+            }
+            if (this.plannerMax == null || qr > this.plannerMax) {
+                this.plannerMax = qr;
+                updatePlannerMinMax = true;
+            }
+            if (updatePlannerMinMax) {
+                this.updatePlannerMinMax();
+            }
+        },
+        updatePlannerMinMax: function () {
+            var min = this.plannerMin;
+            if (min == null) min = "-";
+            var max = this.plannerMax;
+            if (max == null) max = "-";
+            this.progBarMinMax.text(min + "/" + max);
+        },
+        forkSetup: function () {
+            var topCssSelector = '#com-chilipeppr-widget-canvas2';
+
+            //$(topCssSelector + ' .fork').prop('href', this.fiddleurl);
+            //$(topCssSelector + ' .standalone').prop('href', this.url);
+            //$(topCssSelector + ' .fork-name').html(this.id);
+            $(topCssSelector + ' .panel-title').popover({
+                title: this.name,
+                content: this.desc,
+                html: true,
+                delay: 200,
+                animation: true,
+                trigger: 'hover',
+                placement: 'auto'
+            });
+
+            var that = this;
+            chilipeppr.load("http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/", function () {
+                require(['inline:com-chilipeppr-elem-pubsubviewer'], function (pubsubviewer) {
+                    pubsubviewer.attachTo($('#com-chilipeppr-widget-canvas2 .panel-heading .dropdown-menu'), that);
+                });
+            });
+
+        },
+    }
+});
+//]]>  
+
+</script>
+
+
+</head>
+<body>
+  <div id="com-chilipeppr-widget-canvas2" class="panel panel-default">
+    <div class="panel-heading">
+        <div class="btn-toolbar pull-right" role="toolbar">
+            <div class="btn-group">
+                <button type="button" class="btn btn-xs btn-default hidebody" data-content="Expand/Collapse the Canvas widget."><span class="glyphicon glyphicon-chevron-up"></span>
+
+                </button>
+            </div>
+            <div class="btn-group">
+                <div class="dropdown">
+                    <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>
+
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                </div>
+            </div>
+        </div> <span class="panel-title" data-toggle="popover">Canvas</span>  <span style="font-size:9px;" class="fb-build"></span>
+
+    </div>
+    <div id="com-chilipeppr-widget-canvas2-body" class="panel-body">
+        <!-- -------------------------------------------------------------------------------------- -->
+        <div class="container">
+            <!-- Static navbar -->
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span>
+ <span class="icon-bar"></span>  <span class="icon-bar"></span>
+ <span class="icon-bar"></span>
+
+                        </button> <a class="navbar-brand" href="#">Canvas</a>
+
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <!-- <li class="active"><a href="#">Home</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact</a></li> -->
+                            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">File <span class="caret"></span></a>
+
+                                <ul class="dropdown-menu" role="menu">
+                                    <input type="file" accept=".svg" id="SVGFileLoad" name="files" title="Load File" style="display:none;" />
+                                    <!-- <li><a onclick="openSVGFile();" href="#">Open SVG file <span class="glyphicon glyphicon-floppy-open"></span></a></li> -->
+                                    <li><a href="#" id="save-svg-file">Save SVG file <span class="glyphicon glyphicon-floppy-save"></span></a>
+
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Other Options...</li>
+                                    <li><a href="#" id="save-png-file">Save PNG file <span class="glyphicon glyphicon-floppy-save"></span></a>
+
+                                    </li>
+                                    <li><a href="#" id="export-svg-file-jscut">Export SVG file to jscut <span class="glyphicon glyphicon-floppy-save"></span></a>
+
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Insert <span class="caret"></span></a>
+
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" data-toggle="modal" data-target="#canvas-circle-modal">Circle</a>
+
+                                    </li>
+                                    <li><a href="#" data-toggle="modal" data-target="#canvas-rectangle-modal">Rectangle</a>
+
+                                    </li>
+                                    <li><a href="#" data-toggle="modal" data-target="#canvas-triangle-modal">Triangle</a>
+
+                                    </li>
+                                    <li><a href="#" data-toggle="modal" data-target="#canvas-line-modal">Line</a>
+
+                                    </li>
+                                    <li><a href="#" data-toggle="modal" data-target="#canvas-iText-modal">iText</a>
+
+                                    </li>
+                                    <li><a href="#" data-toggle="modal" data-target="#canvas-path-modal">Path</a>
+
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Draw <span class="caret"></span></a>
+
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" id="pencil">Pencil <span class="glyphicon glyphicon-pencil"></span></a>
+
+                                    </li>
+                                    <li><a href="#" id="selection-mode">Selection Mode <span class="glyphicon glyphicon-move"></span></a>
+
+                                    </li>
+                                    <li><a href="#" id="delete-item">Delete Items <span class="glyphicon glyphicon-erase"></span></a>
+
+                                    </li>
+                                    <li><a href="#" id="clear">Clear <span class="glyphicon glyphicon-ban-circle"></span></a>
+
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a><button type="button" id="closebutton" onclick="return quitBox('quit');" class="btn btn-sm btn-default" data-toggle="button" aria-pressed="false" autocomplete="off"> Close Window <span class="glyphicon glyphicon-remove-sign"></span> </button></a>
+
+                            </li>
+                            <script language="javascript">
+                                function quitBox(cmd) {
+                                    if (cmd == 'quit') {
+                                        open(location, '_self').close();
+                                    }
+                                    return false;
+                                }
+                            </script>
+                        </ul>
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+                <!--/.container-fluid -->
+            </nav>
+            <!-- Main component for a primary marketing message or call to action -->
+            <!-- <div class="jumbotron"> -->
+            <canvas id="myCanvas" width="1140" height="550" style="border:1px solid #999;">Your browser does not support the HTML5 canvas rendering.</canvas>
+        </div>
+        <!-- /container -->
+        <!--Modal for circle's radius -->
+        <div class="modal fade" id="canvas-circle-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+
+                        </button>
+                         <h5 class="modal-title" id="canvas-rectangle-modal-title">Enter Circle's radius: </h5>
+
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label class="control-label">
+                                     <h6> Radius: </h6>
+
+                                </label>
+                                <input type="text" class="form-control" id="circle-radius" value="30"></input>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="circle-modal-confirm">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal for rectangle's length and width -->
+        <div class="modal fade" id="canvas-rectangle-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+
+                        </button>
+                         <h5 class="modal-title" id="canvas-rectangle-modal-title">Enter Rectangle's length and width: </h5>
+
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label class="control-label">
+                                     <h6> Length: </h6>
+
+                                </label>
+                                <input type="text" class="form-control" id="rectangle-length" value="30"></input>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">
+                                     <h6>Width: </h6>
+
+                                </label>
+                                <input type="text" class="form-control" id="rectangle-width" value="60"></input>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="rectangle-modal-confirm">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal for triangle's length and width -->
+        <div class="modal fade" id="canvas-triangle-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+
+                        </button>
+                         <h5 class="modal-title" id="canvas-triangle-modal-title">Enter Triangle's width and height: </h5>
+
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label class="control-label">
+                                     <h6> Width: </h6>
+
+                                </label>
+                                <input type="text" class="form-control" id="triangle-width" value="80"></input>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">
+                                     <h6>Height: </h6>
+
+                                </label>
+                                <input type="text" class="form-control" id="triangle-height" value="100"></input>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="triangle-modal-confirm">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal for path's input points -->
+        <div class="modal fade" id="canvas-path-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+
+                        </button>
+                         <h5 class="modal-title" id="canvas-path-modal-title">Enter the the series of commands to be drawn by pen: </h5>
+
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label class="control-label">
+                                     <h6> Path command: </h6>
+
+                                </label>
+                                <textarea class="form-control" rows="5" id="path-command">M121.32,0L44.58,0C36.67,0,29.5,3.22,24.31,8.41\ c-5.19,5.19-8.41,12.37-8.41,20.28c0,15.82,12.87,28.69,28.69,28.69c0,0,4.4,\ 0,7.48,0C36.66,72.78,8.4,101.04,8.4,101.04C2.98,106.45,0,113.66,0,121.32\ c0,7.66,2.98,14.87,8.4,20.29l0,0c5.42,5.42,12.62,8.4,20.28,8.4c7.66,0,14.87\ -2.98,20.29-8.4c0,0,28.26-28.25,43.66-43.66c0,3.08,0,7.48,0,7.48c0,15.82,\ 12.87,28.69,28.69,28.69c7.66,0,14.87-2.99,20.29-8.4c5.42-5.42,8.4-12.62,8.4\ -20.28l0-76.74c0-7.66-2.98-14.87-8.4-20.29C136.19,2.98,128.98,0,121.32,0z</textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="path-modal-confirm">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal for iText's options -->
+        <div class="modal fade" id="canvas-iText-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+
+                        </button>
+                         <h5 class="modal-title" id="canvas-iText-modal-title">Enter text and select options: </h5>
+
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label class="control-label">
+                                     <h6> Size: </h6>
+
+                                </label>
+                                <input type="text" class="form-control" id="iText-size" value="40"></input>
+                            </div>
+                            <label class="control-label">
+                                 <h6>Font: </h6>
+
+                            </label>
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Trebuchet MS <span class="caret"></span>
+
+                                    </button>
+                                    <ul class="dropdown-menu scrollable-menu" role="menu" id="iText-font-dropdown">
+                                        <li><a href="#">American Typewriter</a>
+
+                                        </li>
+                                        <li><a href="#">Andale Mono</a>
+
+                                        </li>
+                                        <li><a href="#">Apple Chancery</a>
+
+                                        </li>
+                                        <li><a href="#">Arial</a>
+
+                                        </li>
+                                        <li><a href="#">Arial Black</a>
+
+                                        </li>
+                                        <li><a href="#">Baskerville</a>
+
+                                        </li>
+                                        <li><a href="#">Big Caslon</a>
+
+                                        </li>
+                                        <li><a href="#">Brush Script</a>
+
+                                        </li>
+                                        <li><a href="#">Capitals</a>
+
+                                        </li>
+                                        <li><a href="#">Charcoal</a>
+
+                                        </li>
+                                        <li><a href="#">Charter</a>
+
+                                        </li>
+                                        <li><a href="#">Clean</a>
+
+                                        </li>
+                                        <li><a href="#">Comic Sans MS</a>
+
+                                        </li>
+                                        <li><a href="#">Copperplate</a>
+
+                                        </li>
+                                        <li><a href="#">Courier</a>
+
+                                        </li>
+                                        <li><a href="#">Courier New</a>
+
+                                        </li>
+                                        <li><a href="#">Fixed</a>
+
+                                        </li>
+                                        <li><a href="#">Futura</a>
+
+                                        </li>
+                                        <li><a href="#">Gadget</a>
+
+                                        </li>
+                                        <li><a href="#">Georgia</a>
+
+                                        </li>
+                                        <li><a href="#">Gill Sans</a>
+
+                                        </li>
+                                        <li><a href="#">Helvetica</a>
+
+                                        </li>
+                                        <li><a href="#">Herculanum</a>
+
+                                        </li>
+                                        <li><a href="#">Hoefler Text</a>
+
+                                        </li>
+                                        <li><a href="#">Hoefler Text Ornaments</a>
+
+                                        </li>
+                                        <li><a href="#">Impact</a>
+
+                                        </li>
+                                        <li><a href="#">Lucida</a>
+
+                                        </li>
+                                        <li><a href="#">Lucida bright</a>
+
+                                        </li>
+                                        <li><a href="#">Lucida Console</a>
+
+                                        </li>
+                                        <li><a href="#">Lucida Grande</a>
+
+                                        </li>
+                                        <li><a href="#">Lucida Sans Unicode</a>
+
+                                        </li>
+                                        <li><a href="#">Lucida Typewriter</a>
+
+                                        </li>
+                                        <li><a href="#">Marker Felt</a>
+
+                                        </li>
+                                        <li><a href="#">Marlett</a>
+
+                                        </li>
+                                        <li><a href="#">Minion Web</a>
+
+                                        </li>
+                                        <li><a href="#">New Century Schoolbook</a>
+
+                                        </li>
+                                        <li><a href="#">Optima</a>
+
+                                        </li>
+                                        <li><a href="#">Osaka</a>
+
+                                        </li>
+                                        <li><a href="#">Palatino</a>
+
+                                        </li>
+                                        <li><a href="#">Papyrus</a>
+
+                                        </li>
+                                        <li><a href="#">Sand</a>
+
+                                        </li>
+                                        <li><a href="#">Skia</a>
+
+                                        </li>
+                                        <li><a href="#">Symbol</a>
+
+                                        </li>
+                                        <li><a href="#">Tahoma</a>
+
+                                        </li>
+                                        <li><a href="#">Techno</a>
+
+                                        </li>
+                                        <li><a href="#">Terminal</a>
+
+                                        </li>
+                                        <li><a href="#">Textile</a>
+
+                                        </li>
+                                        <li><a href="#">Times</a>
+
+                                        </li>
+                                        <li><a href="#">Times New Roman</a>
+
+                                        </li>
+                                        <li><a href="#">Trebuchet MS</a>
+
+                                        </li>
+                                        <li><a href="#">Utopia</a>
+
+                                        </li>
+                                        <li><a href="#">Verdana</a>
+
+                                        </li>
+                                        <li><a href="#">Webdings</a>
+
+                                        </li>
+                                        <li><a href="#">Zapf Dingbats</a>
+
+                                        </li>
+                                        <li><a href="#">Zapfino</a>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <label class="control-label">
+                                 <h6>Style: </h6>
+
+                            </label>
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">regular <span class="caret"></span>
+
+                                    </button>
+                                    <ul class="dropdown-menu scrollable-menu" role="menu" id="iText-style-dropdown">
+                                        <li><a href="#">regular</a>
+
+                                        </li>
+                                        <li><a href="#">normal</a>
+
+                                        </li>
+                                        <li><a href="#">italic</a>
+
+                                        </li>
+                                        <li><a href="#">oblique</a>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <label class="control-label">
+                                 <h6>Align: </h6>
+
+                            </label>
+                            <div class="form-group">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">left <span class="caret"></span>
+
+                                    </button>
+                                    <ul class="dropdown-menu scrollable-menu" role="menu" id="iText-align-dropdown">
+                                        <li><a href="#">left</a>
+
+                                        </li>
+                                        <li><a href="#">center</a>
+
+                                        </li>
+                                        <li><a href="#">right</a>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">
+                                     <h6> Opacity (pick a value between 0.0 to 1.0): </h6>
+
+                                </label>
+                                <input type="text" class="form-control" id="iText-opacity" value="0.5"></input>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">
+                                     <h6> Text: </h6>
+
+                                </label>
+                                <textarea class="form-control" rows="3" id="iText-text">This is Canvas!</textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="iText-modal-confirm">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal for line's coordinates -->
+        <div class="modal fade" id="canvas-line-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+
+                        </button>
+                         <h5 class="modal-title" id="canvas-line-modal-title">Draw line with coordinates: </h5>
+
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label class="control-label">
+                                     <h6>Enter coordinates seperated by comma (x1,y1,x2,y2): </h6>
+
+                                </label>
+                                <input type="text" class="form-control" id="line-coordinates" value="300, 150, 400, 200"></input>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="line-modal-confirm">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ---------------------------------------------------------------------------------------- -->
+    <script>
+        // initialize fabric canvas and assign to global windows object for debug
+        var canvas = window._canvas = new fabric.Canvas('myCanvas');
+        canvas.setBackgroundColor('rgb(248,248,248)', canvas.renderAll.bind(canvas));
+
+        document.onkeydown = function(e) {
+            if (e.keyCode == 68) {
+                if (canvas.getActiveGroup()) {
+                    canvas.getActiveGroup().forEachObject(function(o) {
+                        canvas.remove(o)
+                    });
+                    canvas.discardActiveGroup().renderAll();
+                } else {
+                    canvas.remove(canvas.getActiveObject());
+                }
+            }
+
+            if (e.keyCode == 27) {
+                $("#selection-mode").click();
+            }
+        }
+
+        $("#pencil").click(function() {
+            canvas.isDrawingMode = true;
+        });
+
+        $("#clear").click(function() {
+            if (confirm("Are you sure you want to clear the canvas?") == true) {
+                canvas.clear();
+            }
+        });
+
+        $("#selection-mode").click(function() {
+            canvas.isDrawingMode = false;
+        });
+
+        $("#circle-modal-confirm").click(function() {
+            var radius = $("#circle-radius").val();
+
+            if (isNaN(radius) || radius < 0) {
+                alert("Invalid Input! Enter only positive integer.");
+            } else {
+                $('#canvas-circle-modal').modal('hide');
+                var circle = new fabric.Circle({
+                    radius: parseInt(radius),
+                    fill: 'none',
+                    strokeWidth: 1,
+                    stroke: 'rgb(0,0,0)'
+                });
+                canvas.centerObject(circle);
+                canvas.add(circle);
+            }
+        });
+
+        $("#delete-item").click(function() {
+            alert("In order to delete items from the canvas, select one or multiple items and press the \"D\" key on the keyboard.");
+        });
+
+        $("#rectangle-modal-confirm").click(function() {
+            var length = $("#rectangle-length").val();
+            var width = $("#rectangle-width").val();
+
+            if (isNaN(length) || length < 0 || isNaN(width) || width < 0) {
+                alert("Invalid Input! Enter positive integers only.");
+            } else {
+                $('#canvas-rectangle-modal').modal('hide');
+                var rect = new fabric.Rect({
+                    width: parseInt(width),
+                    height: parseInt(length),
+                    fill: 'none',
+                    strokeWidth: 1,
+                    stroke: 'rgb(0,0,0)'
+                });
+                canvas.centerObject(rect);
+                canvas.add(rect);
+            }
+        });
+
+        $("#triangle-modal-confirm").click(function() {
+            var width = $("#triangle-width").val();
+            var height = $("#triangle-height").val();
+
+            if (isNaN(width) || width < 0 || isNaN(height) || height < 0) {
+                alert("Invalid Input! Enter positive integers only.");
+            } else {
+                $('#canvas-triangle-modal').modal('hide');
+                var triangle = new fabric.Triangle({
+                    width: parseInt(width),
+                    height: parseInt(height),
+                    fill: 'none',
+                    strokeWidth: 1,
+                    stroke: 'rgb(0,0,0)'
+                });
+                canvas.centerObject(triangle);
+                canvas.add(triangle);
+            }
+        });
+
+        $("#path-modal-confirm").click(function() {
+            var command = new String();
+            command = $("#path-command").val();
+
+            if (command) {
+                $('#canvas-path-modal').modal('hide');
+                var path = new fabric.Path("'" + command + "'");
+                path.set({
+                    fill: 'none',
+                    strokeWidth: 1,
+                    stroke: 'rgb(0,0,0)'
+                });
+                canvas.centerObject(path);
+                canvas.add(path);
+            } else {
+                $('#canvas-path-modal').modal('hide');
+            }
+        });
+
+        $("#iText-font-dropdown").on('click', 'li a', function() {
+            $(this).parent().parent().siblings(".btn:first-child").html($(this).text() + ' <span class="caret"></span>');
+            $(this).parent().parent().siblings(".btn:first-child").val($(this).text());
+
+            $('#iText-font-dropdown').val($(this).text());
+        });
+
+        $("#iText-style-dropdown").on('click', 'li a', function() {
+            $(this).parent().parent().siblings(".btn:first-child").html($(this).text() + ' <span class="caret"></span>');
+            $(this).parent().parent().siblings(".btn:first-child").val($(this).text());
+
+            $('#iText-style-dropdown').val($(this).text());
+        });
+
+        $("#iText-align-dropdown").on('click', 'li a', function() {
+            $(this).parent().parent().siblings(".btn:first-child").html($(this).text() + ' <span class="caret"></span>');
+            $(this).parent().parent().siblings(".btn:first-child").val($(this).text());
+
+            $('#iText-align-dropdown').val($(this).text());
+        });
+
+        $("#iText-modal-confirm").click(function() {
+            var size = $("#iText-size").val();
+            var font = $('#iText-font-dropdown').val();
+            var style = $('#iText-style-dropdown').val();
+            var align = $('#iText-align-dropdown').val();
+            var opacity = $("#iText-opacity").val();
+            var text = $("#iText-text").val();
+
+            if (isNaN(size) || size < 0 || isNaN(opacity) || opacity < 0 || opacity > 1) {
+                alert("Invalid Input! Make sure that the size and opacity values are correct.");
+            } else {
+
+                if (typeof font === undefined || font === null || font === "") {
+                    font = "Trebuchet MS";
+                }
+
+                if (typeof style === undefined || style === null || style === "" || style === "regular") {
+                    style = "";
+                }
+
+                if (typeof align === undefined || align === null || align === "") {
+                    align = "left";
+                }
+
+                $('#canvas-iText-modal').modal('hide');
+                var iText = new fabric.IText("\"" + text + "\"", {
+                    editable: 'true',
+                    fontSize: parseInt(size),
+                    fontFamily: font,
+                    fontStyle: style,
+                    textAlign: align,
+                    opacity: opacity,
+                });
+                canvas.centerObject(iText);
+                canvas.add(iText);
+            }
+        });
+
+        $("#line-modal-confirm").click(function() {
+            var coordinates = $("#line-coordinates").val();
+            var res = coordinates.split(",");
+            var index = 4;
+
+            if (typeof res[3] === 'undefined' || res[3] === null || res[3] === "") {
+                alert("Invalid Input! Make sure the input is in the form of \(x1,y1,x2,y2\)");
+            }
+
+            if (isNaN(res[0]) || res[0] < 0 || isNaN(res[1]) || res[1] < 0 || isNaN(res[2]) || res[2] < 0 || isNaN(res[3]) || res[3] < 0) {
+                alert("Invalid Input! Enter only positive coordinates.");
+            } else {
+                $('#canvas-line-modal').modal('hide');
+                var line = new fabric.Line([res[0], res[1], res[2], res[3]], {
+                    fill: 'none',
+                    strokeWidth: 1,
+                    stroke: 'rgb(0,0,0)',
+                    originX: 'center',
+                    originY: 'center'
+                });
+                canvas.centerObject(line);
+                canvas.add(line);
+            }
+        });
+
+        $("#save-svg-file").click(function() {
+            var pom = document.createElement('a');
+            pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(canvas.toSVG()));
+            pom.setAttribute('download', "filename.svg");
+            pom.style.display = 'none';
+            document.body.appendChild(pom);
+            pom.click();
+            document.body.removeChild(pom);
+        });
+
+        $("#save-png-file").click(function() {
+            if (!window.localStorage) {
+                alert("This function is not supported by your browser.");
+                return;
+            }
+            // to PNG
+            window.open(canvas.toDataURL('png'));
+        });
+
+        $("#export-svg-file-jscut").click(function() {
+            if (typeof(Storage) !== "undefined") {
+                // Code for localStorage/sessionStorage.
+                localStorage.setItem("svgFile", canvas.toSVG());
+                window.open("../jscut_standalone/jscut.html");
+            } else {
+                // Sorry! No Web Storage support..
+                alert("Sorry! No Web Storage support. Unable to export SVG file.");
+            }
+        });
+    </script>
+    <!-- ---------------------------------------------------------------------------------------- -->
+    <div id="com-chilipeppr-widget-canvas2-ftr" class="panel-footer hidden"></div>
+    <div id="com-chilipeppr-widget-canvas2-holderAreaForConfigWidget" class="xhidden"></div>
+</div>
+  
+</body>
+
+
+</html>
+
+
+<!-- end chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/9e3ok4vq/show/light/ -->
