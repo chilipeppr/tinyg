@@ -153,7 +153,7 @@ require(["jquery","bootstrap","amplify"], function() {
 						console.info("local request url is: %o", local_request_url);
 
 						$.get(local_request_url, function(data){
-							debugger
+							//debugger
 							var raw_data = data;
 							data = that.cleanup(data);
 						  	if (isAppend) {
