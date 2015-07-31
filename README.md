@@ -57,4 +57,4 @@ To get it working:
         127.0.0.1       cpep.loc
 
 
-And you should be up and running!
+Browser to http://cpep.loc/tinyg and you should be up and running! (If you used port 8080 as in the mac config, the url should be http://cpep.loc:8080/tinyg/)
