@@ -1,0 +1,563 @@
+<!-- start chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/xz76L1yd/show/light/ -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    
+  
+    
+      
+    
+  
+  <style type='text/css'>
+    /* html, body {
+    background-color: #eeeeee;
+} */
+#com-chilipeppr-widget-wcs.panel {
+    background-color: transparent;
+    border: transparent;
+}
+#com-chilipeppr-widget-wcs .panel-body {
+    background-color: transparent;
+    /* height:200px; */
+}
+#com-chilipeppr-widget-wcs #svgWcs, #svgWcs text {
+    font-family: sans-serif;
+}
+
+#com-chilipeppr-widget-wcs #svgWcs .wcsLayer path, #com-chilipeppr-widget-wcs #svgWcs .wcsLayer text {
+    cursor:pointer;
+}
+#com-chilipeppr-widget-wcs #svgWcs .wcsLayer path {
+    fill:#d7d7d7;
+    stroke:#000000;
+    stroke-width:0.2;
+}
+#com-chilipeppr-widget-wcs #svgWcs .wcsLayer:hover path {
+    fill:#d9edf7;
+}
+#com-chilipeppr-widget-wcs #svgWcs .wcsLayer:active path {
+    fill:#337ab7 !important;
+}
+#com-chilipeppr-widget-wcs #g53 {
+    stroke-dasharray:1, 0.75;
+}
+#com-chilipeppr-widget-wcs #gAddBtn.wcsLayer path {
+    stroke-width:0.3;
+    stroke-opacity:0.5;
+}
+#com-chilipeppr-widget-wcs #svgWcs .wcsLayer.active path {
+    fill:#dff0d8;
+    stroke-width:0.025;
+}
+#com-chilipeppr-widget-wcs #svgWcs .wcsLayer.active.active-verified path {
+    stroke-width:0.35;
+}
+
+  </style>
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+
+// Test this element. This code is auto-removed by the chilipeppr.load()
+cprequire_test(["inline:com-chilipeppr-widget-wcs"], function (wcs) {
+    console.log("test running of " + wcs.id);
+    wcs.init();
+    
+    var testCoords = function() {
+        setTimeout(function() {
+            chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/coords', {coord:"g55", coordNum: 55});
+        }, 5000);
+    }
+    testCoords();
+    
+} /*end_test*/ );
+
+cpdefine("inline:com-chilipeppr-widget-wcs", ["chilipeppr_ready", "jquerycookie"], function () {
+    return {
+        id: "com-chilipeppr-widget-wcs",
+        url: "http://fiddle.jshell.net/chilipeppr/xz76L1yd/show/light/",
+        fiddleurl: "http://jsfiddle.net/chilipeppr/xz76L1yd/",
+        name: "Widget / Work Coordinate System",
+        desc: "This widget lets you swap coordinate systems.",
+        publish: {},
+        subscribe: {},
+        foreignPublish: {},
+        foreignSubscribe: {},
+        init: function () {
+
+            // Do UI setup
+            this.initBody();
+            this.initLayers();
+            this.subscribeSetup();
+            
+            this.forkSetup();
+
+
+            var that = this;
+            console.log(this.name + " done loading.");
+        },
+        activeLayer: null,
+        lyrTemplt: null,
+        arrNum: [53, 54, 55, 56, 57, 58, 59, 60],
+        arrLyr: ["g53", "g54", "g55", "g56", "g57", "g58", "g59"],
+        arrLyrEl: [],
+        // layersShowingTo is by default set to 54
+        // g53 and g92 are always showing
+        // so if layersShowingTo is set to 56 then 54,55,56 show
+        layersShowingTo: null, // indicates base setting where g53 is showing (so is g92)
+        isG92Active: false,
+        layerHt: 11.5,
+        pathLtEl: null,
+        pathRtEl: null,
+        initLayers: function() {
+            console.log("initLayers");
+            
+            // get template
+            this.lyrTemplt = $('#com-chilipeppr-widget-wcs #svgWcs #g54').clone();
+            console.log("lyrTemplt:", this.lyrTemplt);
+            this.pathLtEl = $('#com-chilipeppr-widget-wcs #svgWcs #pathLeft');
+            this.pathRtEl = $('#com-chilipeppr-widget-wcs #svgWcs #pathRight');
+
+            // attach to add button
+             $('#com-chilipeppr-widget-wcs #svgWcs #gAddBtn').click(this.onAddBtn.bind(this));
+            // attach to g92
+            $('#com-chilipeppr-widget-wcs #svgWcs #g92').click(92, this.onClickLayer.bind(this));
+            
+            // wipe all template layers
+            this.removeAllLayers();
+            
+            // show our layers
+            var config = parseInt(localStorage.getItem("/" + this.id + "/layersShowingTo"));
+            if (!config) config = 54;
+            this.showLayer(config);
+            //this.addLayer(55, 0);
+            //this.addLayer(54, 1);
+            //this.addLayer(53, 2);
+        },
+        subscribeSetup: function() {
+            // subscribe to the CNC controller broadcasting what
+            // layer system we're in
+            chilipeppr.subscribe('/com-chilipeppr-interface-cnccontroller/coords', this.onCoordsUpdate.bind(this));
+        },
+        lastCoords: {coord: null, coordNum: null},
+        onCoordsUpdate: function(coords) {
+            console.log("onCoordsUpdate. coords:", coords);
+            // we are told by the CNC controller widget, i.e. TinyG, which
+            // coordinate system we're in. So, even if this widget sends
+            // a G54 command, we wait to update the UI based on what TinyG
+            // tells us
+            if (coords.coordNum != this.lastCoords.coordNum) {
+                
+                // make sure we have this layer actually showing
+                // in the buttons, i.e. if they didn't "add" buttons
+                // up to this layer existing, we need to figure that
+                // out and show it
+                if (this.layersShowingTo < coords.coordNum) {
+                    
+                    this.showLayer(coords.coordNum);
+                }
+                
+                // we have new a different coordinate layer showing
+                // hilite it
+                this.setActiveLayerHilite(coords.coordNum, true);
+                this.lastCoords = coords;
+                
+            }
+            
+        },
+        onAddBtn: function() {
+            var newpos = this.layersShowingTo;
+            newpos++;
+            
+            if (newpos > 59) {
+                return;
+            }
+            //this.removeAllLayers();
+            this.showLayer(newpos);
+        },
+        removeAllLayers: function() {
+            $('#com-chilipeppr-widget-wcs #svgWcs g.wcsLayerTmplt').remove();
+        },
+        showLayer: function(pos) {
+            this.removeAllLayers();
+            this.layersShowingTo = pos;
+            var total = pos - 53;
+            for (var i = 0; i <= total; i++) {
+                this.addLayer(pos - i, i);
+            }
+            this.saveUserSettings();
+            
+            if (pos >= 59) {
+                console.log("we need to hide add button");
+                $('#com-chilipeppr-widget-wcs #svgWcs #gAddBtn').attr('opacity', '0.1');
+            } else {
+                $('#com-chilipeppr-widget-wcs #svgWcs #gAddBtn').attr('opacity', '0.99');
+            }
+            
+            // make sure hilites are correct
+            // however, don't hilite a layer not visible in SVG
+            // and don't hilite layer if we don't have an activelayer yet
+            if (this.activeLayer && this.activeLayer <= this.layersShowingTo) {
+                this.setActiveLayerHilite(this.activeLayer);        
+            }
+        },
+        addLayer: function(pos, totalLayers) {
+            var showingLayers = totalLayers; //pos - 53;
+            var layerName = "g" + pos;
+            var newEl = this.lyrTemplt.clone();
+            newEl.attr('id', layerName);
+            var matrix = newEl.attr('transform');
+            console.log("original matrix:", matrix);
+            matrix = matrix.replace(/translate\((.*?)\)/, "$1");
+            var mArr = matrix.split(/,/);
+            if (mArr.length < 2) console.warn("did not get 2 elements splitting matrix");
+            var yval = parseFloat(mArr[1]);
+            var yvalOffset = this.layerHt * (showingLayers);
+            var newyval = yval + yvalOffset;
+            mArr[1] = newyval;
+            var newmatrix = "translate(" + mArr.join(",") + ")";
+            console.log("newmatrix:", newmatrix);
+            newEl.find('.layer-id').text("G"+pos);
+            var name = (pos == 53) ? "Machine" : "Work";
+            newEl.find('.layer-name').text(name);
+            newEl.attr('transform', newmatrix);
+            
+            // attach click event
+            newEl.click(pos, this.onClickLayer.bind(this));
+            
+            // add it
+            console.log("about to add newEl:", newEl);
+            $('#com-chilipeppr-widget-wcs #svgWcs g:first').prepend(newEl);
+            
+            // adjust path height
+            // reset path height
+            //var matrix = this.pathLtEl.attr('d');
+            var matrix = "m 15,958 0,17.0";
+            console.log("original d pathLt:", matrix);
+            matrix.match(/(.*),(.*?)$/);
+            var newmatrix = RegExp.$1;
+            var y = RegExp.$2;
+            console.log("y:", y);
+            var yval = parseFloat(y);
+            var yvalOffset = this.layerHt * showingLayers;
+            var newyval = yval + yvalOffset;
+            newmatrix += "," + newyval;
+            console.log("newmatrix:", newmatrix);
+            this.pathLtEl.attr('d', newmatrix);
+
+            // pathRt
+            var matrix = "m 38,958 0,17.0";
+            console.log("original d pathLt:", matrix);
+            matrix.match(/(.*),(.*?)$/);
+            var newmatrix = RegExp.$1;
+            var y = RegExp.$2;
+            console.log("y:", y);
+            var yval = parseFloat(y);
+            var yvalOffset = this.layerHt * showingLayers;
+            var newyval = yval + yvalOffset;
+            newmatrix += "," + newyval;
+            console.log("newmatrix:", newmatrix);
+            this.pathRtEl.attr('d', newmatrix);
+        },
+        setActiveLayerHilite: function(lyrNum, isFromCnc) {
+            
+            // treat g92 differently, like a toggle
+            if (lyrNum == 92) {
+                if (this.isG92Active) {
+                    // then turn on g92
+                    $('#com-chilipeppr-widget-wcs #g92')[0].classList.add("active");
+                } else {
+                    // turn off g92
+                    $('#com-chilipeppr-widget-wcs #g92')[0].classList.remove("active");
+                }
+            } else {
+                
+                var lyr = "g" + lyrNum;
+                //console.log("onClickLayer. lyr:", lyr, "evt:", evt);
+                var lyrEl = $('#com-chilipeppr-widget-wcs #' + lyr);
+                console.log("lyrEl:", lyrEl);
+                
+                // removes hilite from all layers
+                this.turnOffAllLayers();
+                
+                // turn back on g92 hilite if user selected it prior
+                if (this.isG92Active) {
+                    $('#com-chilipeppr-widget-wcs #g92')[0].classList.add("active");
+                }
+                
+                // set the current layer as active. this would only get g53 to g59
+                this.activeLayer = lyrNum;
+                lyrEl[0].classList.add("active");
+                if (isFromCnc) {
+                    // add dark stroke
+                    lyrEl[0].classList.add("active-verified");
+                }
+            }
+        },
+        onClickLayer: function(evt) {
+            var lyrNum = evt.data;
+            if (evt.ctrlKey) {
+                // they want to delete this layer
+                var lyrToShowTo = lyrNum - 1;
+                if (lyrToShowTo < 54 || lyrToShowTo > 60) return;
+                this.showLayer(lyrToShowTo);
+            } else {
+                if (lyrNum == 92) {
+                    // toggle g92
+                    if (this.isG92Active) {
+                        // turn off
+                        this.isG92Active = false;
+                    } else {
+                        this.isG92Active = true;
+                    }
+                }
+                this.setActiveLayerHilite(lyrNum, false);
+                this.switchWcs(lyrNum);
+            }
+        },
+        jsonCtr: 0,
+        switchWcs: function(pos) {
+            var gcode = "G" + pos;
+            if (pos == 92) {
+                // do we turn on or off G92
+                if (this.isG92Active) {
+                    // turn on
+                    gcode = "G92 X0 Y0 Z0";
+                } else {
+                    // turn off
+                    gcode = "G92.1";
+                }
+            }
+            if (pos == 53) {
+                // TODO
+            }                
+            gcode += "\n";
+            var jg = {D: gcode, Id: "coord" + this.jsonCtr};
+            chilipeppr.publish("/com-chilipeppr-widget-serialport/jsonSend", jg);
+            this.jsonCtr++;
+        },
+        turnOffAllLayers: function() {
+            var allLayers = $('#com-chilipeppr-widget-wcs .wcsLayer');
+            console.log("allLayers", allLayers);
+            for (var i = 0; i < allLayers.length; i++) {
+                var lyr = allLayers[i];
+                //console.log("turning off active for lyr:", lyr);
+                lyr.classList.remove('active');
+            }
+        },
+        saveUserSettings: function() {
+            var config = localStorage.setItem("/" + this.id + "/layersShowingTo", this.layersShowingTo);
+            var config = localStorage.getItem("/" + this.id + "/layersShowingTo");
+            console.log("saved user settings:", config);
+        },
+        initBody: function (evt) {
+            $('#' + this.id + ' .hidebody').click(this.toggleBody.bind(this));
+            var config = localStorage.getItem("/" + this.id + "/body");
+            if (config == "visible") this.showBody();
+            else this.hideBody();
+        },
+        toggleBody: function (evt) {
+            if ($('#' + this.id + '-body').hasClass('hidden')) this.showBody(evt);
+            else this.hideBody(evt);
+        },
+        showBody: function (evt) {
+            $('#' + this.id + '-body').removeClass('hidden');
+            $('#' + this.id + '-ftr').removeClass('hidden');
+            $('#' + this.id + ' .hidebody span').addClass('glyphicon-chevron-up');
+            $('#' + this.id + ' .hidebody span').removeClass('glyphicon-chevron-down');
+            if (!(evt == null)) localStorage.setItem("/" + this.id + "/body", "visible");
+            $(window).trigger('resize');
+        },
+        hideBody: function (evt) {
+            $('#' + this.id + '-body').addClass('hidden');
+            $('#' + this.id + '-ftr').addClass('hidden');
+            $('#' + this.id + ' .hidebody span').removeClass('glyphicon-chevron-up');
+            $('#' + this.id + ' .hidebody span').addClass('glyphicon-chevron-down');
+            if (!(evt == null)) localStorage.setItem("/" + this.id + "/body", "hidden");
+        },
+        forkSetup: function () {
+            //$('#com-chilipeppr-widget-xyz-tbar-fork').prop('href', this.fiddleurl);
+            //$('#com-chilipeppr-widget-xyz-tbar-standalone').prop('href', this.url);
+            //$('#com-chilipeppr-widget-xyz .fork-name').html(this.id);
+            $('#com-chilipeppr-widget-xyz .panel-title').popover({
+                title: this.name,
+                content: this.desc,
+                trigger: 'hover',
+                placement: "auto",
+                html: true,
+                delay: 200,
+                animation: true
+            });
+
+            // load the pubsub viewer / fork element which decorates our upper right pulldown
+            // menu with the ability to see the pubsubs from this widget and the forking links
+            var that = this;
+            chilipeppr.load("http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/", function () {
+                require(['inline:com-chilipeppr-elem-pubsubviewer'], function (pubsubviewer) {
+                    pubsubviewer.attachTo($('#com-chilipeppr-widget-xyz .panel-heading .dropdown-menu'), that);
+                });
+            });
+
+        },
+    }
+});
+//]]>  
+
+</script>
+
+
+</head>
+<body>
+  <div id="com-chilipeppr-widget-wcs" class="xpanel xpanel-default">
+    <!-- <div class="panel-heading hidden
+    "></div> -->
+    <div class="xpanel-body">
+        <svg width="75px" height="303px" viewbox="5 0 25 101" id="svgWcs">
+            <g
+     transform="translate(-8.5625,-951.17643)">
+    <g class="wcsLayer wcsLayerTmplt"
+       id="g54"
+         transform="translate(0,0.1)">
+      <path
+         inkscape:connector-curvature="0"
+         id="rect5199"
+         d="m 26.518695,969.48289 c 3.869688,2.23417 7.739375,4.46833 11.609062,6.7025 -3.845529,2.22022 -7.69105,4.44045 -11.536579,6.66067 -3.869688,-2.23416 -7.739375,-4.46832 -11.609062,-6.70249 3.845529,-2.22023 7.69105,-4.44045 11.536579,-6.66068 z"
+          />
+      <text
+         y="896.86426"
+         x="919.53479"
+         style="font-size:1.43884778px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;"
+         xml:space="preserve"
+         transform="matrix(0.93352274,0.5389696,-0.92769396,0.53560683,0,0)"><tspan
+           style="font-size:5.58356571px;text-align:center;text-anchor:middle;fill:#a0a0a0;fill-opacity:1"
+           y="896.86426"
+           x="919.53479"
+           id="tspan5203"
+           sodipodi:role="line" class="layer-id">G54</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:3px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;"
+         x="919.82416"
+         y="901.02136"
+         id="text5205"
+         sodipodi:linespacing="125%"
+         transform="matrix(0.93352274,0.5389696,-0.92769396,0.53560683,0,0)"><tspan
+           id="tspan7035"
+           sodipodi:role="line"
+           x="919.82416"
+           y="901.02136"
+           style="font-size:2.85px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;" class="layer-name">Jig 1 Off</tspan></text>
+    </g>
+    <g class="wcsLayer"
+       id="gAddBtn"
+       inkscape:label="#g7227">
+      <path
+         inkscape:connector-curvature="0"
+         id="rect4468"
+         d="m 26.318785,963.63884 c 2.119308,1.22358 4.238605,2.44716 6.357902,3.67073 -2.106069,1.21595 -4.212138,2.4319 -6.318197,3.64783 -2.119297,-1.22357 -4.238596,-2.44715 -6.357902,-3.67073 2.106058,-1.21594 4.212128,-2.43189 6.318197,-3.64783 z"
+         xstyle="fill:#d7d7d7;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.10529626;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <text
+         xml:space="preserve"
+         style="font-size:1.43884777999999990px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:0.74603176;stroke:none;"
+         x="909.61871"
+         y="891.07928"
+         id="text4470"
+         sodipodi:linespacing="125%"
+         transform="matrix(0.93352274,0.5389696,-0.92769396,0.53560683,0,0)"><tspan
+           sodipodi:role="line"
+           id="tspan4472"
+           x="909.61871"
+           y="891.07928"
+           style="font-size:2.17138672000000010px;fill:#000000;fill-opacity:0.74603176">Add</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4474"
+         y="889.75897"
+         x="909.6358"
+         style="font-size:1.43884777999999990px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:0.46560848;stroke:none;"
+         xml:space="preserve"
+         transform="matrix(0.93352274,0.5389696,-0.92769396,0.53560683,0,0)"><tspan
+           style="font-size:5.58356571000000020px;fill:#000000;fill-opacity:0.46560848"
+           y="889.75897"
+           x="909.6358"
+           id="tspan4476"
+           sodipodi:role="line">+</tspan></text>
+    </g>
+    <g class="wcsLayer"
+       id="g92"
+       transform="translate(5.3571429,-0.26785714)">
+      <g
+         id="g4480"
+         transform="matrix(0.03877477,0,0,0.03877477,7.2942805,927.79332)">
+        <path
+           inkscape:connector-curvature="0"
+           id="rect4482"
+           d="m 357.63711,617.47348 c 99.79911,57.61905 199.59823,115.2381 299.39736,172.85715 C 557.85849,847.59017 458.68251,904.84971 359.50653,962.10925 259.70741,904.4902 159.90829,846.87115 60.109179,789.25211 159.28516,731.99256 258.46113,674.73302 357.63711,617.47348 z"
+             style="stroke:#000000;stroke-width:2;"
+           xstyle="fill:#d7d7d7;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      </g>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4486"
+         y="887.11578"
+         x="900.32147"
+         style="font-size:1.4388479px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;"
+         xml:space="preserve"
+         transform="matrix(0.93352279,0.53896957,-0.927694,0.53560681,0,0)"><tspan
+           style="font-size:2.17138696px;text-align:center;text-anchor:middle"
+           y="887.11578"
+           x="900.32147"
+           id="tspan4488"
+           sodipodi:role="line">Temporary</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:1.4388479px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;"
+         x="900.14825"
+         y="882.99591"
+         id="text4490"
+         sodipodi:linespacing="125%"
+         transform="matrix(0.93352279,0.53896957,-0.927694,0.53560681,0,0)"><tspan
+           sodipodi:role="line"
+           id="tspan4492"
+           x="900.14825"
+           y="882.99591"
+           style="font-size:5.58356667px;text-align:center;text-anchor:middle;fill:#a0a0a0;fill-opacity:1">G92</tspan></text>
+    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.07048465;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:0.28193858, 0.56387716;stroke-dashoffset:0"
+       d="m 15,958 0,17.0"
+       id="pathLeft"
+        />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.07048465;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:0.28193858, 0.56387716;stroke-dashoffset:0"
+       d="m 38,958 0,17"
+       id="pathRight"
+       inkscape:connector-curvature="0" />
+  </g>
+        </svg>
+    </div>
+    <!-- <div tabindex="1" class="panel-footer hidden">
+    </div> -->
+    
+</div>
+  
+</body>
+
+
+</html>
+
+
+<!-- end chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/xz76L1yd/show/light/ -->

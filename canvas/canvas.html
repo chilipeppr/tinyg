@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" href="http://getbootstrap.com/favicon.ico"> -->
+
+    <title>Canvas using FabricJS</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+      <style type="text/css"> 
+          @font-face {   font-family: 'Glyphicons Halflings'; 
+              src: url('../fonts/glyphicons-halflings-regular.eot'); 
+              src: url('.');
+              src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), 
+                  url('../fonts/glyphicons-halflings-regular.woff') format('woff'),  
+                  url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), 
+                  url('../fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg'); }
+      </style>
+
+    <!-- Custom styles for this template -->
+      <link href="canvas.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!-- <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script> -->
+    <script src="../js/ie-emulation-modes-warning.js"></script>
+      
+    <!-- <script src="http://fabricjs.com/lib/prism.js"></script> -->
+    <script src="../js/prism.js"></script>
+    <!-- <script src="http://fabricjs.com/lib/fabric.js"></script> -->
+    <script src="../js/fabric.js"></script>
+    <!-- <script src="http://fabricjs.com/js/master.js"></script> -->
+    <script src="../js/master.js"></script> 
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script> -->
+    <script src="../js/angular.min.js"></script>
+      
+      <style>
+          .scrollable-menu {
+              height: auto;
+              max-height: 300px;
+              overflow-x: hidden;
+          }
+      </style>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <!-- Static navbar -->
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span> 
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Canvas</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">  
+              <ul class="nav navbar-nav">
+              <!-- <li class="active"><a href="#">Home</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact</a></li> -->
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">File <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <input type="file" accept=".svg" id="SVGFileLoad" name="files" title="Load File" style="display:none;"/>
+                  <!-- <li><a onclick="openSVGFile();" href="#">Open SVG file <span class="glyphicon glyphicon-floppy-open"></span></a></li> --> 
+                  <li><a href="#" id="save-svg-file">Save SVG file <span class="glyphicon glyphicon-floppy-save"></span></a></li>
+                  <li class="divider"></li>
+                  <li class="dropdown-header">Other Options...</li>
+                  <li><a href="#" id="save-png-file">Save PNG file <span class="glyphicon glyphicon-floppy-save"></span></a></li>
+                  <li><a href="#" id="export-svg-file-jscut">Export SVG file to jscut <span class="glyphicon glyphicon-floppy-save"></span></a></li>
+                </ul>
+              </li>  
+            
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Insert <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#" data-toggle="modal" data-target="#canvas-circle-modal">Circle</a></li>
+                  <li><a href="#" data-toggle="modal" data-target="#canvas-rectangle-modal">Rectangle</a></li>
+                  <li><a href="#" data-toggle="modal" data-target="#canvas-triangle-modal">Triangle</a></li>
+                  <li><a href="#" data-toggle="modal" data-target="#canvas-line-modal">Line</a></li>
+                  <li><a href="#" data-toggle="modal" data-target="#canvas-iText-modal">iText</a></li>
+                  <li><a href="#" data-toggle="modal" data-target="#canvas-path-modal">Path</a></li>
+                </ul>
+              </li>
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Draw <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="#" id="pencil">Pencil <span class="glyphicon glyphicon-pencil"></span></a></li>
+                  <li><a href="#" id="selection-mode">Selection Mode <span class="glyphicon glyphicon-move"></span></a></li> 
+                  <li><a href="#" id="delete-item">Delete Items <span class="glyphicon glyphicon-erase"></span></a></li>
+                  <li><a href="#" id="clear">Clear <span class="glyphicon glyphicon-ban-circle"></span></a></li> 
+                </ul>
+              </li>
+            </ul>                
+            <ul class="nav navbar-nav navbar-right">           
+           <li><a><button type="button" id="closebutton" onclick="return quitBox('quit');" class="btn btn-sm btn-default" data-toggle="button" aria-pressed="false" autocomplete="off"> Close Window <span class="glyphicon glyphicon-remove-sign"></span> </button></a></li>
+                <script language="javascript">
+                    function quitBox(cmd) {      
+                        if (cmd=='quit') {
+                            open(location, '_self').close();    
+                        }     
+                        return false;   
+                    }
+                </script>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>        
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <!-- <div class="jumbotron"> -->
+          <canvas id="myCanvas" width="1140" height="550" style="border:1px solid #999;">
+              Your browser does not support the HTML5 canvas rendering.
+          </canvas>
+    </div> <!-- /container -->
+      
+      
+      <!--Modal for circle's radius -->
+      <div class="modal fade" id="canvas-circle-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria
+           hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title" id="canvas-rectangle-modal-title">Enter Circle's radius: </h5>
+                          </div>
+                          <div class="modal-body">
+                              <form>
+                                  <div class="form-group">
+                                      <label class="control-label"><h6> Radius: </h6></label>
+                                      <input type="text" class="form-control" id="circle-radius" value="30"></input>
+                                  </div>
+                              </form>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="circle-modal-confirm">OK</button>
+              </div>
+          </div>
+      </div>
+      </div>
+
+      
+      <!--Modal for rectangle's length and width -->
+      <div class="modal fade" id="canvas-rectangle-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria
+           hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title" id="canvas-rectangle-modal-title">Enter Rectangle's length and width: </h5>
+                          </div>
+                          <div class="modal-body">
+                              <form>
+                                  <div class="form-group">
+                                      <label class="control-label"><h6> Length: </h6></label>
+                                      <input type="text" class="form-control" id="rectangle-length" value="30"></input>
+                                  </div>
+                              <div class="form-group">
+                                  <label class="control-label"><h6>Width: </h6></label>
+                                  <input type="text" class="form-control" id="rectangle-width" value="60"></input>
+                          </div>
+                          </form>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" id="rectangle-modal-confirm">OK</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!--Modal for triangle's length and width -->
+      <div class="modal fade" id="canvas-triangle-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria
+           hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title" id="canvas-triangle-modal-title">Enter Triangle's width and height: </h5>
+                          </div>
+                          <div class="modal-body">
+                              <form>
+                                  <div class="form-group">
+                                      <label class="control-label"><h6> Width: </h6></label>
+                                      <input type="text" class="form-control" id="triangle-width" value="80"></input>
+                                  </div>
+                              <div class="form-group">
+                                  <label class="control-label"><h6>Height: </h6></label>
+                                  <input type="text" class="form-control" id="triangle-height" value="100"></input>
+                          </div>
+                          </form>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" id="triangle-modal-confirm">OK</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!--Modal for path's input points -->
+      <div class="modal fade" id="canvas-path-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria
+           hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title" id="canvas-path-modal-title">Enter the the series of commands to be drawn by pen: </h5>
+                          </div>
+                          <div class="modal-body">
+                              <form>
+                                  <div class="form-group">
+                                      <label class="control-label"><h6> Path command: </h6></label>
+                                      <textarea class="form-control" rows="5" id="path-command">M121.32,0L44.58,0C36.67,0,29.5,3.22,24.31,8.41\
+c-5.19,5.19-8.41,12.37-8.41,20.28c0,15.82,12.87,28.69,28.69,28.69c0,0,4.4,\
+0,7.48,0C36.66,72.78,8.4,101.04,8.4,101.04C2.98,106.45,0,113.66,0,121.32\
+c0,7.66,2.98,14.87,8.4,20.29l0,0c5.42,5.42,12.62,8.4,20.28,8.4c7.66,0,14.87\
+-2.98,20.29-8.4c0,0,28.26-28.25,43.66-43.66c0,3.08,0,7.48,0,7.48c0,15.82,\
+12.87,28.69,28.69,28.69c7.66,0,14.87-2.99,20.29-8.4c5.42-5.42,8.4-12.62,8.4\
+-20.28l0-76.74c0-7.66-2.98-14.87-8.4-20.29C136.19,2.98,128.98,0,121.32,0z</textarea>
+                                  </div>
+                          </form>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary" id="path-modal-confirm">OK</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!--Modal for iText's options -->
+      <div class="modal fade" id="canvas-iText-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria
+           hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title" id="canvas-iText-modal-title">Enter text and select options: </h5>
+                          </div>
+                          <div class="modal-body">
+                              <form>
+                                  <div class="form-group">
+                                      <label class="control-label"><h6> Size: </h6></label>
+                                      <input type="text" class="form-control" id="iText-size" value="40"></input>
+                                  </div>
+                              <label class="control-label"><h6>Font: </h6></label>
+                            <div class="form-group">
+                                  <div class="btn-group">
+                                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Trebuchet MS
+                                          <span class="caret"></span></button>
+                                      <ul class="dropdown-menu scrollable-menu" role="menu" id="iText-font-dropdown">
+                                          <li><a href="#">American Typewriter</a></li>
+                                          <li><a href="#">Andale Mono</a></li>
+                                          <li><a href="#">Apple Chancery</a></li>
+                                          <li><a href="#">Arial</a></li>
+                                          <li><a href="#">Arial Black</a></li>
+                                          <li><a href="#">Baskerville</a></li>
+                                          <li><a href="#">Big Caslon</a></li>
+                                          <li><a href="#">Brush Script</a></li>
+                                          <li><a href="#">Capitals</a></li>
+                                          <li><a href="#">Charcoal</a></li>
+                                          <li><a href="#">Charter</a></li>
+                                          <li><a href="#">Clean</a></li>
+                                          <li><a href="#">Comic Sans MS</a></li>
+                                          <li><a href="#">Copperplate</a></li>
+                                          <li><a href="#">Courier</a></li>
+                                          <li><a href="#">Courier New</a></li>
+                                          <li><a href="#">Fixed</a></li>
+                                          <li><a href="#">Futura</a></li>
+                                          <li><a href="#">Gadget</a></li>
+                                          <li><a href="#">Georgia</a></li>
+                                          <li><a href="#">Gill Sans</a></li>
+                                          <li><a href="#">Helvetica</a></li>
+                                          <li><a href="#">Herculanum</a></li>
+                                          <li><a href="#">Hoefler Text</a></li>
+                                          <li><a href="#">Hoefler Text Ornaments</a></li>
+                                          <li><a href="#">Impact</a></li>
+                                          <li><a href="#">Lucida</a></li>
+                                          <li><a href="#">Lucida bright</a></li>
+                                          <li><a href="#">Lucida Console</a></li>
+                                          <li><a href="#">Lucida Grande</a></li>
+                                          <li><a href="#">Lucida Sans Unicode</a></li>
+                                          <li><a href="#">Lucida Typewriter</a></li>
+                                          <li><a href="#">Marker Felt</a></li>
+                                          <li><a href="#">Marlett</a></li>
+                                          <li><a href="#">Minion Web</a></li>
+                                          <li><a href="#">New Century Schoolbook</a></li>
+                                          <li><a href="#">Optima</a></li>
+                                          <li><a href="#">Osaka</a></li>
+                                          <li><a href="#">Palatino</a></li>
+                                          <li><a href="#">Papyrus</a></li>
+                                          <li><a href="#">Sand</a></li>
+                                          <li><a href="#">Skia</a></li>
+                                          <li><a href="#">Symbol</a></li>
+                                          <li><a href="#">Tahoma</a></li>
+                                          <li><a href="#">Techno</a></li>
+                                          <li><a href="#">Terminal</a></li>
+                                          <li><a href="#">Textile</a></li>
+                                          <li><a href="#">Times</a></li>
+                                          <li><a href="#">Times New Roman</a></li>
+                                          <li><a href="#">Trebuchet MS</a></li>
+                                          <li><a href="#">Utopia</a></li>
+                                          <li><a href="#">Verdana</a></li>
+                                          <li><a href="#">Webdings</a></li>
+                                          <li><a href="#">Zapf Dingbats</a></li>
+                                          <li><a href="#">Zapfino</a></li>
+                                      </ul>
+                                  </div>
+                            </div>
+                              <label class="control-label"><h6>Style: </h6></label>
+                              <div class="form-group">
+                                  <div class="btn-group">
+                                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">regular
+                                          <span class="caret"></span></button>
+                                      <ul class="dropdown-menu scrollable-menu" role="menu" id="iText-style-dropdown">
+                                          <li><a href="#">regular</a></li>
+                                          <li><a href="#">normal</a></li>
+                                          <li><a href="#">italic</a></li>
+                                          <li><a href="#">oblique</a></li>
+                                      </ul>
+                                  </div>
+                            </div>
+                              <label class="control-label"><h6>Align: </h6></label>
+                              <div class="form-group">
+                                  <div class="btn-group">
+                                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">left
+                                          <span class="caret"></span></button>
+                                      <ul class="dropdown-menu scrollable-menu" role="menu" id="iText-align-dropdown">
+                                          <li><a href="#">left</a></li>
+                                          <li><a href="#">center</a></li>
+                                          <li><a href="#">right</a></li>
+                                      </ul>
+                                  </div>
+                            </div>
+                              <div class="form-group">
+                                  <label class="control-label"><h6> Opacity (pick a value between 0.0 to 1.0): </h6></label>
+                                  <input type="text" class="form-control" id="iText-opacity" value="0.5"></input>
+                              </div>
+                  
+                  <div class="form-group">
+                      <label class="control-label"><h6> Text: </h6></label>
+                                      <textarea class="form-control" rows="3" id="iText-text">This is Canvas!</textarea>
+                                  </div>
+                              
+
+                              </form>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="iText-modal-confirm">OK</button>
+              </div>
+          </div>
+</div>
+</div>
+
+      <!--Modal for line's coordinates -->
+      <div class="modal fade" id="canvas-line-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria
+           hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title" id="canvas-line-modal-title">Draw line with coordinates: </h5>
+                          </div>
+                          <div class="modal-body">
+                              <form>
+                                  <div class="form-group">
+                                      <label class="control-label"><h6>Enter coordinates seperated by comma (x1,y1,x2,y2): </h6></label>
+                                      <input type="text" class="form-control" id="line-coordinates" value="300, 150, 400, 200"></input>
+                                  </div>
+                              </form>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="line-modal-confirm">OK</button>
+              </div>
+          </div>
+      </div>
+      </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
+    <script src="../js/jquery.min.js"></script>
+    <!-- <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script> -->
+    <script src="/js/bootstrap.min.js"></script>
+      
+    <!-- Our javascript file that contains functions to be executed -->
+    <script src="canvas.js"></script>
+      
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
+  </body>
+</html>

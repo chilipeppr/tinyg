@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ChiliPeppr - Hardware Fiddle</title>
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<script src="/js/require.js"></script>
+	
+<script type="text/javascript">
+
+
+
+cprequire(["chilipeppr_ready"], function() {
+	console.log("seeing if chilipeppr is globally defined...");
+	console.log(chilipeppr);
+	chilipeppr.load("root", "http://jsfiddle.net/microcruzer/04dgw8sw/show/light/");
+});
+
+</script>
+</head>
+<body>
+
+<div id="root"></div>
+
+</body>
+</html>

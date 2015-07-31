@@ -1,0 +1,952 @@
+<!-- start chilipeppr.load() url: http://jsfiddle.net/microcruzer/cjrsrkff/show/light -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    
+  
+    
+      
+    
+  
+    
+      <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.4.13/fabric.js"></script>
+    
+  
+  <style type='text/css'>
+    .zipwhip-button {
+    line-height:0px;
+    padding: 1px 2px;
+}
+.zipwhip {
+    background: url('http://www.zipwhip.com/resources/images/favicon.ico') no-repeat top left;
+    display: inline-block;
+    margin: 1px 0;
+    height: 16px;
+    width: 16px;
+    /* line-height:0px; */
+    background-size: 16px 16px;
+    /* -webkit-background-size: 50% 50%; Safari
+    -khtml-background-size: 50% 50%; Konqueror
+    -moz-background-size: 50% 50%; Firefox */
+}
+#com-chilipeppr-ws-gcode-wrapper .dropdown-menu {
+    /* z-index:6; */
+    /* position:inherit; */
+}
+#com-chilipeppr-ws-gcode-wrapper .panel-heading {
+    /* padding: 10px 12px; */
+}
+#com-chilipeppr-ws-gcode-wrapper .well.com-chilipeppr-ws-hdr {
+    /* padding: 10px 15px; */
+}
+#com-chilipeppr-ws-gcode-dragdrop {
+    margin-right:6px;
+}
+#com-chilipeppr-ws-gcode-hdr {
+    margin-bottom:10px;
+}
+.panel {
+    margin-bottom:10px;
+}
+#com-chilipeppr-ws-gcode-wrapper #com-chilipeppr-widget-gcode-body {
+    /* max-height:250px; */
+    height:250px;
+}
+#com-chilipeppr-ws-gcode-wrapper .com-chilipeppr-widget-spconsole {
+    margin-bottom:0;
+}
+#com-chilipeppr-ws-gcode-dragdropoverlay {
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:10;
+    background-color: rgba(255, 255, 255, 0.5);
+    font-size: 20px;
+    padding:100px;
+    border: 3px dashed #3276b1;
+    text-align:center;
+    pointer-events: none;
+}
+#com-chilipeppr-ws-gcode-dragdropoverlay .well {
+    background-color: rgba(127, 127, 127, 0.5);
+}
+#com-chilipeppr-ws-gcode-wrapper.hover {
+    /* background-color: blue; */
+}
+.com-chilipeppr-elem-dragdrop {
+    /* border: 1px dashed gray; */
+    /* border-radius: 4px; */
+    padding:0;
+    margin-right:6px;
+}
+.padrt {
+    padding-right:10px;
+    padding-left:10px;
+}
+.zhigh {
+    /* z-index:5; */
+    position:relative;
+}
+#com-chilipeppr-ws-gcode-wrapper .dropdown-menu {
+    /* z-index:20; */
+}
+#mainnav {
+    z-index:5;
+}
+.nopadding {
+    padding:0;
+}
+#com-chilipeppr-widget-3dviewer .panel-heading, #com-chilipeppr-3dviewer-controlpanel .panel-heading {
+    background:none;
+    /* border:none; */
+    padding:10px 15px;
+    margin-bottom:0;
+}
+#com-chilipeppr-3dviewer-controlpanel {
+    padding:0 10px;
+    float:left;
+}
+#com-chilipeppr-gcode-list {
+    /* padding-right: 10px; */
+    /* z-index:5; */
+    /* position: relative; */
+}
+#com-chilipeppr-serialport-ws-hdr {
+    /* z-index:5; */
+}
+.well.com-chilipeppr-ws-hdr {
+    padding:10px 15px;
+    /* padding:8px; */
+    /* padding-left:15px; */
+    /* margin:0; */
+    /* margin-bottom:10px; */
+}
+#chilipeppr-3dviewer {
+    /* z-index: -1; */
+    padding-right:10px;
+}
+#com-chilipeppr-widget-3dviewer-renderArea {
+    /* z-index:0; */
+}
+.row .widget {
+    margin:0;
+    padding:0;
+}
+.dropArea.hover {
+    background: #dddddd;
+}
+#pnlWorkspace.hover {
+    background: red;
+}
+body.hover {
+    background: #5bc0de;
+}
+#chilipeppr-serialport-wrapper .com-chilipeppr-widget-serialport-spselector {
+    max-height: none;
+}
+#chilipeppr-serialport-log {
+    /*height:200px;*/
+    /* padding-right:10px; */
+    /* z-index:5; */
+    /* position: relative; */
+}
+.nomargin {
+    margin:0;
+}
+.noheight {
+    height:0;
+}
+  </style>
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+
+// Makes sure we only run once jquery is loaded as well
+// as ensuring we don't load javascript libraries multiple times
+cprequire(["chilipeppr_ready"], function () {
+
+    // Define standard ChiliPeppr objects
+    var ws = {
+        id: "com-chilipeppr-ws-canvas",
+        url: 'http://jsfiddle.net/chilipeppr/cjrsrkff/show/light',
+        fiddleurl: 'http://jsfiddle.net/chilipeppr/cjrsrkff/',
+        name: "Workspace / Canvas",
+        desc: "This is a workspace for the canvas.",
+        foreignSubscribe: {
+            "/com-chilipeppr-elem-dragdrop/ondragover" : "The Chilipeppr drag drop element will publish on channel /com-chilipeppr-elem-dragdrop/ondropped when a file is dropped so we subscribe to it so we can load a Gcode file when the user drags it onto the browser. It also adds a hover class to the bound DOM elem so we can add a CSS to hilite on hover",
+            "/com-chilipeppr-elem-dragdrop/ondragleave" : "We need to know when the drag is over to remove the CSS hilites.",
+            "/com-chilipeppr-widget-gcode/resize" : "We watch if the Gcode viewer resizes so that we can reposition or resize other elements in the workspace. Specifically we ask the Serial Port Console to resize. We also redraw the 3D Viewer so it fills the whole screen."
+        },
+        foreignPublish: {
+        }
+    }
+            
+    // Load top bar elements
+    // If in test mode, i.e. the href is jsfiddle or jshell
+    // then inject space up at the top to clear the room that
+    // jsfiddle chews up with their annoying overlay
+    console.log("href is:", location.href);
+    if (location.href.match(/jsfiddle.net|jshell.net/)) {
+        console.log("href matched jsfiddle");
+        $('#com-chilipeppr-ws-gcode-wrapper').css('margin-top', '44px');
+        chilipeppr.load("#test-com-chilipeppr-flash",
+        "http://fiddle.jshell.net/chilipeppr/90698kax/show/light/",
+
+    function () {
+        console.log("mycallback got called after loading flash msg module");
+        cprequire(["inline:com-chilipeppr-elem-flashmsg"], function (fm) {
+            //console.log("inside require of " + fm.id);
+            fm.init();
+        });
+    });
+    }
+    
+    // Zipwhip texting
+    // com-chilipeppr-ws-zipwhip
+    chilipeppr.load(
+        "#com-chilipeppr-ws-zipwhip",
+        "http://fiddle.jshell.net/chilipeppr/56X9G/show/light/", function () {
+        require(["inline:com-chilipeppr-elem-zipwhip"], function (zipwhip) {
+            zipwhip.init();
+            // setup toggle button
+            var zwBtn = $('#com-chilipeppr-ws-gcode-menu .zipwhip-button');
+            var zwDiv = $('#com-chilipeppr-ws-zipwhip');
+            zwBtn.click(function() {
+                if (zwDiv.hasClass("hidden")) {
+                    // unhide
+                    zwDiv.removeClass("hidden");
+                    zwBtn.addClass("active");
+                } else {
+                    zwDiv.addClass("hidden");
+                    zwBtn.removeClass("active");
+                }
+                $(window).trigger('resize');
+            });
+        });
+        });
+        
+
+    // Auto-Leveller
+    // com-chilipeppr-ws-autolevel
+    chilipeppr.load(
+        "#com-chilipeppr-ws-autolevel",
+        "http://fiddle.jshell.net/chilipeppr/h3NaZ/show/light/", function () {
+        require(["inline:com-chilipeppr-widget-autolevel"], function (autolevel) {
+            autolevel.init();
+            // setup toggle button
+            var alBtn = $('#com-chilipeppr-ws-gcode-menu .autolevel-button');
+            var alDiv = $('#com-chilipeppr-ws-autolevel');
+            alBtn.click(function() {
+                if (alDiv.hasClass("hidden")) {
+                    // unhide
+                    alDiv.removeClass("hidden");
+                    alBtn.addClass("active");
+                    autolevel.onDisplay();
+                } else {
+                    alDiv.addClass("hidden");
+                    alBtn.removeClass("active");
+                    autolevel.onUndisplay();
+                }
+                $(window).trigger('resize');
+
+            });
+        });
+        });
+
+    // Macro
+    // com-chilipeppr-ws-autolevel
+    chilipeppr.load(
+        "#com-chilipeppr-ws-macro",
+        "http://fiddle.jshell.net/chilipeppr/ZJ5vV/show/light/", function () {
+        require(["inline:com-chilipeppr-widget-macro"], function (macro) {
+            macro.init();
+            // setup toggle button
+            var alBtn = $('#com-chilipeppr-ws-gcode-menu .macro-button');
+            var alDiv = $('#com-chilipeppr-ws-macro');
+            alBtn.click(function() {
+                if (alDiv.hasClass("hidden")) {
+                    // unhide
+                    alDiv.removeClass("hidden");
+                    alBtn.addClass("active");
+                    //autolevel.onDisplay();
+                } else {
+                    alDiv.addClass("hidden");
+                    alBtn.removeClass("active");
+                    //autolevel.onUndisplay();
+                }
+                $(window).trigger('resize');
+
+            });
+        });
+        });
+    
+    // JScut
+    // com-chilipeppr-ws-jscut
+    chilipeppr.load(
+        "#com-chilipeppr-ws-jscut",
+        "http://fiddle.jshell.net/chilipeppr/7ZzSV/show/light/", function () {
+        require(["inline:org-jscut-gcode-widget"], function (jscut) {
+            jscut.init();
+            // setup toggle button
+            var alBtn = $('#com-chilipeppr-ws-gcode-menu .jscut-button');
+            var alDiv = $('#com-chilipeppr-ws-jscut');
+            alBtn.click(function() {
+                if (alDiv.hasClass("hidden")) {
+                    // unhide
+                    alDiv.removeClass("hidden");
+                    alBtn.addClass("active");
+                } else {
+                    alDiv.addClass("hidden");
+                    alBtn.removeClass("active");
+                }
+                $(window).trigger('resize');
+
+            });
+        });
+        });
+    
+    // Laser Solder
+    // com-chilipeppr-ws-jscut
+    chilipeppr.load(
+        "#com-chilipeppr-ws-lasersolder",
+        "http://fiddle.jshell.net/chilipeppr/xuu785yz/show/light/", function () {
+        require(["inline:com-chilipeppr-widget-lasersolder"], function (ls) {
+            ls.init();
+            ls.unactivateWidget();
+            // setup toggle button
+            var alBtn = $('#com-chilipeppr-ws-gcode-menu .lasersolder-button');
+            var alDiv = $('#com-chilipeppr-ws-lasersolder');
+            alBtn.click(function() {
+                if (alDiv.hasClass("hidden")) {
+                    // unhide
+                    alDiv.removeClass("hidden");
+                    alBtn.addClass("active");
+                    ls.activateWidget();
+                } else {
+                    alDiv.addClass("hidden");
+                    alBtn.removeClass("active");
+                    ls.unactivateWidget();
+                }
+                $(window).trigger('resize');
+
+            });
+        });
+        });
+    
+    // Eagle BRD Import
+    // com-chilipeppr-widget-eagle
+    
+    // Setup drag/drop for BRD files on our own because we don't
+    // want to instantiate the Eagle BRD codebase (i.e. load its massive
+    // javascript files) until the user try requests that we do
+    var eagleObj = {
+        eagleBtn: null,
+        eagleDiv: null,
+        eagleInstance: null,
+        init: function() {
+            this.eagleBtn = $('#com-chilipeppr-ws-gcode-menu .eagle-button');
+            this.eagleDiv = $('#com-chilipeppr-ws-eagle');
+            this.setupDragDrop();
+            this.setupBtn();
+            console.log("done instantiating micro Eagle BRD plug-in");
+        },
+        setupBtn: function() {
+            this.eagleBtn.click(this.toggleEagle.bind(this));
+        },
+        toggleEagle: function() {
+            if (this.eagleDiv.hasClass("hidden")) {
+                // unhide
+                this.showEagle();
+            } else {
+                this.hideEagle();                
+            }
+        },
+        showEagle: function(callback) {
+            this.eagleDiv.removeClass("hidden");
+            this.eagleBtn.addClass("active");
+            
+            // see if instantiated already
+            // if so, just activate
+            if (this.eagleInstance != null) {
+                this.eagleInstance.activateWidget();
+                if (callback) callback();
+            } else {
+                // otherwise, dynamic load
+                var that = this;
+                chilipeppr.load(
+                    "#com-chilipeppr-ws-eagle",
+                    "http://fiddle.jshell.net/chilipeppr/do9cc5zh/show/light/", function () {
+                        require(["inline:com-chilipeppr-widget-eagle"], function (eagle) {
+                            that.eagleInstance = eagle;
+                            console.log("Eagle BRD instantiated. eagleInstance:", that.eagleInstance);
+                            that.eagleInstance.init();
+                            //eagleInstance.activateWidget();
+                            if (callback) callback();
+                        });
+                    }
+                );
+            }
+            $(window).trigger('resize');
+        },
+        hideEagle: function() {
+            this.eagleDiv.addClass("hidden");
+            this.eagleBtn.removeClass("active");
+            if (this.eagleInstance != null) {
+                this.eagleInstance.unactivateWidget();
+            }
+            $(window).trigger('resize');
+        },
+        setupDragDrop: function () {
+            // subscribe to events
+            chilipeppr.subscribe("/com-chilipeppr-elem-dragdrop/ondragover", this, this.onDragOver);
+            chilipeppr.subscribe("/com-chilipeppr-elem-dragdrop/ondragleave", this, this.onDragLeave);
+            // /com-chilipeppr-elem-dragdrop/ondropped
+            chilipeppr.subscribe("/com-chilipeppr-elem-dragdrop/ondropped", this, this.onDropped, 9); // default is 10, we do 9 to be higher priority
+        },
+        onDropped: function (data, info) {
+            console.log("onDropped. len of file:", data.length, "info:", info);
+            // we have the data
+            // double check it's a board file, cuz it could be gcode
+            if (data.match(/<!DOCTYPE eagle SYSTEM "eagle.dtd">/i)) {
+
+                // check that there's a board tag
+                if (data.match(/<board>/i)) {
+                    console.log("we have an eagle board file!");
+                    this.fileInfo = info;
+                    var that = this;
+                    this.showEagle(function() {
+                        console.log("got callback after showing eagle. now opening file.");
+                        that.eagleInstance.open(data, info);
+                    });
+                    console.log("opened brd file");
+                    
+                    // do NOT store a lastDropped, rather we should
+                    // get told from the workspace what the last file
+                    // was and if it was a BRD file we should auto-open
+                    /*
+                    localStorage.setItem('com-chilipeppr-widget-eagle-lastDropped', data);
+                    localStorage.setItem('com-chilipeppr-widget-eagle-lastDropped-info', JSON.stringify(info));
+                    console.log("saved brd file to localstorage");
+                    */
+                } else {
+                    console.log("looks like it is an eagle generated file, but not a board file. sad.");
+                    chilipeppr.publish('/com-chilipeppr-elem-flashmsg/flashmsg', "Looks like you dragged in an Eagle CAD file, but it contains no board tag. You may have dragged in a schematic instead. Please retry with a valid board file.");
+                }
+
+                // now, we need to return false so no other widgets see this
+                // drag/drop event because they won't know how to handle
+                // an Eagle Brd file
+                return false;
+            } else {
+                if (info && 'name' in info && info.name.match(/.brd$/i)) {
+                    // this looks like an Eagle brd file, but it's binary
+                    chilipeppr.publish('/com-chilipeppr-elem-flashmsg/flashmsg', "Error Loading Eagle BRD File", "Looks like you dragged in an Eagle BRD file, but it seems to be in binary. You can open this file in Eagle and then re-save it to a new file to create a text version of your Eagle BRD file.", 15 * 1000);
+                    return false;
+                } else {
+                    console.log("we do not have an eagle board file. sad.");
+                }
+            }
+        },
+        onDragOver: function () {
+            console.log("onDragOver");
+            $('#com-chilipeppr-widget-eagle').addClass("panel-primary");
+            $('#com-chilipeppr-ws-gcode-menu .eagle-button').addClass("btn-primary");
+        },
+        onDragLeave: function () {
+            console.log("onDragLeave");
+            $('#com-chilipeppr-widget-eagle').removeClass("panel-primary");
+            $('#com-chilipeppr-ws-gcode-menu .eagle-button').removeClass("btn-primary");
+        },
+    };
+    eagleObj.init();
+    
+    
+    // GPIO
+    // net-delarre-widget-gpio
+    
+    // Dynamically load the GPIO widget, i.e. wait til user clicks on the button
+    // first time.
+    var gpioObj = {
+        gpioBtn: null,
+        gpioDiv: null,
+        gpioInstance: null,
+        init: function() {
+            this.gpioBtn = $('#com-chilipeppr-ws-gcode-menu .gpio-button');
+            this.gpioDiv = $('#com-chilipeppr-ws-gpio');
+            this.setupBtn();
+            console.log("done instantiating GPIO add-on widget");
+        },
+        setupBtn: function() {
+            this.gpioBtn.click(this.toggleGpio.bind(this));
+        },
+        toggleGpio: function() {
+            if (this.gpioDiv.hasClass("hidden")) {
+                // unhide
+                this.showGpio();
+            } else {
+                this.hideGpio();                
+            }
+        },
+        showGpio: function(callback) {
+            this.gpioDiv.removeClass("hidden");
+            this.gpioBtn.addClass("active");
+            
+            // see if instantiated already
+            // if so, just activate
+            if (this.gpioInstance != null) {
+                //this.gpioInstance.activateWidget();
+                if (callback) callback();
+            } else {
+                // otherwise, dynamic load
+                var that = this;
+                chilipeppr.load(
+                    "#com-chilipeppr-ws-gpio",
+                    "http://fiddle.jshell.net/benjamind/L3c7csaw/show/light/", function () {
+                        require(["inline:net-delarre-widget-gpio"], function (gpio) {
+                            that.gpioInstance = gpio;
+                            console.log("GPIO instantiated. gpioInstance:", that.gpioInstance);
+                            that.gpioInstance.init();
+                            //eagleInstance.activateWidget();
+                            if (callback) callback();
+                        });
+                    }
+                );
+            }
+            $(window).trigger('resize');
+        },
+        hideGpio: function() {
+            this.gpioDiv.addClass("hidden");
+            this.gpioBtn.removeClass("active");
+            if (this.gpioInstance != null) {
+                //this.gpioInstance.unactivateWidget();
+            }
+            $(window).trigger('resize');
+        },
+    };
+    gpioObj.init();
+
+    // Touch Plate
+    // Dynamically load the Touch Plate widget, i.e. wait til user clicks on 
+    // the button first time.
+    var touchPlateObj = {
+        touchPlateBtn: null,
+        touchPlateDiv: null,
+        touchPlateInstance: null,
+        init: function() {
+            this.touchPlateBtn = $('#com-chilipeppr-ws-gcode-menu .touchplate-button');
+            this.touchPlateDiv = $('#com-chilipeppr-ws-touchplate');
+            this.setupBtn();
+            console.log("done instantiating touchPlate add-on widget");
+        },
+        setupBtn: function() {
+            this.touchPlateBtn.click(this.toggletouchPlate.bind(this));
+        },
+        toggletouchPlate: function() {
+            if (this.touchPlateDiv.hasClass("hidden")) {
+                // unhide
+                this.showtouchPlate();
+            } else {
+                this.hidetouchPlate();                
+            }
+        },
+        showtouchPlate: function(callback) {
+            this.touchPlateDiv.removeClass("hidden");
+            this.touchPlateBtn.addClass("active");
+            
+            // see if instantiated already
+            // if so, just activate
+            if (this.touchPlateInstance != null) {
+                this.touchPlateInstance.activateWidget();
+                if (callback) callback();
+            } else {
+                // otherwise, dynamic load
+                var that = this;
+                chilipeppr.load(
+                    "#com-chilipeppr-ws-touchplate",
+                    "http://fiddle.jshell.net/chilipeppr/skqyhd1m/show/light/", function () {
+                        require(["inline:com-chilipeppr-widget-touchplate"], function (touchPlate) {
+                            that.touchPlateInstance = touchPlate;
+                            console.log("touchPlate instantiated. touchPlateInstance:", that.touchPlateInstance);
+                            that.touchPlateInstance.init();
+                            //eagleInstance.activateWidget();
+                            if (callback) callback();
+                        });
+                    }
+                );
+            }
+            $(window).trigger('resize');
+        },
+        hidetouchPlate: function() {
+            this.touchPlateDiv.addClass("hidden");
+            this.touchPlateBtn.removeClass("active");
+            if (this.touchPlateInstance != null) {
+                this.touchPlateInstance.unactivateWidget();
+            }
+            $(window).trigger('resize');
+        },
+    };
+    touchPlateObj.init();
+    
+
+    // Element / Drag Drop
+    // Load the dragdrop element into workspace toolbar
+    // http://jsfiddle.net/chilipeppr/Z9F6G/
+    chilipeppr.load("#com-chilipeppr-ws-gcode-dragdrop",
+        "http://fiddle.jshell.net/chilipeppr/Z9F6G/show/light/", function () {
+        require(["inline:com-chilipeppr-elem-dragdrop"], function (dd) {
+            console.log("inside require of dragdrop");
+            $('.com-chilipeppr-elem-dragdrop').removeClass('well');
+            dd.init();
+            // The Chilipeppr drag drop element will publish
+            // on channel /com-chilipeppr-elem-dragdrop/ondropped
+            // when a file is dropped so subscribe to it
+            // It also adds a hover class to the bound DOM elem
+            // so you can add CSS to hilite on hover
+            dd.bind("#com-chilipeppr-ws-gcode-wrapper", null);
+            //$(".com-chilipeppr-elem-dragdrop").popover('show');
+            //dd.bind("#pnlWorkspace", null);
+            var ddoverlay = $('#com-chilipeppr-ws-gcode-dragdropoverlay');
+            chilipeppr.subscribe("/com-chilipeppr-elem-dragdrop/ondragover", function () {
+                //console.log("got dragdrop hover");
+                ddoverlay.removeClass("hidden");
+            });
+            chilipeppr.subscribe("/com-chilipeppr-elem-dragdrop/ondragleave", function () {
+                ddoverlay.addClass("hidden");
+                //console.log("got dragdrop leave");
+            });
+            console.log(dd);
+        });
+    });
+
+    // Workspace Menu with Workspace Billboard
+    // http://jsfiddle.net/jlauer/yC8Hv/
+    chilipeppr.load(
+        "#com-chilipeppr-ws-gcode-menu-billboard",
+        "http://fiddle.jshell.net/chilipeppr/Guvv4/show/light/");
+    chilipeppr.load(
+        "http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/", 
+        function () {
+            require(['inline:com-chilipeppr-elem-pubsubviewer'], function (pubsubviewer) {
+                    pubsubviewer.attachTo(
+                        $('#com-chilipeppr-ws-gcode-menu .dropdown-menu-ws'), 
+                        ws, 
+                        "Workspace"
+                    );
+                });
+            });
+            
+
+    // 3D Viewer
+    // http://jsfiddle.net/chilipeppr/y3HRF
+    chilipeppr.load("#com-chilipeppr-3dviewer",
+        "http://fiddle.jshell.net/chilipeppr/y3HRF/show/light/",
+
+    function () {
+        console.log("got callback done loading 3d");
+
+        cprequire(
+        ['inline:com-chilipeppr-widget-3dviewer'],
+
+        function (threed) {
+            console.log("Running 3dviewer");
+            threed.init();
+            console.log("3d viewer initted");
+            
+            // Ok, do someting whacky. Try to move the 3D Viewer 
+            // Control Panel to the center column
+            setTimeout(function() {
+                var element = $('#com-chilipeppr-3dviewer .panel-heading').detach();
+                $('#com-chilipeppr-3dviewer').addClass("noheight");
+                $('#com-chilipeppr-widget-3dviewer').addClass("nomargin");
+                $('#com-chilipeppr-3dviewer-controlpanel').append(element);
+            }, 10);
+            
+            // listen to resize events so we can resize our 3d viewer
+            // this was done to solve the scrollbar residue we were seeing
+            // resize this console on a browser resize
+            var mytimeout = null;
+            $(window).on('resize', function (evt) {
+                //console.log("3d view force resize");
+                if (mytimeout !== undefined && mytimeout != null) {
+                    clearTimeout(mytimeout);
+                    //console.log("cancelling timeout resize");
+                }
+                mytimeout = setTimeout(function() {
+                    console.log("3d view force resize. 1 sec later");
+                    threed.resize();
+                }, 1000);
+                
+            });
+        });
+
+    });
+
+    // Gcode List v3
+    // OLD v2 http://jsfiddle.net/chilipeppr/F2Qn3/
+    // NEW v3 with onQueue/onWrite/onComplete http://jsfiddle.net/chilipeppr/a4g5ds5n/
+    chilipeppr.load("#com-chilipeppr-gcode-list",
+        "http://fiddle.jshell.net/chilipeppr/a4g5ds5n/show/light/",
+
+    function () {
+        cprequire(
+        ["inline:com-chilipeppr-widget-gcode"],
+
+        function (gcodelist) {
+            gcodelist.init({lineNumbersOnByDefault: true});
+        });
+    });
+
+    // Serial Port Console Log Window
+    // http://jsfiddle.net/chilipeppr/JB2X7/
+    // NEW VERSION http://jsfiddle.net/chilipeppr/rczajbx0/
+    // The new version supports onQueue, onWrite, onComplete
+
+    chilipeppr.load("#com-chilipeppr-serialport-log",
+        "http://fiddle.jshell.net/chilipeppr/rczajbx0/show/light/",
+
+    function () {
+        cprequire(
+        ["inline:com-chilipeppr-widget-spconsole"],
+
+        function (spc) {
+            // pass in regular expression filter as 2nd parameter
+            // to enable filter button and clean up how much
+            // data is shown
+            spc.init(true, /^{/);
+            
+            // resize this console on a browser resize
+            $(window).on('resize', function (evt) {
+                //console.log("serial-port-console. resize evt:", evt);
+                if ($.isWindow(evt.target)) {
+                    //console.log("resize was window. so resizing");
+                    spc.resize();
+                } else {
+                    //console.log("resize was not window, so ignoring");
+                }
+            });
+            // resize this console if we get a publish
+            // from the gcode viewer widget
+            chilipeppr.subscribe("/com-chilipeppr-widget-gcode/resize", spc, spc.resize);
+
+        });
+    });
+
+    // XYZ
+    // http://jsfiddle.net/chilipeppr/gh45j/
+    chilipeppr.load(
+        "com-chilipeppr-xyz",
+        "http://fiddle.jshell.net/chilipeppr/gh45j/show/light/",
+
+    function () {
+        cprequire(
+        ["inline:com-chilipeppr-widget-xyz"],
+
+        function (xyz) {
+            xyz.init();
+        });
+    });
+    
+    // Canvas Widget
+    // http://jsfiddle.net/chilipeppr/a8drdr9c/
+    chilipeppr.load(
+        "#com-chilipeppr-canvas",
+        "http://fiddle.jshell.net/chilipeppr/a8drdr9c/show/light/",
+
+    function () {
+        cprequire(
+        ["inline:com-chilipeppr-widget-canvas"],
+
+        function (canvas) {
+            canvas.init();
+        });
+    });
+
+    // TinyG
+    // http://jsfiddle.net/chilipeppr/XxEBZ/
+    // com-chilipeppr-tinyg
+    chilipeppr.load(
+        "com-chilipeppr-tinyg",
+        "http://fiddle.jshell.net/chilipeppr/XxEBZ/show/light/",
+
+    function () {
+        cprequire(
+        ["inline:com-chilipeppr-widget-tinyg"],
+
+        function (tinyg) {
+            tinyg.init();
+        });
+    });
+    
+    // WebRTC Client com-chilipeppr-webrtcclient
+    chilipeppr.load(
+        "com-chilipeppr-webrtcclient",
+        "http://fiddle.jshell.net/chilipeppr/qWj4f/show/light/",
+
+    function () {
+        cprequire(
+        ["inline:com-chilipeppr-widget-webrtc-client"],
+
+        function (webrtcclient) {
+            webrtcclient.init();
+        });
+    });
+    
+    // Serial Port Selector
+    // http://jsfiddle.net/chilipeppr/4RgrS/
+    // NEW VERSION for SPJS v1.7 http://jsfiddle.net/chilipeppr/vetj5fvx/
+    chilipeppr.load("com-chilipeppr-serialport-spselector",
+        "http://fiddle.jshell.net/chilipeppr/vetj5fvx/show/light/",
+
+    function () {
+        cprequire(
+        ["inline:com-chilipeppr-widget-serialport"],
+
+        function (sp) {
+            sp.setSingleSelectMode();
+            //sp.init("192.168.1.7");
+            // We have a new TinyG buffer built into the serial
+            // port server. This asks the serial port widget to
+            // request the tinyg buffer. Make sure you ARE connected
+            // to a tinyg cuz it looks for a {"qr":""} response to release
+            // the flow
+            sp.init(null, "tinyg", 115200);
+            //$('.com-chilipeppr-widget-serialport-console').removeClass("hidden");
+            //$('.com-chilipeppr-widget-serialport-consoleinput').removeClass("hidden");
+            //$('.com-chilipeppr-widget-serialport-status').removeClass("hidden");
+        });
+    });
+    
+
+});
+//]]>  
+
+</script>
+
+
+</head>
+<body>
+  <!-- This is the workspace layout for the Canvas Workspace -->
+<div id="test-com-chilipeppr-flash"></div>
+<div id="com-chilipeppr-ws-gcode-wrapper" class="dropArea">
+    <div id="com-chilipeppr-ws-gcode-dragdropoverlay" class="hidden">
+        <div class="well">Drag and Drop Gcode Files Onto Browser Window</div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-3 widgetx padrt">
+                <!-- 3D Viewer. Must be loaded at top to get z-orders correct -->
+                <div id="com-chilipeppr-3dviewer">Load 3D Viewport Here</div>
+                <!-- Workspace Hdr -->
+                <div id="com-chilipeppr-ws-gcode-hdr" class="com-chilipeppr-ws-hdr zhigh well">Workspace Canvas
+                    <div id="com-chilipeppr-ws-gcode-menu" class="">
+                        <div class="pull-right">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                            <ul class="dropdown-menu dropdown-menu-ws" role="menu">
+                                <li id="com-chilipeppr-ws-gcode-menu-billboard" style="width:350px;"></li>
+                            </ul>
+                        </div>
+                        </div>
+
+                        <div id="com-chilipeppr-ws-gcode-dragdrop"  style="margin-right:6px;" class=""></div>
+                        <!-- <div class="btn-group"> -->
+                            <button type="button" class="btn btn-xs btn-default zipwhip-button" data-container="body" data-toggle="popover" data-placement="auto" data-content="Get a text sent to you when your CNC job is completed." data-trigger="hover" data-delay="100"><span class="zipwhip"></span></button>
+                        <!-- </div>
+                        <div class="btn-group"> -->
+                            <button type="button" class="btn btn-xs btn-default autolevel-button" data-container="body" data-toggle="popover" data-placement="auto" data-content="Allows you to auto-level your PCB before milling. Most raw PCB boards have a slight warpage. This widget lets you probe the warpage and then it auto-scales your Gcode to match the warpage so you get very clean/predictable z-positions in your milling job." data-trigger="hover" data-delay="100">Auto-Level</button>
+                        <!-- </div>
+                        <div class="btn-group"> -->
+                            <button type="button" class="btn btn-xs btn-default macro-button" data-container="body" data-toggle="popover" data-placement="auto" data-content="Run a macro." data-trigger="hover" data-delay="100">Macro</button>
+                        <!-- </div>
+                        <div class="btn-group"> -->
+                            <button type="button" class="btn btn-xs btn-default jscut-button" data-container="body" data-toggle="popover" data-placement="auto" data-content="Load file from JSCut" data-trigger="hover" data-delay="100">JScut</button>
+                        <!-- </div>
+                        <div class="btn-group"> -->
+                        <!-- </div> -->
+                        <button type="button" class="btn btn-xs btn-default lasersolder-button" data-container="body" data-toggle="popover" data-placement="auto" data-content="Laser Solderer" data-trigger="hover" data-delay="100">Laser Solder</button>
+                        <button type="button" class="btn btn-xs btn-default eagle-button" data-container="body" data-toggle="popover" data-placement="auto" xdata-content="Laser Solderer" data-trigger="hover" data-delay="100">Eagle BRD Import</button> 
+                        <button type="button" class="btn btn-xs btn-default gpio-button" data-container="body" data-toggle="popover" data-placement="auto" data-content="GPIO Server by Ben Delarre. Allows you to control your GPIO ports on a Raspberry Pi or Beagle Bone Black to toggle on/off hardware components. For example, you could toggle a fan on/off via GPIO." data-trigger="hover" data-delay="100">GPIO</button>
+                        
+                        <button type="button" class="btn btn-xs btn-default touchplate-button" data-container="body" data-toggle="popover" data-placement="auto" data-content="Use a touch plate to easily figure out your Z zero of your workpiece and set it." data-trigger="hover" data-delay="100">Touch Plate</button>                       
+                    </div>
+                    
+                </div>
+                <!-- Zipwhip Text Messaging -->
+                <div class="zhigh hidden" id="com-chilipeppr-ws-zipwhip"></div>
+                
+                <!-- Auto Leveller -->
+                <div class="zhigh hidden" id="com-chilipeppr-ws-autolevel">Auto-Level Here</div>
+                
+                <!-- Macro -->
+                <div class="zhigh hidden" id="com-chilipeppr-ws-macro">Macro Here</div>
+                
+                <!-- JScut -->
+                <div class="zhigh hidden" id="com-chilipeppr-ws-jscut">Jscut Here</div>
+                
+                <!-- Laser Solder -->
+                <div class="zhigh hidden" id="com-chilipeppr-ws-lasersolder">Laser Solderer Here</div>
+                
+                <!-- Eagle BRD -->
+                <div class="zhigh hidden" id="com-chilipeppr-ws-eagle">Eagle BRD Here</div>
+                
+                <!-- GPIO -->
+                <div class="zhigh hidden" id="com-chilipeppr-ws-gpio">GPIO Here</div>
+
+                <!-- Touch Plate -->
+                <div class="zhigh hidden" id="com-chilipeppr-ws-touchplate">Touch Plate Here</div>
+                
+                <!-- Gcode List -->
+                <div id="com-chilipeppr-gcode-list" class="zhigh">Load Gcode List Here</div>
+                
+                <!-- Serial In/Out Text Log-->
+                <div id="com-chilipeppr-serialport-log" class="zhigh">Load Serial Port Log Here</div>                
+            </div>
+            <!-- 3D Viewer -->
+            <div class="widget col-xs-6">
+                <div class="">
+                <div id="com-chilipeppr-3dviewer-controlpanel" style=""></div>
+                </div>
+            </div>
+            <div class="col-xs-3 nopadding">
+                <!-- XYZ -->
+                <div id="com-chilipeppr-xyz" class="">Load XYZ Here</div>
+                <!-- Canvas Widget -->
+               <div id="com-chilipeppr-canvas" class="">Load Canvas Widget Here</div>
+                
+                <!-- Tinyg -->
+                <div id="com-chilipeppr-tinyg" class="">Load TinyG Here</div>
+                <!-- WebRTC Client -->
+                <div id="com-chilipeppr-webrtcclient" class="">Load WebRTC Client Here</div>
+                <!-- Serial Port Selector -->
+                <div id="com-chilipeppr-serialport-spselector" class="">Load Serial Port Selector Here</div>
+            </div>
+        </div>
+    </div>
+</div>
+  
+</body>
+
+
+</html>
+
+
+<!-- end chilipeppr.load() url: http://jsfiddle.net/microcruzer/cjrsrkff/show/light -->

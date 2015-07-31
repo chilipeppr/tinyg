@@ -1,0 +1,320 @@
+<!-- start chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/uNALR/show/light/ -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    
+  
+  <style type='text/css'>
+    .modal-body #com-chilipeppr-widget-editbootscript-body {
+    padding:0;
+}
+#com-chilipeppr-widget-editbootscript-body .alert {
+    margin-top:0;
+}
+  </style>
+  
+</head>
+<body>
+  <div id="com-chilipeppr-widget-editbootscript-body" class="panel-body">
+    <form role="form" >
+        <div class="form-group">
+            <div id="forking-panel" class="well hidden"></div>
+            <div class="alert alert-warning hidden"></div>
+            <label for="inputUrl">URL</label>
+            <table>
+                <tr>
+                    <td>http://chilipeppr.com/&nbsp;</td>
+                    <td>
+                        <input type="text" class="form-control" id="com-chilipeppr-widget-editbootscript-inputUrl" placeholder="Pick your URL" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-group">
+            <label for="com-chilipeppr-widget-editbootscript-inputScript">Base Boot Javascript</label>
+            <textarea id="com-chilipeppr-widget-editbootscript-inputScript" class="form-control" rows="5"></textarea>
+        </div>
+        <div id="com-chilipeppr-widget-editbootscript-inputScriptExample" class="hidden">// Sample Base Boot Javascript
+// ----------------------
+// You should create a JSFiddle that loads your content 
+// by forking an existing workspace to get started. Then 
+// you can also fork any widgets, elements, or other 
+// JSFiddles that you need to modify so that others can 
+// benefit from your modifications.
+            
+// The chilipeppr.load() method is used to load a 
+// JSFiddle and inject it's HTML (inluding its 
+// CSS/Javascript) into a DOM element. The first 
+// parament must be the HTML ID of the DOM element.
+chilipeppr.load("pnlWorkspace",
+     // Edit URL below to your JSFiddle
+    "http://fiddle.jshell.net/myfiddlenuser/n3DLs/show/light/", function() {
+        
+        console.log("My workspace done loading.");
+            
+        // This is an example of publishing to the flash message 
+        // feature that is loaded by the root panel. Chilipeppr 
+        // Hardware Fiddle recommends you loosely couple your 
+        // widgets/elements by using the pubsub calls built 
+        // into the top-level chilipeppr object.
+        // Parameters: pubsub-channel (string), title (string), body (string)
+        chilipeppr.publish("/com-chilipeppr-elem-flashmsg/flashmsg", "My Workspace Loaded", "I just loaded my workspace.");
+            
+        // You can run other code here once your workspace is loaded
+        // however it's more likely you will run init() code inside each
+        // of your widgets inside your workspace JSFiddle rather than here
+    }
+);</div>
+        <button id="com-chilipeppr-widget-editbootscript-submitBtn" class="btn btn-primary pull-right">Save Changes</button>
+    </form>
+</div>
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+
+cprequire_test(['inline:com-chilipeppr-widget-editbootscript'], function (editboot) {
+    console.log("Running Edit Boot Javascript Widget");
+    editboot.init();
+    //editboot.doFork();
+    console.log("initted");
+} /*end_test*/ );
+
+cpdefine('inline:com-chilipeppr-widget-editbootscript', ['chilipeppr_ready'], function () {
+
+    return {
+
+        id: 'com-chilipeppr-widget-editbootscript',
+        url: "http://fiddle.jshell.net/chilipeppr/uNALR/show/light/",
+        fiddleurl: "http://jsfiddle.net/chilipeppr/uNALR/",
+        name: "Widget / Edit Boot Javascript",
+        desc: "This widget lets you define your base Javascript that gets executed when your URL is entered. The root panel is loaded first by ChiliPeppr and then you can load your own content in the body area. Your code is only executed once the root panel is loaded.",
+        publish: [''],
+        subscribe: [''],
+        isForkMode: false,
+
+        init: function () {
+            this.isForkMode = false;
+            this.urlSetup();
+            this.formSetup();
+            var url = this.extractUrl();
+            var forkDom = $('#com-chilipeppr-widget-editbootscript-body #forking-panel');
+            forkDom.addClass("hidden");
+            //if (!url) url = "asdf";
+            if (url) {
+                // perform submit
+                this.urlSubmit();
+            } else {
+                // this is root
+                var that = this;
+                this.urlSubmit(null, function() {
+                    if (!that.isForkMode) {
+                        var warningDom = $('#com-chilipeppr-widget-editbootscript-body .alert');
+                        warningDom.text("This is the root URL. You may not edit it, but you may copy the Javascript for your own Hardware Fiddle. It would be best to fork the workspace in JSFiddle and modify your boot script to reference your new fork.");
+                    }
+                });
+            }                
+                
+        },
+        doFork: function() {
+            console.log("entering fork mode");
+            this.isForkMode = true;
+            // we're letting the user pick a new url, but copying the javascript
+            // from the current page
+            var forkDom = $('#com-chilipeppr-widget-editbootscript-body #forking-panel');
+            forkDom.removeClass("hidden");
+            forkDom.text("We are going to fork this current boot script for you. Please pick a new URL for your workspace, keep or edit the Javascript, and then hit Save Changes. The Base Boot Javascript contains the code for the current page " + this.extractUrl("(root)") + " that you are on. You'll notice the base Javascript loads an external URL (which is most likely a JSFiddle). You should navigate directly to that URL in another tab and fork it. Then place a URL to your new code in this boot script."); 
+        },
+        extractUrl: function(ifNullStr) {
+            // read the window.location to extract the url for this fiddle
+            console.log("window.location", window.location.pathname);
+            var path = window.location.pathname;
+            if (path == "/_display/") {
+                // we're inside jsfiddle, so ignore
+                //return "(inside jsfiddle)";
+                path = null;
+            } else {
+                path = path.replace(/^\//, "");
+                path = path.replace(/\/$/, "");
+                //return path;
+            }
+            if (ifNullStr && path == null) path = ifNullStr;
+            return path;
+        },
+        copyExampleJscript: function() {
+            var jscriptDom = $('#com-chilipeppr-widget-editbootscript-inputScript');
+            var jscriptExampleDom = $('#com-chilipeppr-widget-editbootscript-inputScriptExample');
+            jscriptDom.val(jscriptExampleDom.text());
+        },
+        urlSetup: function () {
+            var that = this;
+            $('#com-chilipeppr-widget-editbootscript-inputUrl').blur(function(e) { 
+                that.urlSubmit(e); 
+            });
+            var url = this.extractUrl();
+            console.log("url for this fiddle", url);
+            if (url) {
+                $('#com-chilipeppr-widget-editbootscript-inputUrl').val(url);
+            }
+        },
+        urlSubmit: function (e, callback) {
+            var that = this;
+            if (e) e.preventDefault();
+            console.log("url submit. e:", e, " isForkMode:", this.isForkMode);
+            var warningDom = $('#com-chilipeppr-widget-editbootscript-body .alert');
+            var jscriptDom = $('#com-chilipeppr-widget-editbootscript-inputScript');
+            var jscriptExampleDom = $('#com-chilipeppr-widget-editbootscript-inputScriptExample');
+            warningDom.removeClass("hidden");
+            warningDom.text("Checking URL availability...");
+            var userUrl = $('#com-chilipeppr-widget-editbootscript-inputUrl').val();
+            console.log("user url:", userUrl);
+            var jqxhr = $.getJSON("http://www.chilipeppr.com/dataget?key=userUrl:" + userUrl + "&callback=?")
+                .done(function (data) {
+                    console.log("got jsnop callback", data);
+                    if (data.KeyExists != undefined && data.KeyExists == false) {
+                        warningDom.removeClass("alert-warning");
+                        warningDom.addClass("alert-info");
+                        if (that.isForkMode) {
+                            warningDom.text("URL is available for your use. Since we're in forking mode, the base boot Javascript is a copy of the script used on this page and you may keep it or edit it for your new workspace.");
+                        } else {
+                            warningDom.text("URL is available for your use. Showing you sample Javascript for your boot script.");
+                            jscriptDom.val(jscriptExampleDom.text());
+                        }
+                    } else if (data.Error && data.Error == true) {
+                        warningDom.removeClass("alert-info");
+                        warningDom.addClass("alert-warning");
+                        warningDom.text(data.Msg);
+                    } else {
+                        // this url is taken, but see if we own it
+                        var jqxhr = $.getJSON("http://www.chilipeppr.com/datalogin?callback=?")
+                        .done(function (logindata) {
+                            console.log("logindata", logindata);
+                            if (logindata.CurrentUser != undefined && logindata.CurrentUser != null) {
+                                console.log("user logged in ", logindata.CurrentUser);
+                                if (data.User == logindata.CurrentUser.Email) {
+                                    warningDom.removeClass("alert-warning");
+                                    warningDom.addClass("alert-info");
+                                    warningDom.text("You own this URL, so you can edit the base boot Javascript.");
+                                } else {
+                                    warningDom.removeClass("alert-info");
+                                    warningDom.addClass("alert-warning");
+                                    warningDom.text("This URL is taken by another user already, so you may not use it.");
+                                }
+                            } else {
+                                console.log("user NOT logged in");
+                                warningDom.removeClass("alert-info");
+                                warningDom.addClass("alert-warning");
+                                warningDom.text("You must be logged in to create/edit a URL and edit the base boot Javascript.");
+                            }
+                            if (callback) callback.apply(null);
+                        })
+                        
+                        //warningDom.text("URL is available. " + JSON.stringify(data));
+                        // place jscript into box (everything is public)
+                        jscriptDom.val(data.Value);
+                    }
+                })
+                .fail(function (data) {
+                    console.log("failed. data:", data);
+                    warningDom.text("Failed to execute Ajax call. Huh?");
+                })
+        },
+        formSetup: function() {
+            $('#com-chilipeppr-widget-editbootscript-submitBtn').click(this.formSubmit);
+            $('#com-chilipeppr-widget-editbootscript-body input,select').keypress(function(event) { return event.keyCode != 13; });
+        },
+        formSubmit: function (e) {
+            console.log("e:", e);
+            e.preventDefault();
+            console.log("form submit");
+            var warningDom = $('#com-chilipeppr-widget-editbootscript-body .alert');
+            warningDom.text("Submitting form...");
+            var userUrl = $('#com-chilipeppr-widget-editbootscript-inputUrl').val();
+            var userScript = $('#com-chilipeppr-widget-editbootscript-inputScript').val();
+            console.log("user url:", userUrl);
+            console.log("user script:", userScript);
+            /*
+            var jqxhr = $.getJSON("http://www.chilipeppr.com/dataput?callback=?", { key: "userUrl:" + userUrl, val: userScript })
+                .done(function (data) {
+                console.log("got jsnop callback", data);
+                if (data.Error && data.Error == true) {
+                    warningDom.text(data.Msg);
+                } else {
+                    //warningDom.text("Successfully saved record. " + JSON.stringify(data));
+                    warningDom.html("Successfully saved URL and base boot script. Navigate to your new workspace <a href=\"http://chilipeppr.com/" + userUrl + "\">http://chilipeppr.com/" + userUrl + "</a>");
+                }
+            })
+                .fail(function (data) {
+                console.log("failed. data:", data);
+                warningDom.text("Failed to execute Ajax call. Huh?");
+            });
+            */
+            
+            $.ajax({
+                url: "http://www.chilipeppr.com/dataput",
+                type: "POST",
+                crossDomain: true,
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: { key: "userUrl:" + userUrl, val: userScript },
+                dataType: "json",
+                success:function(data){
+                    console.log("got success", data);
+                    if (data.Error && data.Error == true) {
+                        warningDom.text(data.Msg);
+                    } else {
+                        //warningDom.text("Successfully saved record. " + JSON.stringify(data));
+                        warningDom.html("Successfully saved URL and base boot script. Navigate to your new workspace <a href=\"http://chilipeppr.com/" + userUrl + "\">http://chilipeppr.com/" + userUrl + "</a>");
+                    }
+                },
+                error:function(xhr,status,error){
+                    console.log("failed. data:", data);
+                    warningDom.text("Failed to execute Ajax call. Huh?");
+                }
+            });
+            
+        },
+        checkLogin: function () {
+            var jqxhr = $.getJSON("http://www.chilipeppr.com/datalogin?callback=?")
+            .done(function (data) {
+                console.log(data);
+                if (data.CurrentUser != undefined && data.CurrentUser != null) {
+                    console.log("user logged in ", data.CurrentUser);
+                } else {
+                    console.log("user NOT logged in");
+                }
+            })
+            .fail(function () {
+            })
+        },
+    }
+});
+//]]>  
+
+</script>
+
+
+</body>
+
+
+</html>
+
+
+<!-- end chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/uNALR/show/light/ -->

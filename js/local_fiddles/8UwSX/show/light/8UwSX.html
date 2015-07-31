@@ -1,0 +1,172 @@
+<!-- start chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/8UwSX/show/light/ -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+            <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+                <style type='text/css'>
+    #com-chilipeppr-wspicker-collapsed {
+    position: absolute;
+    top: 0px;
+    right: 4px;
+    width: 32px;
+    height: 160px;
+    background-color: #f6f6f6;
+}
+#com-chilipeppr-wspicker-collapsed .panel-body {
+    padding:3px;
+}
+#com-chilipeppr-wspicker-collapsed .rotate-div {
+    position: relative;
+    width: 24px;
+    top: 10px;
+    left: 0;
+    border: 0px solid red;
+}
+#com-chilipeppr-wspicker-collapsed .rotate {
+    padding:0;
+    margin:0;
+    -moz-transform: rotate(90.0deg);
+    /* FF3.5+ */
+    -o-transform: rotate(90.0deg);
+    /* Opera 10.5 */
+    -webkit-transform: rotate(90.0deg);
+    /* Saf3.1+, Chrome */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=-0.083);
+    /* IE6,IE7 */
+    -ms-filter:"progid:DXImageTransform.Microsoft.BasicImage(rotation=-0.083)";
+    /* IE8 */
+}
+#com-chilipeppr-wspicker-toggle-btn-rt {
+    border-radius: 4px;
+}
+#com-chilipeppr-wspicker {
+    padding:0;
+}
+.com-chilipeppr-wspicker-row {
+    padding-bottom: 10px;
+    border-bottom:1px solid #dddddd;
+}
+.com-chilipeppr-wspicker-row .dropdown-toggle {
+    border:0;
+}
+.com-chilipeppr-wspicker-img {
+    width: 100%;
+}
+.com-chilipeppr-wspicker-btnbar {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+.com-chilipeppr-wspicker-btn {
+}
+.com-chilipeppr-wspicker-stats2 {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    padding: 4px 10px 10px 10px;
+    background-color: rgba(255,255,255,0.5);
+}
+
+.com-chilipeppr-wspicker-imgcontain {
+    border:0px solid red; 
+    border-radius: 5px;
+    position: relative; 
+    width:100%; 
+    height:160px;
+    background-position: center;
+    background-size: cover;
+}
+
+.com-chilipeppr-wspicker-btnbar2 {
+    padding-top: 10px;
+}
+@media (min-width: 768px) {
+.com-chilipeppr-wsgrid .com-chilipeppr-ws-billboard-desc {
+    height:160px;
+    overflow:auto;
+    /* overflow:ellipsis; */
+}
+}
+  </style>
+                <script type='text/javascript'>//<![CDATA[ 
+
+cprequire(["chilipeppr_ready"], function () {
+    
+    chilipeppr.load("#com-chilipeppr-wsgrid-serialport",
+                    "http://fiddle.jshell.net/chilipeppr/astYW/show/light");
+    chilipeppr.load("#com-chilipeppr-wsgrid-tinyg",
+                    "http://fiddle.jshell.net/chilipeppr/Guvv4/show/light");
+    
+    chilipeppr.load("#com-chilipeppr-wsgrid-grbl",
+                    "http://fiddle.jshell.net/chilipeppr/6z76Z/show/light");
+
+    chilipeppr.load("#com-chilipeppr-wsgrid-laser",
+                    "http://fiddle.jshell.net/chilipeppr/9R4Pe/show/light");
+    
+    // Button to expand
+    $('#com-chilipeppr-wspicker-toggle-btn').click(function () {
+        $('#com-chilipeppr-wspicker-collapsed').addClass('hidden');
+        $('#com-chilipeppr-wspicker-expanded').removeClass('hidden');
+        // reset classes in main workspace area to make room for us
+        // make the main workspace area only take up 8 cols instead of 12
+        $('#pnlWorkspace').removeClass('col-xs-12');
+        $('#pnlWorkspace').removeClass('pnlWorkspaceRtSidebarCollapsed');
+        $('#pnlWorkspace').addClass('pnlWorkspaceRtSidebarExpanded');
+        $('#pnlWorkspace').addClass('col-xs-8');
+        // show the right sidebar area and make it use 4 cols
+        //$('#pnlRtSidebar').removeClass('hidden');
+        $('#pnlRtSidebar').addClass('col-xs-4');
+    });
+    // Button to re-collapse
+    $('#com-chilipeppr-wspicker-toggle-btn-rt').click(function () {
+        $('#com-chilipeppr-wspicker-collapsed').removeClass('hidden');
+        $('#com-chilipeppr-wspicker-expanded').addClass('hidden');
+        // reset classes in main workspace area to make room for us
+        // make the main workspace area only take up 8 cols instead of 12
+        $('#pnlWorkspace').addClass('col-xs-12');
+        $('#pnlWorkspace').addClass('pnlWorkspaceRtSidebarCollapsed');
+        $('#pnlWorkspace').removeClass('pnlWorkspaceRtSidebarExpanded');
+        $('#pnlWorkspace').removeClass('col-xs-8');
+        // show the right sidebar area and make it use 4 cols
+        //$('#pnlRtSidebar').addClass('hidden');
+        $('#pnlRtSidebar').removeClass('col-xs-4');
+    });
+});
+//]]>
+                </script>
+            </head>
+            <body>
+                <!-- Workspace Grid (Like Kickstarter Grid) -->
+                <!-- 3 cols by N rows -->
+                <div class="container-fluid com-chilipeppr-wsgrid">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <!-- Basic Serial Port Communicator -->
+                            <div id="com-chilipeppr-wsgrid-serialport" class="com-chilipeppr-wspicker-item"></div>
+                            <!-- end Basic Serial Port Communicator -->
+                        </div>
+                        <div class="col-sm-4">
+                            <!-- TinyG  -->
+                            <div id="com-chilipeppr-wsgrid-tinyg" class="com-chilipeppr-wspicker-item"></div>
+                            <!-- end TinyG Shapeoko Milling -->
+                        </div>
+                        <div class="col-sm-4">
+                            <!-- Grbl -->
+                            <div id="com-chilipeppr-wsgrid-grbl" class="com-chilipeppr-wspicker-item"></div>
+                            <!-- end Grbl -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <!-- TinyG  Laser -->
+                            <div id="com-chilipeppr-wsgrid-laser" class="com-chilipeppr-wspicker-item"></div>
+                            <!-- end TinyG  Laser -->
+                        </div>
+                    </div>
+                </div>
+                <!-- end Workspace Grid -->
+            </body>
+        </html>
+        <!-- end chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/8UwSX/show/light/ -->

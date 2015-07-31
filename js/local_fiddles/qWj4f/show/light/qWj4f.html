@@ -1,0 +1,632 @@
+<!-- start chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/qWj4f/show/light/ -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    
+  
+    
+      
+    
+  
+  <style type='text/css'>
+    #com-chilipeppr-widget-webrtc-body {
+    padding:0;
+}
+#my-video {
+    /* margin-top: 15px; */
+    width:100%;
+  /* width: 280px; */
+    height: auto;
+    background-color: #eee;
+}
+
+#com-chilipeppr-widget-webrtc-client #their-video {
+  width: 100%;
+  height: 100%;
+  /* max-height: 480px; */
+  background-color: #eee;
+}
+
+#com-chilipeppr-widget-webrtc-client #video-container {
+    padding: 0;
+    text-align: center;
+    margin-bottom:-5px;
+}
+
+#step1-error, #step2, #step3 {
+    display: none;
+}
+#step1-error {
+    padding-top:10px;
+}
+#my-id {
+  font-weight: bold;
+}
+
+#com-chilipeppr-widget-webrtc-client .pure-u-1-3-wrapper-relative{
+    /* position:relative; */
+}
+#com-chilipeppr-widget-webrtc-client .alert {
+    margin-bottom:0;
+}
+#com-chilipeppr-widget-webrtc-client .pure-u-1-3 {
+    /* position:absolute; */
+    left:10px;
+    top:10px;
+    right:10px;
+}
+#com-chilipeppr-widget-webrtc-body:after {
+    content:none;
+}
+  </style>
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+
+requirejs.config({
+    paths: {
+        peerJs: 'http://cdn.peerjs.com/0.3/peer',
+        jqueryui: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.core',
+        jqueryuiWidget: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.widget',
+        jqueryuiMouse: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.mouse',
+        jqueryuiResizeable: '//chilipeppr.com/js/jquery-ui-1.10.4/ui/jquery.ui.resizable',
+    },
+    shim: {
+        jqueryuiWidget: ['jqueryui'],
+        jqueryuiMouse: ['jqueryuiWidget'],
+        jqueryuiResizeable: ['jqueryuiMouse' ]
+    }
+});
+
+// Test this element. This code is auto-removed by the chilipeppr.load()
+cprequire_test(["inline:com-chilipeppr-widget-webrtc-client"], function (hello) {
+    console.log("test running of " + hello.id);
+    hello.init();
+} /*end_test*/ );
+
+cpdefine("inline:com-chilipeppr-widget-webrtc-client", ["chilipeppr_ready", "peerJs", "jquerycookie", 'jqueryuiResizeable'], function () {
+    
+    return {
+        id: "com-chilipeppr-widget-webrtc-client",
+        url: "http://fiddle.jshell.net/chilipeppr/qWj4f/show/light/",
+        fiddleurl: "http://jsfiddle.net/chilipeppr/qWj4f/",
+        name: "Widget / WebRTC Client",
+        desc: "This widget receives a video stream via WebRTC. You must have the server widget running in another window, or on a different machine.",
+        publish: {},
+        subscribe: {},
+        foreignPublish: {},
+        foreignSubscribe: {},
+        init: function () {
+
+            this.configBodyFromCookie();
+            //this.setupWebRtc();
+            $('.com-chilipeppr-widget-webrtc-retry').click(this.connectToServer.bind(this));
+            $('.com-chilipeppr-widget-webrtc-retryhello').click(this.connAskForStreamAgain.bind(this));
+            $('#com-chilipeppr-widget-webrtc-client .hidebody').click(this.toggleBody.bind(this));
+            $('#com-chilipeppr-widget-webrtc-client .disconnect').click(this.toggleConnect.bind(this));
+            this.setupPeerJs();
+            //this.makeCall('tvfzz2donnbwewmi');
+            this.forkSetup();
+            
+            this.setupResizeable();
+
+            console.log(this.name + " done loading.");
+        },
+        setupResizeable: function() {
+            console.log("setting up resizeable");
+            // load jquery-ui css, but make sure nobody else loaded it
+            if (!$("link[href='//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css']").length)
+            $('<link>')
+            .appendTo('head')
+            .attr({type : 'text/css', rel : 'stylesheet'})
+            .attr('href', '//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css');
+
+            $( "#com-chilipeppr-widget-webrtc-client" ).resizable({
+                //alsoResize: "#com-chilipeppr-widget-gcode-body-2col > td:first"
+                //alsoResize: ".com-chilipeppr-widget-spconsole-console-log",
+                alsoResize: "#video-container",
+                //ndex:1
+                //handles: "s",
+                
+                //maxHeight:1000,
+                resize: function(evt) {
+                    console.log("resize resize", evt);
+                    //$( ".com-chilipeppr-widget-spconsole" ).removeAttr("style");
+                    //$( ".com-chilipeppr-widget-spconsole" ).css('height', 'initial');
+                    //$( ".com-chilipeppr-widget-spconsole-console-log" ).css('width', 'initial');
+                    $( ".com-chilipeppr-widget-webrtc-client" ).css('height', 'initial');
+                    $( "#video-container" ).css('width', 'initial');
+                    
+                },
+                start: function(evt) {
+                    console.log("resize start", evt);
+                },
+                stop: function(evt) {
+                    console.log("resize stop", evt);
+                    //$( ".com-chilipeppr-widget-spconsole" ).removeAttr("style");
+                    //$( ".com-chilipeppr-widget-spconsole" ).css('height', 'initial');
+                    //$( ".com-chilipeppr-widget-spconsole-console-log" ).css('width', 'initial');
+                    $( ".com-chilipeppr-widget-webrtc-client" ).css('height', 'initial');
+                    $( "#video-container" ).css('width', 'initial');
+                }
+            });
+        },
+        peer: null, // contains the top-level webrtc obj
+        clientid: null,
+        serverid: null,
+        toggleConnect: function() {
+            console.log("toggleConnect. window.existingCall:", window.existingCall);
+            if (this.peer && window.existingCall && window.existingCall.open) {
+                window.existingCall.close();
+                this.conn.close();
+                //$('#com-chilipeppr-widget-webrtc-client .disconnect').prop('disabled', true);
+                $('#com-chilipeppr-widget-webrtc-client .disconnect span').addClass('glyphicon-refresh');
+                $('#com-chilipeppr-widget-webrtc-client .disconnect span').removeClass('glyphicon-off');
+            } else {
+                // connect
+                this.connectToServer();
+                $('#com-chilipeppr-widget-webrtc-client .disconnect span').removeClass('glyphicon-refresh');
+                $('#com-chilipeppr-widget-webrtc-client .disconnect span').addClass('glyphicon-off');
+            }
+        },
+        setupPeerJs: function() {
+            // You can pick your own id or omit the id if you want to get a random one from the server.
+            //var peer = new Peer({key: 'cpoxnt5u4z5xw29'});
+            //var peer = new Peer('pick-an-id', {key: 'myapikey'}); 
+            
+             // Compatibility shim
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+            
+            // get their loginid to use as unique id
+            var that = this;
+            this.checkLogin(function(login) {
+            
+                if (login == null) {
+                    // not logged in
+                    console.log("not logged in. cannot proceed.");
+                    $('#step-notloggedin').removeClass('hidden');
+                    return;
+                }
+                
+                $('#step-notloggedin').addClass('hidden');
+                
+                var id = login.Email;
+                id = id.replace(/[@\.]/g, "_");
+                var serverid = id + "_server";
+                id += "_client";
+                
+                //that.clientid = id;
+                that.serverid = serverid;
+                
+                // PeerJS object
+                //var peer = this.peer;
+                that.peer = new Peer({ 
+                    key: 'cpoxnt5u4z5xw29', 
+                    debug: 0, 
+                    config: {
+                        'iceServers': [
+                            { 
+                                // Pass in optional STUN and TURN server 
+                                // for maximum network compatibility
+                                url: 'stun:stun.l.google.com:19302' 
+                            } 
+                        ]}});
+                
+                var peer = that.peer;
+                
+                peer.on('open', function(){
+                    console.log("got open on peer:", peer);
+                    // in case they had the retry msg, hide it now
+                    $('#com-chilipeppr-widget-webrtc-step-servernotrunning').addClass("hidden");
+                    $('#my-id').text(peer.id);
+                    that.clientid = peer.id;
+                });
+                
+                // Receiving a call
+                peer.on('call', function(call){
+                    // Answer the call automatically (instead of prompting user) for demo purposes
+                    //call.answer(window.localStream);
+                    call.answer();
+                    
+                    // Hang up on an existing call if present
+                    if (window.existingCall) {
+                        window.existingCall.close();
+                    }
+                    
+                    // Wait for stream on the call, then set peer video display
+                    call.on('stream', function(stream){
+                        // hide previous err msg if showing
+                        $('#com-chilipeppr-widget-webrtc-step-videonotrunning').addClass('hidden');
+                        // now show the stream
+                        $('#their-video').removeClass('hidden');
+                        $('#their-video').prop('src', URL.createObjectURL(stream));
+                    });
+                    
+                    // UI stuff
+                    window.existingCall = call;
+                    $('#their-id').text(call.peer);
+                    call.on('close', step2);
+                    $('#step1, #step2').hide();
+                    $('#step3').show();
+                    //step3(call);
+                });
+                
+                
+                peer.on('error', function(err){
+                    console.log("peer.on('error') tried to open data conn to server, but failed.", err);
+                    if (err.message && err.message.match(/Could not connect to peer/i)) {
+                        // could not connect on our reliable data connection
+                        // explain to them their server is not up
+                        $('#com-chilipeppr-widget-webrtc-step-servernotrunning').removeClass("hidden");
+                    } else {
+                        //alert(err.message);
+                        console.error(err.message);
+                    }
+                    // Return to step 2 if error occurs
+                    //step2();
+                });
+
+                // this will attempt a peer-to-peer reliable data connection
+                // then, once data connected, ask the server to connect back to us
+                // in a WebRTC call and we'll auto-answer it to start streaming
+                // so it's a reverse video connection
+                that.connectToServer();
+
+            }); // login check
+
+            
+            /*
+            // Click handlers setup
+            $(function(){
+                $('#make-call').click(function(){
+                    // Initiate a call!
+                    var call = peer.call($('#callto-id').val(), window.localStream);
+                    
+                    step3(call);
+                });
+                
+                $('#end-call').click(function(){
+                    window.existingCall.close();
+                    step2();
+                });
+                
+                // Retry if getUserMedia fails
+                $('#step1-retry').click(function(){
+                    $('#step1-error').hide();
+                    step1();
+                });
+                
+                // Get things started
+                //step1();
+            });
+            
+            function step1 () {
+                // Get audio/video stream
+                navigator.getUserMedia({audio: false, video: true}, function(stream){
+                    // Set your video displays
+                    $('#my-video').prop('src', URL.createObjectURL(stream));
+                    
+                    window.localStream = stream;
+                    step2();
+                }, function(){ $('#step1-error').show(); });
+            }
+            
+            function step2 () {
+                $('#step1, #step3').hide();
+                $('#step2').show();
+            }
+            
+            function step3 (call) {
+                // Hang up on an existing call if present
+                if (window.existingCall) {
+                    window.existingCall.close();
+                }
+                
+                // Wait for stream on the call, then set peer video display
+                call.on('stream', function(stream){
+                    $('#their-video').prop('src', URL.createObjectURL(stream));
+                });
+                
+                // UI stuff
+                window.existingCall = call;
+                $('#their-id').text(call.peer);
+                call.on('close', step2);
+                $('#step1, #step2').hide();
+                $('#step3').show();
+            }
+            */
+        },
+        connectToServer: function() {
+            
+            console.log("connectToServer");
+            var peer = this.peer;
+            var serverid = this.serverid;
+            
+            var conn = peer.connect(serverid, {reliable: true});
+            console.log("created data channel to server. conn:", conn);
+            this.conn = conn;
+            var that = this;
+            conn.on('open', function() {
+                console.log("got open on data channel", conn);
+                
+                // in case they had the retry msg, hide it now
+                $('#com-chilipeppr-widget-webrtc-step-servernotrunning').addClass("hidden");
+
+                // Receive messages
+                conn.on('data', function(data) {
+                    console.log('Received', data);
+                });
+                
+                // We will show an error message pre-emptively if we don't get the stream
+                // after asking for it. Once we get the stream this message is hidden, so should
+                // work in lieu of doing a timeout
+                $('#com-chilipeppr-widget-webrtc-step-videonotrunning').removeClass('hidden');
+                
+                // Send messages
+                conn.send('Hello {' + that.clientid + '}');
+                // if we don't get video back after this, it may mean they have server running
+                // but did not share their camera, so let user know
+            });
+            
+            conn.on('error', function() {
+                console.log("tried to open data conn to server, but failed.");
+                // likely not running server yet
+                // explain to them how
+                
+            });
+            
+        },
+        connAskForStreamAgain: function() {
+            if (this.conn) {
+                this.conn.send('Hello {' + this.clientid + '}');
+            } else {
+                $('#com-chilipeppr-widget-webrtc-step-servernotrunning').removeClass("hidden");
+            }
+        },
+        makeCall: function(id) {
+             // Initiate a call!
+            var peer = this.peer;
+            console.log("makeCall. peer:", peer);
+            //var call = peer.call(id, window.localStream);
+            var call = peer.call(id, null);
+            console.log("call:", call);
+            
+            // Hang up on an existing call if present
+            if (window.existingCall) {
+                window.existingCall.close();
+            }
+            
+            // Wait for stream on the call, then set peer video display
+            call.on('stream', function(stream){
+                $('#their-video').prop('src', URL.createObjectURL(stream));
+            });
+            
+            // UI stuff
+            window.existingCall = call;
+            $('#their-id').text(call.peer);
+            call.on('close', step2);
+            $('#step1, #step2').hide();
+            $('#step3').show();
+        },
+        currentUser: null,
+        checkLogin: function (successcallback, failcallback) {
+            console.log("checking login id");
+            var that = this;
+            var jqxhr = $.getJSON("http://www.chilipeppr.com/datalogin?callback=?")
+            .done(function (data) {
+                console.log(data);
+                if (data.CurrentUser != undefined && data.CurrentUser != null) {
+                    console.log("user logged in ", data.CurrentUser);
+                    that.currentUser = data.CurrentUser;
+                } else {
+                    that.currentUser = null;
+                    console.log("user NOT logged in");
+                }
+                if (successcallback)
+                    successcallback(that.currentUser);
+            })
+            .fail(function () {
+                console.log("failed to get login credentials");
+                if (failcallback)
+                    failcallback();
+ 
+            })
+        },
+        options: {},
+        isBodyShowing: true,
+        configBodyFromCookie: function() {
+            // read vals from cookies
+            console.log("configbodyfromcookie");
+            var options = $.cookie('com-chilipeppr-widget-webrtc-client');
+            if (options) {
+                options = $.parseJSON(options);
+                console.log("just evaled options: ", options);
+                this.options = options;
+                
+                // see if showing/hiding body
+                if (options.showBody)
+                    this.showBody();
+                else
+                    this.hideBody();
+            }
+        },
+        saveCookie: function() {
+            var options = this.options;
+            var optionsStr = JSON.stringify(options);
+            console.log("saving options:", options, "json.stringify:", optionsStr);
+            // store cookie
+            $.cookie('com-chilipeppr-widget-webrtc-client', optionsStr, {
+                expires: 365 * 10,
+                path: '/'
+            });
+            this.options = options;
+        },
+        toggleBody: function(evt) {
+            if (this.isBodyShowing)
+                this.hideBody(evt);
+            else
+                this.showBody(evt);
+        },
+        showBody: function(evt) {
+            $('#com-chilipeppr-widget-webrtc-body').removeClass('hidden');
+            $('#com-chilipeppr-widget-webrtc-client .hidebody span').addClass('glyphicon-chevron-up');
+            $('#com-chilipeppr-widget-webrtc-client .hidebody span').removeClass('glyphicon-chevron-down');
+
+            if (!(evt == null)) {
+                this.options.showBody = true;
+                this.saveCookie();
+            }
+            this.isBodyShowing = true;
+        },
+        hideBody: function(evt) {
+            $('#com-chilipeppr-widget-webrtc-body').addClass('hidden');
+            $('#com-chilipeppr-widget-webrtc-client .hidebody span').removeClass('glyphicon-chevron-up');
+            $('#com-chilipeppr-widget-webrtc-client .hidebody span').addClass('glyphicon-chevron-down');
+            if (!(evt == null)) {
+                this.options.showBody = false;
+                this.saveCookie();
+            }
+            this.isBodyShowing = false;
+        },
+        forkSetup: function () {
+            var topCssSelector = '#com-chilipeppr-widget-webrtc-client';
+            
+            $(topCssSelector + ' .panel-title').popover({
+                title: this.name,
+                content: this.desc,
+                html: true,
+                delay: 200,
+                animation: true,
+                trigger: 'hover',
+                placement: 'auto'
+            });
+            
+            var that = this;
+            chilipeppr.load("http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/", function () {
+                require(['inline:com-chilipeppr-elem-pubsubviewer'], function (pubsubviewer) {
+                    pubsubviewer.attachTo($(topCssSelector + ' .panel-heading .dropdown-menu'), that);
+                });
+            });
+            
+        },
+    }
+});
+//]]>  
+
+</script>
+
+
+</head>
+<body>
+  <div id="com-chilipeppr-widget-webrtc-client" class="panel panel-default">
+    <div class="panel-heading">
+        <div class="btn-toolbar pull-right" role="toolbar">
+            <div class="btn-group">
+                <button type="button" class="btn btn-xs btn-default disconnect"><span class="glyphicon glyphicon-off"></span></button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-xs btn-default hidebody"><span class="glyphicon glyphicon-chevron-up"></span></button>
+            </div>
+
+            <div class="btn-group">
+                <div class="dropdown">
+                    <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                </div>
+            </div>
+        </div> 
+        <span class="panel-title" data-toggle="popover">Webcam</span>
+        <!-- <span style="font-size:10px">Your id: </span> -->
+        <!-- <span id="my-id">...</span> -->
+
+    </div>
+    <div id="com-chilipeppr-widget-webrtc-body" class="panel-body">
+        
+        <div class="pure-g">
+                        
+            <!-- Steps -->
+            <div class="pure-u-1-3-wrapper-relative">
+            <div class="pure-u-1-3">
+                
+                <!-- Must be logged in msg -->
+                <div id="step-notloggedin" class="alert alert-warning alert-dismissible hidden" role="alert">
+                    <p>You are not logged in to ChiliPeppr, therefore you can't become a client to connect to your WebRTC server. You must be logged in because ChiliPeppr uses your login to create the peer-to-peer call.</p>
+                </div>
+                
+                <!-- Must have server up -->
+                <div id="com-chilipeppr-widget-webrtc-step-servernotrunning" class="alert alert-warning alert-dismissible hidden" role="alert">
+                    <p style="padding-bottom:6px;">Optional view of webcam.<br/><br/> It appears you are not running your webcam server yet. To run a server visit the ChiliPeppr WebRTC Server Workspace at <a href="http://chilipeppr.com/webrtcserver">chilipeppr.com/webrtcserver</a>. You must be logged in to ChiliPeppr and connected to your webcam from the server workspace. Then click retry to attempt a connection from here.</p>
+                    <button class="btn btn-default com-chilipeppr-widget-webrtc-retry"><span class="glyphicon glyphicon-refresh"></span> Retry</button>
+                </div>
+
+                <!-- Must have video call going -->
+                <div id="com-chilipeppr-widget-webrtc-step-videonotrunning" class="alert alert-warning alert-dismissible hidden" role="alert">
+                    <p style="padding-bottom:6px;">We are connected to your WebRTC server, which is awesome. However, it appears you aren't streaming your video. Once your WebRTC server connects back to us with a call, this message is hidden. So, if you're seeing this message, that never happened. Are you sure you're sharing your webcam from the server? Click retry to attempt to ask for a video stream again.</p>
+                    <button class="btn btn-default com-chilipeppr-widget-webrtc-retryhello"><span class="glyphicon glyphicon-refresh"></span> Request Stream Again</button>
+                </div>
+
+
+                <!-- Get local audio/video stream -->
+                <div id="step1" class="alert alert-warning alert-dismissible hidden" role="alert">
+                    <p>Please click `allow` on the top of the screen so we can access your webcam and microphone.</p>
+                    <div id="step1-error">
+                        <p>Failed to access the webcam and microphone. Make sure to run this demo on an http server and click allow when asked for permission by the browser.</p>
+                        <a href="#" class="pure-button pure-button-error" id="step1-retry">Try again</a>
+                    </div>
+                </div>
+                
+                <!-- Make calls to others -->
+                <div id="step2">
+                    <p>Your id: <span id="my-id">...</span></p>
+                    <p>Share this id with others so they can call you.</p>
+                    <h3>Make a call</h3>
+                    <div class="pure-form">
+                        <input type="text" placeholder="Call user id..." id="callto-id" />
+                        <a href="#" class="pure-button pure-button-success" id="make-call">Call</a>
+                    </div>
+                </div>
+                
+                <!-- Call in progress -->
+                <div id="step3">
+                    <p>Currently in call with <span id="their-id">...</span></p>
+                    <p><a href="#" class="pure-button pure-button-error" id="end-call">End call</a></p>
+                </div>
+            </div>
+            </div>
+            
+            <!-- Video area -->
+            <div class="pure-u-2-3" id="video-container">
+                <video id="their-video" autoplay class="hidden"></video>
+                <!-- <video id="my-video" muted="true" autoplay ></video> -->
+            </div>
+
+        </div>
+
+            
+    </div>
+    <div id="com-chilipeppr-widget-webrtc-ftr" class="panel-footer hidden">
+        
+    </div>
+</div>
+  
+</body>
+
+
+</html>
+
+
+<!-- end chilipeppr.load() url: http://fiddle.jshell.net/chilipeppr/qWj4f/show/light/ -->
