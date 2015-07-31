@@ -23,9 +23,38 @@ Controlling hardware, in particular CNC controllers or Arduinos, really needs a 
 Offline Version
 ----
 
-An offline snapshot version of the app is here on Github, however it does not function yet. It is simply a cut/paste of the source code from the browser DOM after the browser has done all of the hard work to pull all JSFiddles inline. All external Javascript files would still need to be brought into the overall codebase like the Three.js files that are used by the 3D Viewer and Auto-Level widgets.
+The offline version in this repo is intended to be fully functional when served from Nginx on the same machine as the Serial Port JSON Server - laptop, RaspberryPi, BeagleBone Black, etc.
 
-It will be up to the community to work up an offline version. Some suggestions would be to use the Charles Proxy to coerce your local browser into getting redirects to local files. Since ChiliPeppr is a very dynamic app with lots of features constantly being added, you would have to grab the latest snapshot and then watch your browser console window to see what external files it is requesting. Then go manually download those files to your local machine and register that URL inside of Charles to redirect to a local file. It's a bit of work, but for those who really need an offline version that is a workable strategy.
+To get it working:
 
-Another idea would be to write a local script that downloads the main file and then pulls in all external files. This could be a decent amount of work though because you would have to parse the Javascript to find external files and then remap their download URLs inside the Javascript so they point to local resources. ChiliPeppr does use Require.js as the backing Javascript dependency system, so researching how Require.js works and looking at the code for the require.config{} objects could be a workable method.
+ 1. [Install Nginx](http://wiki.nginx.org/Install) - Plenty of good resources out there explain how to do this for any OS.
 
+ 2. Add the Chilipeppr Server - If you don't have an existing Nginx setup, it will probably be easiest to replace the default Nginx config with one from the utils folder, appropriate for your host OS. The Ubuntu config is only a server block, so you'll want to add that as an available server. Digital Ocean has a nice guide for setting up Nginx on Ubuntu [here](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts).
+
+    Note that the server blocks are configured to respond to requests for "cpep.loc" - if you want the server to answer requests for any name, modify the listen directive to look like:
+    
+        listen 80 default_server;
+
+    More info about server names [here](http://nginx.org/en/docs/http/server_names.html).
+
+ 3. Add an entry to the client's hosts file - This step is for whatever computer you will be opening up a browser and using Chilipeppr on. Open up the hosts file and add an entry for the new server.
+
+    On a mac: 
+
+        sudo nano /private/etc/hosts
+
+    On Ubuntu:
+
+        sudo nano /etc/hosts
+
+    On Windows:
+
+        notepad c:\windows\system32\drivers\etc\hosts
+
+
+    Add an entry for the Chilipeppr server. If you are browsing from the same computer the server is running on, this line will look like:
+
+        127.0.0.1       cpep.loc
+
+
+And you should be up and running!
