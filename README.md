@@ -29,7 +29,11 @@ To get it working:
 
  1. [Install Nginx](http://wiki.nginx.org/Install) - Plenty of good resources out there explain how to do this for any OS.
 
- 2. Add the Chilipeppr Server - If you don't have an existing Nginx setup, it will probably be easiest to replace the default Nginx config with one from the utils folder, appropriate for your host OS. The Ubuntu config is only a server block, so you'll want to add that as an available server. Digital Ocean has a nice guide for setting up Nginx on Ubuntu [here](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts).
+ 2. Download this repo - Do a git clone or extract the zip file to a convenient place. On Ubuntu I keep the files in /var/www/cpep.loc/. On Windows and OSX I save them in a projects directory.
+
+ 3. Add the Chilipeppr Server - If you don't have an existing Nginx setup, it will probably be easiest to replace the default Nginx config with one from the utils folder, appropriate for your host OS. The Ubuntu config is only a server block, so you'll want to add that as an available server. Digital Ocean has a nice guide for setting up Nginx on Ubuntu [here](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts).
+
+ 	Be sure to change the location path to wherever you have the contents of this repo saved.
 
     Note that the server blocks are configured to respond to requests for "cpep.loc" - if you want the server to answer requests for any name, modify the listen directive to look like:
     
@@ -37,9 +41,9 @@ To get it working:
 
     More info about server names [here](http://nginx.org/en/docs/http/server_names.html).
 
- 3. Add an entry to the client's hosts file - This step is for whatever computer you will be opening up a browser and using Chilipeppr on. Open up the hosts file and add an entry for the new server.
+ 4. Add an entry to the client's hosts file - This step is for whatever computer you will be opening up a browser and using Chilipeppr on. Open up the hosts file and add an entry for the new server.
 
-    On a mac: 
+    On OSX: 
 
         sudo nano /private/etc/hosts
 
@@ -57,4 +61,4 @@ To get it working:
         127.0.0.1       cpep.loc
 
 
-Browser to http://cpep.loc/tinyg and you should be up and running! (If you used port 8080 as in the mac config, the url should be http://cpep.loc:8080/tinyg/)
+Browse to http://cpep.loc/tinyg and you should be up and running! (If you used port 8080 as in the mac config, the url should be http://cpep.loc:8080/tinyg/)
