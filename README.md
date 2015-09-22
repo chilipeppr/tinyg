@@ -23,9 +23,4 @@ Controlling hardware, in particular CNC controllers or Arduinos, really needs a 
 Offline Version
 ----
 
-An offline snapshot version of the app is here on Github, however it does not function yet. It is simply a cut/paste of the source code from the browser DOM after the browser has done all of the hard work to pull all JSFiddles inline. All external Javascript files would still need to be brought into the overall codebase like the Three.js files that are used by the 3D Viewer and Auto-Level widgets.
-
-It will be up to the community to work up an offline version. Some suggestions would be to use the Charles Proxy to coerce your local browser into getting redirects to local files. Since ChiliPeppr is a very dynamic app with lots of features constantly being added, you would have to grab the latest snapshot and then watch your browser console window to see what external files it is requesting. Then go manually download those files to your local machine and register that URL inside of Charles to redirect to a local file. It's a bit of work, but for those who really need an offline version that is a workable strategy.
-
-Another idea would be to write a local script that downloads the main file and then pulls in all external files. This could be a decent amount of work though because you would have to parse the Javascript to find external files and then remap their download URLs inside the Javascript so they point to local resources. ChiliPeppr does use Require.js as the backing Javascript dependency system, so researching how Require.js works and looking at the code for the require.config{} objects could be a workable method.
-
+For offline version see [chilipeppr-offline](https://github.com/pistolero/chilipeppr-offline).
